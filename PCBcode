@@ -13,7 +13,7 @@ sjusegmentbredde=12.5;
 pothoyde=5;
 potradius=7.5;
 klaring=0.3;
-offsetY=5.3;
+offsetY=0;
 offsetX=0;
 detail=6;
 ramme=0.6;
@@ -30,7 +30,8 @@ arduino=[
 [offsetX, offsetY, 0],[-25,-32],[25,-32],[25,-32+8.5*pinneavstand]
 ];
 pico=[
-[0, 0, 0],[-17.78/2,48.26/2],[-17.78/2,48.26/2-2.54*1],[-17.78/2,48.26/2-2.54*2],[-17.78/2,48.26/2-2.54*3],[-17.78/2,48.26/2-2.54*4],[-17.78/2,48.26/2-2.54*5],[-17.78/2,48.26/2-2.54*6],[-17.78/2,48.26/2-2.54*7],[-17.78/2,48.26/2-2.54*8],[-17.78/2,48.26/2-2.54*9],[-17.78/2,48.26/2-2.54*10],[-17.78/2,48.26/2-2.54*11],[-17.78/2,48.26/2-2.54*12],[-17.78/2,48.26/2-2.54*13],[-17.78/2,48.26/2-2.54*14],[-17.78/2,48.26/2-2.54*15],[-17.78/2,48.26/2-2.54*16],[-17.78/2,48.26/2-2.54*17],[-17.78/2,48.26/2-2.54*18],[-17.78/2,48.26/2-2.54*19],[17.78/2,48.26/2-2.54*19],[17.78/2,48.26/2-2.54*18],[17.78/2,48.26/2-2.54*17],[17.78/2,48.26/2-2.54*16],[17.78/2,48.26/2-2.54*15],[17.78/2,48.26/2-2.54*14],[17.78/2,48.26/2-2.54*13],[17.78/2,48.26/2-2.54*12],[17.78/2,48.26/2-2.54*11],[17.78/2,48.26/2-2.54*10],[17.78/2,48.26/2-2.54*9],[17.78/2,48.26/2-2.54*8],[17.78/2,48.26/2-2.54*7],[17.78/2,48.26/2-2.54*6],[17.78/2,48.26/2-2.54*5],[17.78/2,48.26/2-2.54*4],[17.78/2,48.26/2-2.54*3],[17.78/2,48.26/2-2.54*2],[17.78/2,48.26/2-2.54*1],[17.78/2,48.26/2]];
+[0, 0, 0],[-17.78/2,48.26/2],[-17.78/2,48.26/2-2.54*1],[-17.78/2,48.26/2-2.54*2],[-17.78/2,48.26/2-2.54*3],[-17.78/2,48.26/2-2.54*4],[-17.78/2,48.26/2-2.54*5],[-17.78/2,48.26/2-2.54*6],[-17.78/2,48.26/2-2.54*7],[-17.78/2,48.26/2-2.54*8],[-17.78/2,48.26/2-2.54*9],[-17.78/2,48.26/2-2.54*10],[-17.78/2,48.26/2-2.54*11],[-17.78/2,48.26/2-2.54*12],[-17.78/2,48.26/2-2.54*13],[-17.78/2,48.26/2-2.54*14],[-17.78/2,48.26/2-2.54*15],[-17.78/2,48.26/2-2.54*16],[-17.78/2,48.26/2-2.54*17],[-17.78/2,48.26/2-2.54*18],[-17.78/2,48.26/2-2.54*19],[17.78/2,48.26/2-2.54*19],[17.78/2,48.26/2-2.54*18],[17.78/2,48.26/2-2.54*17],[17.78/2,48.26/2-2.54*16],[17.78/2,48.26/2-2.54*15],[17.78/2,48.26/2-2.54*14],[17.78/2,48.26/2-2.54*13],[17.78/2,48.26/2-2.54*12],[17.78/2,48.26/2-2.54*11],[17.78/2,48.26/2-2.54*10],[17.78/2,48.26/2-2.54*9],[17.78/2,48.26/2-2.54*8],[17.78/2,48.26/2-2.54*7],[17.78/2,48.26/2-2.54*6],[17.78/2,48.26/2-2.54*5],[17.78/2,48.26/2-2.54*4],[17.78/2,48.26/2-2.54*3],[17.78/2,48.26/2-2.54*2],[17.78/2,48.26/2-2.54*1],[17.78/2,48.26/2],[-2.54,-51/2+1.6],[0,-51/2+1.6],[2.54,-51/2+1.6]];
+rp2040=[[0,0,0],[-7.75/2,0],[0,7.75/2],[7.75/2,0],[0,-7.75/2]];//3.20 square and [-2.6:0.4:2.6]1*.2mmstrip
 pinplacement=[
 [-25,-32],[25,-32],[25,-32+8.5*pinneavstand]];
 groundtr=[[arduino[2][0],arduino[2][1]+pinneavstand*(8.5+4)],
@@ -56,15 +57,16 @@ tracepads=[
 //This is where we duplicate the circuit
 color("black")
     for (b=[0:180:180]){
-       rotate([0,0,b]){
+       //rotate([0,0,b]){
         translate([offsetX,offsetY,0])
 traces();
 difference(){
-//copperclad();              
+//copperclad(); 
+rp20footprint();    
 textlabel();  
 color("white")roomfortraces();                
 }
-}
+//}
 }
 //pins();
 //arduinoUno();
@@ -76,6 +78,16 @@ color("white")roomfortraces();
 border();
 
 //   ****            MODULES       ****
+module rp20footprint(){
+    linear_extrude(2){
+        square(3.2,center=true);
+        for(a=[0:90:360]){
+        for (b=[-2.6:0.4:2.6]){
+            rotate([0,0,a])translate([7.26/2,b,0])square([1,0.2],center=true);
+        }
+    }
+    }
+}
 module spacers(){
     difference(){
     union(){
@@ -88,30 +100,14 @@ pins();
 module traces () {
 color("black")
 {    
-    for (m=[0:pinneavstand:pinneavstand*5])
-    {
-bane(arduino[2][0],arduino[2][1]+m,arduino[2][0]-3,arduino[2][1]+m,1,1);
-bane(arduino[3][0],arduino[3][1]+m,arduino[3][0]-3,arduino[3][1]+m-1.8,1,1);
-bane(arduino[2][0],arduino[2][1]+pinneavstand*7,arduino[2][0]-3,arduino[2][1]+pinneavstand*7,1,1);
-bane(arduino[2][0],arduino[2][1]+pinneavstand*6,arduino[2][0]-3,arduino[2][1]+pinneavstand*6,1,1);     
-}
- for (n=[1:1:len(sevensone)-1]){
-    bane(sevensone[0][0]+sevensone[n][0],sevensone[0][1]+sevensone[n][1],sevensone[0][0]+sevensone[n][0]*1.25,sevensone[0][1]+sevensone[n][1],1,1);
-     bane(sevenstwo[0][0]+sevenstwo[n][0],sevenstwo[0][1]+sevenstwo[n][1],sevenstwo[0][0]+sevenstwo[n][0]*1.25,sevenstwo[0][1]+sevenstwo[n][1],1,1);
+    
+ for (n=[1:1:len(pico)-1]){
+    bane(pico[0][0]+pico[n][0],pico[0][1]+pico[n][1],pico[0][0]+pico[n][0]-0.15*sqrt(abs(pico[0][1]+pico[n][1])*abs(pico[0][1]+pico[n][1])+abs(pico[0][0]+pico[n][0])*abs(pico[0][0]+pico[n][0])),pico[0][1]+pico[n][1],1,0);
+
  }
           
-    //Ground-traces
-for (o=[1:1:len(groundtr)-1]){
-    bane(groundtr[o-1][0],groundtr[o-1][1]+offsetY,groundtr[o][0],groundtr[o][1]+offsetY,1,1);
-}     
-     }
-    //aref-pin trace
-for (l=[1:1:len(areftr)-1]){
-    bane(areftr[l-1][0],areftr[l-1][1],areftr[l][0],areftr[l][1],1,1);
-}
-//A5 analog input from the potmeter
-    bane(ain5tr[0][0],ain5tr[0][1],ain5tr[1][0],ain5tr[1][1],1,1);      
-     
+  
+    }     
     }
 module roomfortraces () {
      translate([offsetX,offsetY,0])
@@ -171,11 +167,9 @@ translate([0,0-2,2])color("black")linear_extrude(1)polygon([[26,17+5.3],[26,-32+
 }
 module sevensegment(x,y,rotation){
 translate([x,y,0])rotate([0,0,rotation]){
-   for (k=[1:1:len(sevensone)-1]){
-    
+   for (k=[1:1:len(sevensone)-1]){    
   translate([0,0,6])color("white")cube([sjusegmentlengde,sjusegmentbredde,pothoyde],center=true);
-          translate([sevensone[k],3])pinne();
-              
+          translate([sevensone[k],3])pinne();              
 }
 }
 }
