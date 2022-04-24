@@ -7,6 +7,7 @@ pinnebredde=0.8;
 pinnelengde=0.8;
 pinnehoyde=11;
 pad=1.0;
+trace=0.25;
 hullradius=0.4;
 sjusegmentlengde=17.5;
 sjusegmentbredde=12.5;
@@ -62,7 +63,7 @@ color("black")
 traces();
 difference(){
 //copperclad(); 
-rp20footprint();    
+rp20footprint(0,0,0);    
 textlabel();  
 color("white")roomfortraces();                
 }
@@ -78,14 +79,15 @@ color("white")roomfortraces();
 border();
 
 //   ****            MODULES       ****
-module rp20footprint(){
+module rp20footprint(x,y,rotation){
     linear_extrude(2){
         square(3.2,center=true);
-        for(a=[0:90:360]){
-        for (b=[-2.6:0.4:2.6]){
-            rotate([0,0,a])translate([7.26/2,b,0])square([1,0.2],center=true);
+        for(a=[0:90:359]){
+        for (b=[2.6:-0.4:-2.6]){
+            rotate([0,0,a])translate([7.26/2,b,0])square([1,0.2],center=true);rotate([0,0,a+180])translate([7.26/2-0.7,b,0])rotate([0,0,-a+180])translate([-0.1,-0.1,0])text(str((a/90)*14+((b+2.6)/0.4)+1),0.15);
         }
     }
+    translate([-7.26/2,7.26/2,0])circle(0.3);
     }
 }
 module spacers(){
@@ -101,11 +103,17 @@ module traces () {
 color("black")
 {    
     
- for (n=[1:1:len(pico)-1]){
-    bane(pico[0][0]+pico[n][0],pico[0][1]+pico[n][1],pico[0][0]+pico[n][0]-0.15*sqrt(abs(pico[0][1]+pico[n][1])*abs(pico[0][1]+pico[n][1])+abs(pico[0][0]+pico[n][0])*abs(pico[0][0]+pico[n][0])),pico[0][1]+pico[n][1],1,0);
-
- }
-          
+ for (n=[1:1:len(pico)/2-2]){
+    bane(pico[0][0]+pico[n][0],pico[0][1]+pico[n][1],pico[0][0]+pico[n][0]+0.15*sqrt(abs(pico[0][1]+pico[n][1])*abs(pico[0][1]+pico[n][1])+abs(pico[0][0]+pico[n][0])*abs(pico[0][0]+pico[n][0])),pico[0][1]+pico[n][1],1,0);
+}
+for (o=[len(pico)/2-1:1:len(pico)-4]){
+    bane(pico[0][0]+pico[o][0],pico[0][1]+pico[o][1],pico[0][0]+pico[o][0]-0.15*sqrt(abs(pico[0][1]+pico[o][1])*abs(pico[0][1]+pico[o][1])+abs(pico[0][0]+pico[o][0])*abs(pico[0][0]+pico[o][0])),pico[0][1]+pico[o][1],1,0);
+}
+   for(a=[0:90:359]){
+        for (b=[2.6:-0.4:-2.6]){
+            rotate([0,0,a])translate([7.26/2,b,0])bane(rp2040[1][1],rp2040[1][1],rp2040[1][1]+2-abs(b)*0.6,rp2040[1][1]+0,0,0);
+        }
+    }       
   
     }     
     }
@@ -190,9 +198,9 @@ module bane(startx,starty,sluttx,slutty,startpad,endpad){
         if (startpad==1)translate([startx,starty,0])rotate([0,0,360/(4*detail)])circle(pad, $fn=detail);
        if (endpad==1)translate([sluttx,slutty,0])rotate([0,0,360/(4*detail)])circle(pad, $fn=detail);
        
-    translate([startx+(sluttx-startx)/2,starty+(slutty-starty)/2,-3])rotate([0,0,90+asin((sluttx-startx)/sqrt((sluttx-startx)*(sluttx-startx)+(slutty-starty)*(slutty-starty)))])square([sqrt((sluttx-startx)*(sluttx-startx)+(slutty-starty)*(slutty-starty)),pad],center=true);
-if (startpad==0)translate([startx,starty,1])circle(pad/2);
-if (endpad==0)translate([sluttx,slutty,1])circle(pad/2);
+    translate([startx+(sluttx-startx)/2,starty+(slutty-starty)/2,-3])rotate([0,0,90+asin((sluttx-startx)/sqrt((sluttx-startx)*(sluttx-startx)+(slutty-starty)*(slutty-starty)))])square([sqrt((sluttx-startx)*(sluttx-startx)+(slutty-starty)*(slutty-starty)),trace],center=true);
+if (startpad==0)translate([startx,starty,1])circle(trace/2);
+if (endpad==0)translate([sluttx,slutty,1])circle(trace/2);
     }
 }
 if (startpad==1)translate([startx,starty,0])cylinder(15,hullradius,hullradius,center=true );
