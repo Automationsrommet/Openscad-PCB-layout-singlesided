@@ -16,7 +16,7 @@ potradius=7.5;
 klaring=0.3;
 offsetY=0;
 offsetX=0;
-detail=6;
+detail=5;
 ramme=0.6;
 heigth=51;
 width=21;
@@ -63,7 +63,7 @@ color("black")
 traces();
 difference(){
 //copperclad(); 
-rp20footprint(0,0,0);    
+rp20footprint(offsetX,offsetY,0);    
 textlabel();  
 color("white")roomfortraces();                
 }
@@ -80,7 +80,7 @@ border();
 
 //   ****            MODULES       ****
 module rp20footprint(x,y,rotation){
-    linear_extrude(2){
+    translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
         square(3.2,center=true);
         for(a=[0:90:359]){
         for (b=[2.6:-0.4:-2.6]){
@@ -113,8 +113,31 @@ for (o=[len(pico)/2-1:1:len(pico)-4]){
         for (b=[2.6:-0.4:-2.6]){
             rotate([0,0,a])translate([7.26/2+0.2,b,0])bane(rp2040[1][1],rp2040[1][1],rp2040[1][1]+2-abs(b)*0.6,rp2040[1][1]+0,0,0);
         }
-    }       
-  bane(rp2040[20][0],rp2040[20][1],7.26/2,2.6,0,0);
+    }
+//traces in numerical order 
+bane(-6.13,pico[4][1],-6.03,pico[6][1],0,0); 
+bane(-6.03,pico[6][1],rp2040[0][0]-4.98,rp2040[0][1]+1.4,0,0);
+bane(-6.43,pico[5][1],-6.23,pico[7][1],0,0); 
+bane(-6.23,pico[7][1],rp2040[0][0]-5.22,rp2040[0][1]+1,0,0);     
+bane(-6.73,pico[6][1],-6.5,pico[8][1],0,0); 
+bane(-6.5,pico[8][1],rp2040[0][0]-5.45,rp2040[0][1]+0.6,0,0);   
+bane(-7.0,pico[7][1],-6.8,pico[9][1],0,0);
+bane(-6.8,pico[9][1],rp2040[0][0]-5.7,rp2040[0][1]+0.2,0,0);
+bane(-7.45,pico[9][1],rp2040[0][0]-5.9,rp2040[0][1]-0.2,0,0);
+bane(rp2040[0][0]-5.9,rp2040[0][1]-0.2,rp2040[0][0]-5.3,rp2040[0][1]-0.2,0,0);        
+bane(-7.55,pico[10][1],rp2040[0][0]-6.5,rp2040[0][1]+0.2,0,0);
+bane(rp2040[0][0]-6.5,rp2040[0][1]+0.2,rp2040[0][0]-6.1,rp2040[0][1]-0.6,0,0);
+bane(rp2040[0][0]-6.1,rp2040[0][1]-0.6,rp2040[0][0]-5.3,rp2040[0][1]-0.6,0,0);    
+bane(-7.4,pico[10][1]-1.4,rp2040[0][0]-6.2,rp2040[0][1]-1.0,2,0);
+bane(rp2040[0][0]-6.2,rp2040[0][1]-1.0,rp2040[0][0]-5.3,rp2040[0][1]-1.0,0,0);
+bane(-7.55,pico[11][1],rp2040[0][0]-4.99,rp2040[0][1]-1.4,0,0);
+bane(rp2040[0][0]-4.7,rp2040[0][1]-1.8,-7.45,pico[12][1],0,0);
+bane(rp2040[0][0]-4.5,rp2040[0][1]-2.2,-6.9,pico[14][1],0,0);
+bane(rp2040[0][0]-4.25,rp2040[0][1]-2.6,-6.65,pico[15][1],0,0);    
+bane(rp2040[0][0]-2.6,rp2040[0][1]-4.3,-6.35,pico[16][1],0,0);
+bane(rp2040[0][0]-2.2,rp2040[0][1]-4.5,-5.95,pico[17][1],0,0);
+bane(rp2040[0][0]-1.8,rp2040[0][1]-4.7,-5.4,pico[19][1],0,0);    
+  bane(rp2040[0][0]-1.4,rp2040[0][1]-4.8,-5,pico[20][1],0,0);
     }     
     }
 module roomfortraces () {
@@ -196,15 +219,18 @@ module bane(startx,starty,sluttx,slutty,startpad,endpad){
      union(){
          translate([0,0,1]) linear_extrude(1){
         if (startpad==1)translate([startx,starty,0])rotate([0,0,360/(4*detail)])circle(pad, $fn=detail);
+            if (startpad==2)translate([startx,starty,0])rotate([0,0,360/(4*detail)])circle(pad*0.75, $fn=detail);
        if (endpad==1)translate([sluttx,slutty,0])rotate([0,0,360/(4*detail)])circle(pad, $fn=detail);
-       
+    if (endpad==2)translate([sluttx,slutty,0])rotate([0,0,360/(4*detail)])circle(pad*0.75, $fn=detail);   
     translate([startx+(sluttx-startx)/2,starty+(slutty-starty)/2,-3])rotate([0,0,90+asin((sluttx-startx)/sqrt((sluttx-startx)*(sluttx-startx)+(slutty-starty)*(slutty-starty)))])square([sqrt((sluttx-startx)*(sluttx-startx)+(slutty-starty)*(slutty-starty)),trace],center=true);
 if (startpad==0)translate([startx,starty,1])circle(trace/2);
 if (endpad==0)translate([sluttx,slutty,1])circle(trace/2);
     }
 }
-if (startpad==1)translate([startx,starty,0])cylinder(15,hullradius,hullradius,center=true );
-if (endpad==1)translate([sluttx,slutty,0])cylinder(15,hullradius,hullradius,center=true );
+if (startpad==1)  translate([startx,starty,0])cylinder(15,hullradius,hullradius,center=true );
+if (endpad==1) translate([sluttx,slutty,0])cylinder(15,hullradius,hullradius,center=true );
+ if (startpad==2)  translate([startx,starty,0])cylinder(15,hullradius,hullradius,center=true );
+if (endpad==2) translate([sluttx,slutty,0])cylinder(15,hullradius,hullradius,center=true );   
 }
 }
 module baneplass(startx,starty,sluttx,slutty,startpad,endpad){
