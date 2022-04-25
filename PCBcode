@@ -115,6 +115,10 @@ for (o=[len(pico)/2-1:1:len(pico)-4]){
         }
     }
 //traces in numerical order 
+bane(-5.0,pico[1][1],-5.2,pico[6][1],0,0); 
+bane(-5.2,pico[6][1],rp2040[0][0]-4.49,rp2040[0][1]+2.2,0,0);
+bane(-5.33,pico[2][1],-5.55,pico[6][1],0,0); 
+bane(-5.55,pico[6][1],rp2040[0][0]-4.74,rp2040[0][1]+1.8,0,0);
 bane(-6.13,pico[4][1],-6.03,pico[6][1],0,0); 
 bane(-6.03,pico[6][1],rp2040[0][0]-4.98,rp2040[0][1]+1.4,0,0);
 bane(-6.43,pico[5][1],-6.23,pico[7][1],0,0); 
@@ -137,7 +141,27 @@ bane(rp2040[0][0]-4.25,rp2040[0][1]-2.6,-6.65,pico[15][1],0,0);
 bane(rp2040[0][0]-2.6,rp2040[0][1]-4.3,-6.35,pico[16][1],0,0);
 bane(rp2040[0][0]-2.2,rp2040[0][1]-4.5,-5.95,pico[17][1],0,0);
 bane(rp2040[0][0]-1.8,rp2040[0][1]-4.7,-5.4,pico[19][1],0,0);    
-  bane(rp2040[0][0]-1.4,rp2040[0][1]-4.8,-5,pico[20][1],0,0);
+bane(rp2040[0][0]-1.4,rp2040[0][1]-4.8,-5,pico[20][1],0,0);
+bane(rp2040[0][0]-1.0,rp2040[0][1]-4.8,rp2040[0][0]-1.0,pico[13][1],0,0);
+
+bane(rp2040[0][0]+1.0,rp2040[0][1]-4.8,1.5,pico[41][1]+4,0,0);
+bane(1.5,pico[41][1]+4,pico[41][0],pico[41][1],0,1);
+bane(0,pico[42][1]+1.6,0,pico[42][1],0,1);
+bane(rp2040[0][0]+1.4,rp2040[0][1]-4.8,pico[43][0],pico[43][1],0,1);
+  
+bane(rp2040[0][0]+1.8,rp2040[0][1]-4.8,rp2040[0][0]+1.9,pico[13][1],0,0);
+bane(rp2040[0][0]+2.2,rp2040[0][1]-4.5,pico[21][0]-3.9,pico[21][1],0,0); 
+bane(rp2040[0][0]+2.6,rp2040[0][1]-4.3,pico[22][0]-3.5,pico[22][1],0,0);
+bane(rp2040[0][1]+4.25,rp2040[0][0]-2.6,pico[24][0]-2.9,pico[24][1],0,0);
+bane(rp2040[0][1]+4.53,rp2040[0][0]-2.2,pico[25][0]-2.5,pico[25][1],0,0);
+bane(rp2040[0][1]+4.8,rp2040[0][0]-1.8,pico[26][0]-2.2,pico[26][1],0,0);
+bane(rp2040[0][1]+5,rp2040[0][0]-1.4,pico[27][0]-1.9,pico[27][1],0,0);
+bane(rp2040[0][1]+5.25,rp2040[0][0]-1.0,pico[29][0]-2.0,pico[29][1]-1,0,2);
+bane(rp2040[0][1]+5.5,rp2040[0][0]-0.6,pico[29][0]-1.5,pico[29][1],0,0);
+
+bane(pico[31][0]-1.4,pico[31][1],rp2040[0][1]+5.25,rp2040[0][0]+1,0,0);
+bane(pico[32][0]-1.5,pico[32][1],rp2040[0][1]+5.0,rp2040[0][0]+1.4,0,0);
+bane(pico[34][0]-1.9,pico[34][1],rp2040[0][1]+4.8,rp2040[0][0]+1.8,0,0);
     }     
     }
 module roomfortraces () {
@@ -227,10 +251,10 @@ if (startpad==0)translate([startx,starty,1])circle(trace/2);
 if (endpad==0)translate([sluttx,slutty,1])circle(trace/2);
     }
 }
-if (startpad==1)  translate([startx,starty,0])cylinder(15,hullradius,hullradius,center=true );
-if (endpad==1) translate([sluttx,slutty,0])cylinder(15,hullradius,hullradius,center=true );
- if (startpad==2)  translate([startx,starty,0])cylinder(15,hullradius,hullradius,center=true );
-if (endpad==2) translate([sluttx,slutty,0])cylinder(15,hullradius,hullradius,center=true );   
+if (startpad==1)  translate([startx,starty,0])rotate([0,0,360/(4*detail)])cylinder(15,hullradius,hullradius,center=true );
+if (endpad==1) translate([sluttx,slutty,0])rotate([0,0,360/(4*detail)])cylinder(15,hullradius,hullradius,center=true );
+ if (startpad==2)  translate([startx,starty,0])rotate([0,0,360/(4*detail)])cylinder(15,hullradius,hullradius,center=true );
+if (endpad==2) translate([sluttx,slutty,0])rotate([0,0,360/(4*detail)])cylinder(15,hullradius,hullradius,center=true );   
 }
 }
 module baneplass(startx,starty,sluttx,slutty,startpad,endpad){
