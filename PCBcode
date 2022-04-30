@@ -1,5 +1,5 @@
-//I'm growing proud of this pcb code. It could prove truly useful after some more tweaking.
-//I'll try out something with raspberry pi pico
+//I'm growing proud of this pcb code. It could prove quite useful after some more tweaking, apart from educating the writer.
+//I'll try out something with raspberry pi pico with reset button on pin 30
 
 //Input parameters
 pinneavstand=2.54;
@@ -30,6 +30,7 @@ sevenstwo=[
 arduino=[
 [offsetX, offsetY, 0],[-25,-32],[25,-32],[25,-32+8.5*pinneavstand]
 ];
+chryst=[[-1,-18,0],[-1.15,-0.95],[1.15,-0.95],[1.15,0.95],[-1.15,0.95]];
 DPAK=[
 [-1.5, 17, 90],[-6.7/2,0],[1.8+1.5,2.30],[1.8+1.5,-2.30]
 ];
@@ -44,6 +45,8 @@ pico=[
 [0, 0, 0],[-17.78/2,48.26/2],[-17.78/2,48.26/2-2.54*1],[-17.78/2,48.26/2-2.54*2],[-17.78/2,48.26/2-2.54*3],[-17.78/2,48.26/2-2.54*4],[-17.78/2,48.26/2-2.54*5],[-17.78/2,48.26/2-2.54*6],[-17.78/2,48.26/2-2.54*7],[-17.78/2,48.26/2-2.54*8],[-17.78/2,48.26/2-2.54*9],[-17.78/2,48.26/2-2.54*10],[-17.78/2,48.26/2-2.54*11],[-17.78/2,48.26/2-2.54*12],[-17.78/2,48.26/2-2.54*13],[-17.78/2,48.26/2-2.54*14],[-17.78/2,48.26/2-2.54*15],[-17.78/2,48.26/2-2.54*16],[-17.78/2,48.26/2-2.54*17],[-17.78/2,48.26/2-2.54*18],[-17.78/2,48.26/2-2.54*19],[17.78/2,48.26/2-2.54*19],[17.78/2,48.26/2-2.54*18],[17.78/2,48.26/2-2.54*17],[17.78/2,48.26/2-2.54*16],[17.78/2,48.26/2-2.54*15],[17.78/2,48.26/2-2.54*14],[17.78/2,48.26/2-2.54*13],[17.78/2,48.26/2-2.54*12],[17.78/2,48.26/2-2.54*11],[17.78/2,48.26/2-2.54*10],[17.78/2,48.26/2-2.54*9],[17.78/2,48.26/2-2.54*8],[17.78/2,48.26/2-2.54*7],[17.78/2,48.26/2-2.54*6],[17.78/2,48.26/2-2.54*5],[17.78/2,48.26/2-2.54*4],[17.78/2,48.26/2-2.54*3],[17.78/2,48.26/2-2.54*2],[17.78/2,48.26/2-2.54*1],[17.78/2,48.26/2],[-2.54,-51/2+1.6],[0,-51/2+1.6],[2.54,-51/2+1.6]
 ];
 rp2040=[[0,0,0],[-7.75/2,0],[0,7.75/2],[7.75/2,0],[0,-7.75/2]];//3.20 square and [-2.6:0.4:2.6]1*.2mmstrip
+spiflash16mb=[[-1,9,0],[-3/2,0.75],[-3/2,0.25],[-3/2,-0.25],[-3/2,-0.75],[3/2,-0.75],[3/2,-0.25],[3/2,0.25],[3/2,0.75]];
+sot523=[[6,6,0],[-0.5,-1.29/2],[0,1.29/2],[0.5,-1.29/2]];
 pinplacement=[
 [-25,-32],[25,-32],[25,-32+8.5*pinneavstand]];
 groundtr=[[arduino[2][0],arduino[2][1]+pinneavstand*(8.5+4)],
@@ -92,8 +95,25 @@ usbb(homebrusb[0][0],homebrusb[0][1],homebrusb[0][2],"Homemade","USB-B");
 DPAK3V3(DPAK[0][0],DPAK[0][1],DPAK[0][2]);
 o6o3(2.6,21,90,"R12","27");
 o6o3(4.1,21.1,90,"R13","27");
+o6o3(-2,21.1,90,"Cvin","100n");
+o6o3(-0.5,21.1,90,"Cvout","10u");
+spiflash(spiflash16mb[0][0],spiflash16mb[0][1],spiflash16mb[0][2],"SPIFLASH","16Mb");
+chrystal(chryst[0][0],chryst[0][1],chryst[0][2]);
+o6o3(chryst[0][0]+chryst[3][0]-1.9,chryst[0][1]+chryst[3][1]+2,90," ","R1k");
+o6o3(rp2040[0][0]+rp2040[3][0]+2.9,rp2040[0][1]+rp2040[3][1]+1.75,46," ","470");
+o6o3(rp2040[0][0]+rp2040[3][0]+3.8,rp2040[0][1]+rp2040[3][1]+0.4,-44," ","LED");
+o6o3(rp2040[0][0]+rp2040[3][0]+2.7,rp2040[0][1]+rp2040[3][1]-0.5,101," ","23 24");
+sot(sot523[0][0],sot523[0][1],sot523[0][2]);
 
 //   ****            MODULES       ****
+module chrystal(x,y,rotation){
+    color("black") translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
+        for(i=[1:1:4])
+            difference(){
+   translate([chryst[i][0],chryst[i][1],0])square([1.3,1.1],center=true);
+   translate([chryst[i][0]-0.3,chryst[i][1]-0.3,0])text(str(i),0.5);}
+        }
+}
 module usbb(x,y,rotation,name,value){
    color("black") translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
    translate([homebrusb[1][0],homebrusb[1][1],0])difference(){circle(pad, $fn=detail);circle(,hullradius);}
@@ -102,6 +122,20 @@ module usbb(x,y,rotation,name,value){
    translate([homebrusb[4][0],homebrusb[4][1],0])difference(){circle(pad, $fn=detail);circle(,hullradius);}
    translate([-3.5,0.92,0])text(name,0.3);
    translate([-0.5,0.92,0])text(value,0.3);
+}}
+module spiflash(x,y,rotation,name,value){
+   color("black") translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
+   translate([0,0,0])square([0.4,1.9],center=true);
+   translate([spiflash16mb[1][0],spiflash16mb[1][1],0])square([1,0.25],center=true);
+       translate([spiflash16mb[2][0],spiflash16mb[2][1],0])square([1,0.25],center=true);
+       translate([spiflash16mb[3][0],spiflash16mb[3][1],0])square([1,0.25],center=true);
+       translate([spiflash16mb[4][0],spiflash16mb[4][1],0])square([1,0.25],center=true);
+       translate([spiflash16mb[5][0],spiflash16mb[5][1],0])square([1,0.25],center=true);
+       translate([spiflash16mb[6][0],spiflash16mb[6][1],0])square([1,0.25],center=true);
+       translate([spiflash16mb[7][0],spiflash16mb[7][1],0])square([1,0.25],center=true);
+       translate([spiflash16mb[8][0],spiflash16mb[8][1],0])square([1,0.25],center=true);
+   translate([-0.4,-0.9,0])rotate([0,0,90])text(name,0.28);
+   translate([0.7,-0.4,0])rotate([0,0,90])text(value,0.3);
 }}
 module o6o3(x,y,rotation,name,value){
    color("black") translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
@@ -115,6 +149,12 @@ module DPAK3V3(x,y,rotation){
         translate([DPAK[1][0],DPAK[1][1],0])square(6.7,center=true);
         translate([DPAK[2][0],DPAK[2][1],0])square([3,1.6],center=true);
         translate([DPAK[3][0],DPAK[3][1],0])square([3,1.6],center=true);
+}}
+module sot(x,y,rotation){
+  color("black") translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
+        translate([sot523[1][0],sot523[1][1],0])square([0.4,0.51],center=true);
+        translate([sot523[2][0],sot523[2][1],0])square([0.4,0.51],center=true);
+        translate([sot523[3][0],sot523[3][1],0])square([0.4,0.51],center=true);  
 }}
 module rp20footprint(x,y,rotation){
     translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
@@ -151,8 +191,10 @@ for (o=[len(pico)/2-1:1:len(pico)-4]){
             rotate([0,0,a])translate([7.26/2+0.2,b,0])bane(rp2040[1][1],rp2040[1][1],rp2040[1][1]+2-abs(b)*0.6,rp2040[1][1]+0,0,0);
         }
     }
-//traces in numerical order 
-bane(pico[9][0]+5.2,pico[9][1]+2,rp2040[0][1]-4.22,rp2040[0][0]+2.6,2,0);
+//traces 
+    //GPIOs in numerical order 
+bane(pico[9][0]+5.2,pico[9][1]+2,pico[9][0]+4.6,pico[9][1]+1,2,0);
+bane(pico[9][0]+4.6,pico[9][1]+1,rp2040[0][1]-4.22,rp2040[0][0]+2.6,0,0);
 bane(-5.0,pico[1][1],-5.2,pico[6][1],0,0); 
 bane(-5.2,pico[6][1],rp2040[0][0]-4.49,rp2040[0][1]+2.2,0,0);
 bane(-5.33,pico[2][1],-5.55,pico[6][1],0,0); 
@@ -180,16 +222,24 @@ bane(rp2040[0][0]-2.6,rp2040[0][1]-4.3,-6.35,pico[16][1],0,0);
 bane(rp2040[0][0]-2.2,rp2040[0][1]-4.5,-5.95,pico[17][1],0,0);
 bane(rp2040[0][0]-1.8,rp2040[0][1]-4.7,-5.4,pico[19][1],0,0);    
 bane(rp2040[0][0]-1.4,rp2040[0][1]-4.8,-5,pico[20][1],0,0);
-bane(rp2040[0][0]-1.0,rp2040[0][1]-4.8,rp2040[0][0]-1.0,pico[13][1],0,0);
+bane(rp2040[0][0]-1.0,rp2040[0][1]-4.8,rp2040[0][0]-1.30,pico[13][1],0,0);
+//chrystal to pin 1
+bane(rp2040[0][0]-0.6,rp2040[0][1]-5.25,chryst[0][0]+chryst[1][0]-1.0,chryst[0][1]+chryst[1][1]+1.8,0,0);
+bane(chryst[0][0]+chryst[1][0]-1.0,chryst[0][1]+chryst[1][1]+1.8,chryst[0][0]+chryst[1][0]-0.6,chryst[0][1]+chryst[1][1],0,0);
+//chrystal via R1k to pin 3
+bane(rp2040[0][0]-0.2,rp2040[0][1]-5.5,chryst[0][0]+chryst[3][0]-2.0,chryst[0][1]+chryst[3][1]+2.8,0,0);
 
-bane(rp2040[0][0]+0.2,rp2040[0][1]-5.4,rp2040[0][0]+0,pico[16][1],0,2);
-
+bane(chryst[0][0]+chryst[3][0]-2.0,chryst[0][1]+chryst[3][1]+1.6,chryst[0][0]+chryst[3][0]-0.6,chryst[0][1]+chryst[3][1],0,0);
+//3v3
+bane(rp2040[0][0]+0.2,rp2040[0][1]-5.5,rp2040[0][0]-0.6,pico[16][1],0,2);
+//1v1
+bane(rp2040[0][0]+0.6,rp2040[0][1]-5.5,rp2040[0][0]+0.3,pico[16][1]-1.4,0,2);
 bane(rp2040[0][0]+1.0,rp2040[0][1]-4.8,1.5,pico[41][1]+4,0,0);
 bane(1.5,pico[41][1]+4,pico[41][0],pico[41][1],0,1);
 bane(0,pico[42][1]+1.6,0,pico[42][1],0,1);
 bane(rp2040[0][0]+1.4,rp2040[0][1]-4.8,pico[43][0],pico[43][1],0,1);
-  
-bane(rp2040[0][0]+1.8,rp2040[0][1]-4.8,rp2040[0][0]+1.9,pico[13][1],0,0);
+//run from rp2040  
+bane(rp2040[0][0]+1.8,rp2040[0][1]-4.8,rp2040[0][0]+3.2,pico[18][1],0,2);
 
 bane(rp2040[0][0]+2.2,rp2040[0][1]-4.5,pico[21][0]-3.9,pico[21][1],0,0); 
 bane(rp2040[0][0]+2.6,rp2040[0][1]-4.3,pico[22][0]-3.5,pico[22][1],0,0);
@@ -197,24 +247,69 @@ bane(rp2040[0][1]+4.25,rp2040[0][0]-2.6,pico[24][0]-2.9,pico[24][1],0,0);
 bane(rp2040[0][1]+4.53,rp2040[0][0]-2.2,pico[25][0]-2.5,pico[25][1],0,0);
 bane(rp2040[0][1]+4.8,rp2040[0][0]-1.8,pico[26][0]-2.2,pico[26][1],0,0);
 bane(rp2040[0][1]+5,rp2040[0][0]-1.4,pico[27][0]-1.9,pico[27][1],0,0);
+//3v3
 bane(rp2040[0][1]+5.25,rp2040[0][0]-1.0,pico[29][0]-2.0,pico[29][1]-1,0,2);
 bane(rp2040[0][1]+5.5,rp2040[0][0]-0.6,pico[29][0]-1.5,pico[29][1],0,0);
+//Run reset pin
+bane(pico[30][0]-1.1,pico[30][1]-0.9,pico[30][0]-1.3,pico[30][1],2,0);
+//GPIO 23 and 24 unconnected
+bane(rp2040[0][1]+5.7,rp2040[0][0]+0.2,6.6,0.2,0,0);
+bane(rp2040[0][1]+5.7,rp2040[0][0]-0.2,6.5,-1.5,0,0);
+bane(pico[31][0]-1.4,pico[31][1]+2.2,rp2040[0][1]+5.25,rp2040[0][0]+1,0,0);
+bane(pico[31][0]-1.4,pico[31][1]+2.2,pico[31][0]-1.0,pico[31][1]+2.2,0,0);
+bane(pico[31][0]-1.0,pico[31][1]+2.2,pico[31][0]-0,pico[31][1],0,1);
 
-bane(pico[31][0]-1.4,pico[31][1],rp2040[0][1]+5.25,rp2040[0][0]+1,0,0);
 bane(pico[32][0]-1.5,pico[32][1],rp2040[0][1]+5.0,rp2040[0][0]+1.4,0,0);
 bane(pico[34][0]-1.9,pico[34][1],rp2040[0][1]+4.8,rp2040[0][0]+1.8,0,0);
-
+//3v3 upper right
 bane(pico[32][0]-5,pico[32][1],rp2040[0][1]+4.3,rp2040[0][0]+2.6,2,0);
 
 //USB traces
 bane(homebrusb[0][0]+homebrusb[1][0],homebrusb[0][1]+homebrusb[1][1]-0.7,homebrusb[0][0]+homebrusb[1][0],homebrusb[0][1]+homebrusb[1][1]-1.3,0,0);
 bane(homebrusb[0][0]+homebrusb[2][0],homebrusb[0][1]+homebrusb[2][1]-0.7,2.5,21+1,0,0);
 bane(homebrusb[0][0]+homebrusb[3][0],homebrusb[0][1]+homebrusb[3][1]-0.7,4,21.1+1,0,0);
-bane(2.5,21-1,2.1,21-11,0,0);
-bane(2.1,21-11,rp2040[0][0]+1,rp2040[0][1]+5.25,0,0);
-bane(4,21-1,2.4,21-12,0,0);
-bane(2.4,21-12,rp2040[0][0]+1.4,rp2040[0][1]+5.0,0,0);
-bane(homebrusb[0][0]+homebrusb[4][0],homebrusb[0][1]+homebrusb[4][1]-0.7,homebrusb[0][0]+homebrusb[4][0]+2,homebrusb[0][1]+homebrusb[4][1]-0.9,0,2);
+bane(2.5,21-1,2.3,21-13,0,0);
+bane(2.3,21-13,rp2040[0][0]+1,rp2040[0][1]+5.25,0,0);
+bane(4,21-1,2.6,21-14,0,0);
+bane(2.6,21-14,rp2040[0][0]+1.4,rp2040[0][1]+5.0,0,0);
+bane(homebrusb[0][0]+homebrusb[4][0],homebrusb[0][1]+homebrusb[4][1]-0.7,homebrusb[0][0]+homebrusb[4][0]+1.4,homebrusb[0][1]+homebrusb[4][1]-0.3,0,2);
+//Vreg traces
+bane(homebrusb[0][0]+homebrusb[1][0],homebrusb[0][1]+homebrusb[1][1]-0.7,-2,21.7,0,0);
+bane(homebrusb[0][0]+homebrusb[1][0]+0.7,homebrusb[0][1]+homebrusb[1][1],-0.5,21.7,0,0);
+bane(homebrusb[0][0]+homebrusb[1][0],homebrusb[0][1]+homebrusb[1][1]-3.7,-2.3,20.2,0,0);
+bane(-0.5,16.2,-0.5,20.2,0,0);
+bane(-3.5,19.1,-1.5,19.1,0,2);
+//SPIflash traces
+
+bane(spiflash16mb[0][0]+spiflash16mb[1][0]-0.5,spiflash16mb[0][1]+spiflash16mb[1][1],-4.7,9.7,0,0);
+bane(-4.7,9.7,-4.5,7.7,0,0);
+bane(-4.5,7.7,-2.6,6,0,0);
+bane(-2.6,6,rp2040[0][0]+rp2040[2][0]-2.6,rp2040[0][1]+rp2040[2][1]+0.25,0,0);
+bane(rp2040[0][0]+rp2040[2][0]-3.4,rp2040[0][1]+rp2040[2][1]+0.45,rp2040[0][0]+rp2040[2][0]-2.6,rp2040[0][1]+rp2040[2][1]+0.25,2,0);
+bane(spiflash16mb[0][0]+spiflash16mb[2][0]-0.5,spiflash16mb[0][1]+spiflash16mb[2][1],-4.0,8.7,0,0);
+bane(-4.0,8.7,-4.0,7.7,0,0);
+bane(-4.0,7.7,-2.2,6,0,0);
+bane(-2.2,6,rp2040[0][0]+rp2040[2][0]-2.2,rp2040[0][1]+rp2040[2][1]+0.5,0,0);
+bane(spiflash16mb[0][0]+spiflash16mb[3][0]-0.5,spiflash16mb[0][1]+spiflash16mb[3][1],-3.5,7.9,0,0);
+bane(-3.5,7.9,-1.8,6,0,0);
+bane(-1.8,6,rp2040[0][0]+rp2040[2][0]-1.8,rp2040[0][1]+rp2040[2][1]+0.75,0,0);
+bane(spiflash16mb[0][0]+spiflash16mb[4][0]-0.3,spiflash16mb[0][1]+spiflash16mb[4][1],spiflash16mb[0][0]+spiflash16mb[4][0]-0.3,spiflash16mb[0][1]+spiflash16mb[4][1]-0.3,0,0);
+bane(spiflash16mb[0][0]+spiflash16mb[5][0]+0.3,spiflash16mb[0][1]+spiflash16mb[5][1],-0.3,7,0,0);
+bane(-0.3,7,-1.4,6,0,0);
+bane(-1.4,6,rp2040[0][0]+rp2040[2][0]-1.4,rp2040[0][1]+rp2040[2][1]+1,0,0);
+bane(spiflash16mb[0][0]+spiflash16mb[6][0]+0.5,spiflash16mb[0][1]+spiflash16mb[6][1],1.4,8.3,0,0);
+bane(1.4,8.3,0.4,7,0,0);
+bane(0.4,7,-1.0,5.9,0,0);
+bane(-1.0,5.9,rp2040[0][0]+rp2040[2][0]-1.0,rp2040[0][1]+rp2040[2][1]+1.25,0,0);
+bane(spiflash16mb[0][0]+spiflash16mb[7][0]+0.5,spiflash16mb[0][1]+spiflash16mb[7][1],1.9,8.3,0,0);
+bane(1.9,8.3,0.9,7,0,0);
+bane(0.9,7,-0.6,5.8,0,0);
+bane(-0.6,5.8,rp2040[0][0]+rp2040[2][0]-0.6,rp2040[0][1]+rp2040[2][1]+1.5,0,0);
+bane(spiflash16mb[0][0]+spiflash16mb[8][0]+0.5,spiflash16mb[0][1]+spiflash16mb[8][1],spiflash16mb[0][0]+spiflash16mb[8][0]+0.5,spiflash16mb[0][1]+spiflash16mb[8][1]+3,0,0);
+//LED trace
+bane(rp2040[0][0]+rp2040[3][0]+2.0,rp2040[0][1]+rp2040[3][1]+1.2,rp2040[0][0]+rp2040[3][0]+1.6,rp2040[0][1]+rp2040[3][1]+0.6,0,0);
+bane(7.18,1,7.18,2,0,0);
+bane(8.18,0,9.18,0,0,0);
     }     
     }
 module roomfortraces () {
