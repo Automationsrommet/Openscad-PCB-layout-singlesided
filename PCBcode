@@ -1,5 +1,5 @@
-//I'm growing proud of this pcb code. It could prove quite useful after some more tweaking, apart from educating the writer.
-//I'll try out something with raspberry pi pico with reset button on pin 30
+//Here is my postapocalyptical pico, made mostly with parts I have on hand.
+//The goal is that one should be able to alter it to meet needs. It is not there yet.
 
 //Input parameters
 pinneavstand=2.54;
@@ -46,7 +46,7 @@ pico=[
 ];
 rp2040=[[0,0,0],[-7.75/2,0],[0,7.75/2],[7.75/2,0],[0,-7.75/2]];//3.20 square and [-2.6:0.4:2.6]1*.2mmstrip
 spiflash16mb=[[-1,9,0],[-3/2,0.75],[-3/2,0.25],[-3/2,-0.25],[-3/2,-0.75],[3/2,-0.75],[3/2,-0.25],[3/2,0.25],[3/2,0.75]];
-sot523=[[6,6,0],[-0.5,-1.29/2],[0,1.29/2],[0.5,-1.29/2]];
+sot523=[[5,3.8,48],[-0.5,-1.29/2],[0,1.29/2],[0.5,-1.29/2]];
 pinplacement=[
 [-25,-32],[25,-32],[25,-32+8.5*pinneavstand]];
 groundtr=[[arduino[2][0],arduino[2][1]+pinneavstand*(8.5+4)],
@@ -71,7 +71,7 @@ tracepads=[
 //  MAIN  code starts here where various modules are called
 //This is where we duplicate the circuit
 color("black")
-    for (b=[0:180:180]){
+ //   for (b=[0:180:180]){
        //rotate([0,0,b]){
         translate([offsetX,offsetY,0])
 traces();
@@ -82,7 +82,7 @@ textlabel();
 color("white")roomfortraces();                
 }
 //}
-}
+//}
 //pins();
 //arduinoUno();
 //shield();
@@ -93,17 +93,26 @@ color("white")roomfortraces();
 border();
 usbb(homebrusb[0][0],homebrusb[0][1],homebrusb[0][2],"Homemade","USB-B");
 DPAK3V3(DPAK[0][0],DPAK[0][1],DPAK[0][2]);
-o6o3(2.6,21,90,"R12","27");
-o6o3(4.1,21.1,90,"R13","27");
-o6o3(-2,21.1,90,"Cvin","100n");
-o6o3(-0.5,21.1,90,"Cvout","10u");
+o6o3(5.3,12,0," "," ");
+o6o3(5.3,13,0," "," ");
+o6o3(-2,21.1,90," ","100n");
+o6o3(-0.5,21.1,90," ","10u");
 spiflash(spiflash16mb[0][0],spiflash16mb[0][1],spiflash16mb[0][2],"SPIFLASH","16Mb");
 chrystal(chryst[0][0],chryst[0][1],chryst[0][2]);
 o6o3(chryst[0][0]+chryst[3][0]-1.9,chryst[0][1]+chryst[3][1]+2,90," ","R1k");
+o6o3(chryst[0][0]+chryst[1][0]-0.5,chryst[0][1]+chryst[1][1]-2,90," ","15p");
+o6o3(chryst[0][0]+chryst[1][0]+0.5,chryst[0][1]+chryst[1][1]-2,90," ","15p");
 o6o3(rp2040[0][0]+rp2040[3][0]+2.9,rp2040[0][1]+rp2040[3][1]+1.75,46," ","470");
 o6o3(rp2040[0][0]+rp2040[3][0]+3.8,rp2040[0][1]+rp2040[3][1]+0.4,-44," ","LED");
 o6o3(rp2040[0][0]+rp2040[3][0]+2.7,rp2040[0][1]+rp2040[3][1]-0.5,101," ","23 24");
 sot(sot523[0][0],sot523[0][1],sot523[0][2]);
+o6o3(sot523[0][0]+sot523[3][0]+0.8,sot523[0][1]+sot523[3][1]+3.4,90," ","100k");
+o6o3(sot523[0][0]+sot523[3][0]-0.1,sot523[0][1]+sot523[3][1]+3.4,90," ","1nF");
+o6o3(sot523[0][0]+sot523[3][0]-1,sot523[0][1]+sot523[3][1]+2.6,90," ","200k");
+o6o3(pico[0][0]+pico[35][0]-1.4,pico[0][1]+pico[35][1]+1.1,90," ","200");
+o6o3(pico[0][0]+pico[35][0]-1.5,pico[0][1]+pico[35][1]-1.1,90," ","2u2");
+o6o3(pico[0][0]+pico[35][0]-2.5,pico[0][1]+pico[35][1]-1.1,90," ","1ohm");
+
 
 //   ****            MODULES       ****
 module chrystal(x,y,rotation){
@@ -157,7 +166,7 @@ module sot(x,y,rotation){
         translate([sot523[3][0],sot523[3][1],0])square([0.4,0.51],center=true);  
 }}
 module rp20footprint(x,y,rotation){
-    translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
+    color("black")translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
         square(3.2,center=true);
         for(a=[0:90:359]){
         for (b=[2.6:-0.4:-2.6]){
@@ -228,8 +237,10 @@ bane(rp2040[0][0]-0.6,rp2040[0][1]-5.25,chryst[0][0]+chryst[1][0]-1.0,chryst[0][
 bane(chryst[0][0]+chryst[1][0]-1.0,chryst[0][1]+chryst[1][1]+1.8,chryst[0][0]+chryst[1][0]-0.6,chryst[0][1]+chryst[1][1],0,0);
 //chrystal via R1k to pin 3
 bane(rp2040[0][0]-0.2,rp2040[0][1]-5.5,chryst[0][0]+chryst[3][0]-2.0,chryst[0][1]+chryst[3][1]+2.8,0,0);
-
 bane(chryst[0][0]+chryst[3][0]-2.0,chryst[0][1]+chryst[3][1]+1.6,chryst[0][0]+chryst[3][0]-0.6,chryst[0][1]+chryst[3][1],0,0);
+bane(chryst[0][0]+chryst[3][0]-0.3,chryst[0][1]+chryst[3][1],chryst[0][0]+chryst[1][0]+0.9,chryst[0][1]+chryst[1][1]-0,0,0);
+bane(chryst[0][0]+chryst[1][0]+0.9,chryst[0][1]+chryst[1][1]-0,chryst[0][0]+chryst[1][0]+0.8,chryst[0][1]+chryst[1][1]-1,0,0);
+bane(chryst[0][0]+chryst[1][0]-0.6,chryst[0][1]+chryst[1][1]-0,chryst[0][0]+chryst[1][0]-0.8,chryst[0][1]+chryst[1][1]-1,0,0);
 //3v3
 bane(rp2040[0][0]+0.2,rp2040[0][1]-5.5,rp2040[0][0]-0.6,pico[16][1],0,2);
 //1v1
@@ -260,14 +271,27 @@ bane(pico[31][0]-1.4,pico[31][1]+2.2,pico[31][0]-1.0,pico[31][1]+2.2,0,0);
 bane(pico[31][0]-1.0,pico[31][1]+2.2,pico[31][0]-0,pico[31][1],0,1);
 
 bane(pico[32][0]-1.5,pico[32][1],rp2040[0][1]+5.0,rp2040[0][0]+1.4,0,0);
-bane(pico[34][0]-1.9,pico[34][1],rp2040[0][1]+4.8,rp2040[0][0]+1.8,0,0);
+
+bane(pico[34][0]-1.9,pico[34][1],pico[32][0]-2.1,pico[32][1]+0.2,0,0);
+bane(pico[32][0]-2.1,pico[32][1]+0.2,rp2040[0][1]+4.8,rp2040[0][0]+1.8,0,0);
+//mosfet traces
+bane(sot523[0][0]+sot523[1][0]+0.6,sot523[0][1]+sot523[1][1],rp2040[0][1]+4.5,rp2040[0][0]+2.2,0,0);
+bane(sot523[0][0]+sot523[3][0]+0.7,sot523[0][1]+sot523[3][1]+2.6,sot523[0][0]+sot523[3][0]+0.4,sot523[0][1]+sot523[3][1]+0.6,0,0);
+bane(sot523[0][0]+sot523[3][0]-0.9,sot523[0][1]+sot523[3][1]+3,sot523[0][0]+sot523[3][0]+0.7,sot523[0][1]+sot523[3][1]+2.6,0,0);
+bane(sot523[0][0]+sot523[3][0]-0.9,sot523[0][1]+sot523[3][1]+2,sot523[0][0]+sot523[1][0],sot523[0][1]+sot523[1][1]+1,0,0);
 //3v3 upper right
 bane(pico[32][0]-5,pico[32][1],rp2040[0][1]+4.3,rp2040[0][0]+2.6,2,0);
 
+bane(pico[35][0]-5.0,pico[35][1]-4.5,rp2040[0][0]+2.6,rp2040[0][2]+4.3,0,0);
+bane(pico[35][0]-2.5,pico[35][1]-2,pico[35][0]-5.0,pico[35][1]-4.5,0,0);
 //USB traces
 bane(homebrusb[0][0]+homebrusb[1][0],homebrusb[0][1]+homebrusb[1][1]-0.7,homebrusb[0][0]+homebrusb[1][0],homebrusb[0][1]+homebrusb[1][1]-1.3,0,0);
-bane(homebrusb[0][0]+homebrusb[2][0],homebrusb[0][1]+homebrusb[2][1]-0.7,2.5,21+1,0,0);
-bane(homebrusb[0][0]+homebrusb[3][0],homebrusb[0][1]+homebrusb[3][1]-0.7,4,21.1+1,0,0);
+bane(homebrusb[0][0]+homebrusb[2][0],homebrusb[0][1]+homebrusb[2][1]-0.8,4.5,21+1.3,0,0);
+bane(4.5,21+1.3,pico[0][0]+pico[35][0]-2.7,pico[0][1]+pico[35][1]+2.2,0,0);
+
+
+
+bane(homebrusb[0][0]+homebrusb[3][0],homebrusb[0][1]+homebrusb[3][1]-0.6,5,21.1+1.5,0,0);
 bane(2.5,21-1,2.3,21-13,0,0);
 bane(2.3,21-13,rp2040[0][0]+1,rp2040[0][1]+5.25,0,0);
 bane(4,21-1,2.6,21-14,0,0);
