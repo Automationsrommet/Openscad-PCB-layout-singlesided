@@ -1,19 +1,13 @@
 //Here is my postapocalyptical pico, made mostly with parts I have on hand.
 //The goal is that one should be able to alter it to meet needs. It is not there yet.
+//Todo: Chekt if th DPAK even fits. Write 4 trace-functions into one smooth curve. Angle everything. ground points #3.
 
 //Input parameters
-pinneavstand=2.54;
-pinnebredde=0.8;
-pinnelengde=0.8;
-pinnehoyde=11;
+
 pad=1.0;
 trace=0.23;
-hullradius=0.4;
-sjusegmentlengde=17.5;
-sjusegmentbredde=12.5;
-pothoyde=5;
-potradius=7.5;
-klaring=0.1;
+hullradius=0.2;
+klaring=0.2;
 offsetY=0;
 offsetX=0;
 detail=5;
@@ -21,15 +15,7 @@ ramme=0.6;
 heigth=51;
 width=21;
 //components input, center x, y and rotation, then pins
-potone=[
-[-14,-28,0],[potradius+1,-2*pinneavstand],[-potradius, 0],[potradius+1,2*pinneavstand]];
-sevensone=[
-[10,-27,0],[-sjusegmentlengde/2+1,-2*pinneavstand],[-sjusegmentlengde/2+1,-pinneavstand],[-sjusegmentlengde/2+1,+pinneavstand],[-sjusegmentlengde/2+1,+2*pinneavstand],[sjusegmentlengde/2-1,+2*pinneavstand],[sjusegmentlengde/2-1,+pinneavstand],[sjusegmentlengde/2-1,-pinneavstand],[sjusegmentlengde/2-1,-2*pinneavstand]];
-sevenstwo=[
-[10,-27+sjusegmentbredde,0],[-sjusegmentlengde/2+1,-2*pinneavstand],[-sjusegmentlengde/2+1,-pinneavstand],[-sjusegmentlengde/2+1,+pinneavstand],[-sjusegmentlengde/2+1,+2*pinneavstand],[sjusegmentlengde/2-1,+2*pinneavstand],[sjusegmentlengde/2-1,+pinneavstand],[sjusegmentlengde/2-1,-pinneavstand],[sjusegmentlengde/2-1,-2*pinneavstand] ];
-arduino=[
-[offsetX, offsetY, 0],[-25,-32],[25,-32],[25,-32+8.5*pinneavstand]
-];
+
 chryst=[[-1,-18,0],[-1.15,-0.95],[1.15,-0.95],[1.15,0.95],[-1.15,0.95]];
 DPAK=[
 [-1.5, 17, 90],[-6.7/2,0],[1.8+1.5,2.30],[1.8+1.5,-2.30]
@@ -44,57 +30,36 @@ osixothree=[
 pico=[
 [0, 0, 0],[-17.78/2,48.26/2],[-17.78/2,48.26/2-2.54*1],[-17.78/2,48.26/2-2.54*2],[-17.78/2,48.26/2-2.54*3],[-17.78/2,48.26/2-2.54*4],[-17.78/2,48.26/2-2.54*5],[-17.78/2,48.26/2-2.54*6],[-17.78/2,48.26/2-2.54*7],[-17.78/2,48.26/2-2.54*8],[-17.78/2,48.26/2-2.54*9],[-17.78/2,48.26/2-2.54*10],[-17.78/2,48.26/2-2.54*11],[-17.78/2,48.26/2-2.54*12],[-17.78/2,48.26/2-2.54*13],[-17.78/2,48.26/2-2.54*14],[-17.78/2,48.26/2-2.54*15],[-17.78/2,48.26/2-2.54*16],[-17.78/2,48.26/2-2.54*17],[-17.78/2,48.26/2-2.54*18],[-17.78/2,48.26/2-2.54*19],[17.78/2,48.26/2-2.54*19],[17.78/2,48.26/2-2.54*18],[17.78/2,48.26/2-2.54*17],[17.78/2,48.26/2-2.54*16],[17.78/2,48.26/2-2.54*15],[17.78/2,48.26/2-2.54*14],[17.78/2,48.26/2-2.54*13],[17.78/2,48.26/2-2.54*12],[17.78/2,48.26/2-2.54*11],[17.78/2,48.26/2-2.54*10],[17.78/2,48.26/2-2.54*9],[17.78/2,48.26/2-2.54*8],[17.78/2,48.26/2-2.54*7],[17.78/2,48.26/2-2.54*6],[17.78/2,48.26/2-2.54*5],[17.78/2,48.26/2-2.54*4],[17.78/2,48.26/2-2.54*3],[17.78/2,48.26/2-2.54*2],[17.78/2,48.26/2-2.54*1],[17.78/2,48.26/2],[-2.54,-51/2+1.6],[0,-51/2+1.6],[2.54,-51/2+1.6]
 ];
-rp2040=[[0,0,0],[-7.75/2,0],[0,7.75/2],[7.75/2,0],[0,-7.75/2]];//3.20 square and [-2.6:0.4:2.6]1*.2mmstrip
-spiflash16mb=[[-1,9,0],[-3/2,0.75],[-3/2,0.25],[-3/2,-0.25],[-3/2,-0.75],[3/2,-0.75],[3/2,-0.25],[3/2,0.25],[3/2,0.75]];
-sot523=[[5,3.8,48],[-0.5,-1.29/2],[0,1.29/2],[0.5,-1.29/2]];
-pinplacement=[
-[-25,-32],[25,-32],[25,-32+8.5*pinneavstand]];
-groundtr=[[arduino[2][0],arduino[2][1]+pinneavstand*(8.5+4)],
-[5,-12],
-[5,-18],
-[sevensone[0][0]-((sjusegmentlengde/2)-1),sevenstwo[0][1]-offsetY,sevensone[0][0]-((sjusegmentlengde/2))-offsetY],
-[sevensone[0][0]+((sjusegmentlengde/2)-1),sevenstwo[0][1]-offsetY,sevensone[0][0]-((sjusegmentlengde/2))-offsetY],
-[15,-21],
-[15,-31],
-[sevensone[0][0]+((sjusegmentlengde/2)-1),sevensone[0][1]-offsetY,sevensone[0][0]-((sjusegmentlengde/2))-offsetY],
-[sevensone[0][0]-((sjusegmentlengde/2)-1),sevensone[0][1]-offsetY,sevensone[0][0]-((sjusegmentlengde/2)+1.6)-offsetY],
-[sevensone[0][0]-((sjusegmentlengde/2)+1.6),sevensone[0][1]-offsetY],
-[potone[0][0]+potradius+1,potone[0][1]-2*pinneavstand-offsetY]];
-areftr=[[arduino[2][0],arduino[2][1]+pinneavstand*(8.5+7)],
-[-1.8,-32+pinneavstand*9.3],
-[-3,-32+pinneavstand*9-offsetY],
-[potone[0][0]+potone[3][0],potone[0][1]+potone[3][1]]];
-ain5tr=[
-[potone[0][0]+potone[2][0],potone[0][1]],[pinplacement[0][0],pinplacement[0][1]]];
-tracepads=[
-[1],[1],[0,0],[0,0],[0,1],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,1],];
+rp2040=[
+[0,0,0],[-7.75/2,0],[0,7.75/2],[7.75/2,0],[0,-7.75/2]];//3.20 square and [-2.6:0.4:2.6]1*.2mmstrip
+spiflash16mb=[
+[-1,9,0],[-3/2,0.75],[-3/2,0.25],[-3/2,-0.25],[-3/2,-0.75],[3/2,-0.75],[3/2,-0.25],[3/2,0.25],[3/2,0.75]];
+sot523=[
+[5,3.8,48],[-0.5,-1.29/2],[0,1.29/2],[0.5,-1.29/2]];
+
 //  MAIN  code starts here where various modules are called
 
-//color("black")
-
-        translate([offsetX,offsetY,0])
-traces();
 difference(){
 copperclad(); 
    
-color("white")roomfortraces(); 
-union(){
-cube([7,7,60],center=true);    
-usbb(homebrusb[0][0],homebrusb[0][1],homebrusb[0][2],"Homemade","USB-B");
-DPAK3V3(DPAK[0][0],DPAK[0][1],DPAK[0][2]);
+color("white")union(){
+roomfortraces();
+rp20footprint(offsetX,offsetY,0,klaring);    
+usbb(homebrusb[0][0],homebrusb[0][1],homebrusb[0][2],"Homemade","USB-B",klaring);
+DPAK3V3(DPAK[0][0],DPAK[0][1],DPAK[0][2],klaring);
 o6o3(5.3,12,0,klaring," ");
 o6o3(5.3,13,0,klaring," ");
-o6o3(-2,21.1,90,klaring,"100n");
-o6o3(-0.5,21.1,90,klaring,"10u");
-spiflash(spiflash16mb[0][0],spiflash16mb[0][1],spiflash16mb[0][2],"SPIFLASH","16Mb");
-translate([chryst[0][0],chryst[0][1],0])rotate([0,0,chryst[0][2]])cube([4,3.5,60],center=true); 
+o6o3(-2-0.1,21.1,90,klaring,"100n");
+o6o3(-0.5-0.1,21.1,90,klaring,"10u");
+spiflash(spiflash16mb[0][0],spiflash16mb[0][1],spiflash16mb[0][2],"SPIFLASH","16Mb",klaring);
+chrystal(chryst[0][0],chryst[0][1],chryst[0][2],klaring);
 o6o3(chryst[0][0]+chryst[3][0]-1.9,chryst[0][1]+chryst[3][1]+2,90,klaring,"R1k");
 o6o3(chryst[0][0]+chryst[1][0]-0.5,chryst[0][1]+chryst[1][1]-2,90,klaring,"15p");
 o6o3(chryst[0][0]+chryst[1][0]+0.5,chryst[0][1]+chryst[1][1]-2,90,klaring,"15p");
 o6o3(rp2040[0][0]+rp2040[3][0]+2.9,rp2040[0][1]+rp2040[3][1]+1.75,46,klaring,"470");
 o6o3(rp2040[0][0]+rp2040[3][0]+3.8,rp2040[0][1]+rp2040[3][1]+0.4,-44,klaring,"LED");
 o6o3(rp2040[0][0]+rp2040[3][0]+2.7,rp2040[0][1]+rp2040[3][1]-0.5,101,klaring,"23 24");
-sot(sot523[0][0],sot523[0][1],sot523[0][2]);
+sot(sot523[0][0],sot523[0][1],sot523[0][2],klaring);
 o6o3(sot523[0][0]+sot523[3][0]+0.8,sot523[0][1]+sot523[3][1]+3.4,90,klaring,"100k");
 o6o3(sot523[0][0]+sot523[3][0]-0.1,sot523[0][1]+sot523[3][1]+3.4,90,klaring,"1nF");
 o6o3(sot523[0][0]+sot523[3][0]-1,sot523[0][1]+sot523[3][1]+2.6,90,klaring,"200k");
@@ -104,116 +69,109 @@ o6o3(pico[0][0]+pico[35][0]-2.5,pico[0][1]+pico[35][1]-1.1,90,klaring,"1ohm");
 o6o3(sot523[0][0]+sot523[3][0]-1,sot523[0][1]+sot523[3][1]+2.6,90,klaring,"200k");
 o6o3(2.8,11.7,90,klaring,"100n");
 o6o3(2.8,15.9,100,klaring,"100n");   
-}   
-  //} 
-
 textlabel();    
-}
+}}
 
+color("black")union(){
+traces();
 border();
-rp20footprint(offsetX,offsetY,0);
-usbb(homebrusb[0][0],homebrusb[0][1],homebrusb[0][2],"Homemade","USB-B");
-DPAK3V3(DPAK[0][0],DPAK[0][1],DPAK[0][2]);
-o6o3(5.3,12,0," "," ");
-o6o3(5.3,13,0," "," ");
-o6o3(-2,21.1,90," ","100n");
-o6o3(-0.5,21.1,90," ","10u");
-spiflash(spiflash16mb[0][0],spiflash16mb[0][1],spiflash16mb[0][2],"SPIFLASH","16Mb");
-chrystal(chryst[0][0],chryst[0][1],chryst[0][2]);
-o6o3(chryst[0][0]+chryst[3][0]-1.9,chryst[0][1]+chryst[3][1]+2,90," ","R1k");
-o6o3(chryst[0][0]+chryst[1][0]-0.5,chryst[0][1]+chryst[1][1]-2,90," ","15p");
-o6o3(chryst[0][0]+chryst[1][0]+0.5,chryst[0][1]+chryst[1][1]-2,90," ","15p");
-o6o3(rp2040[0][0]+rp2040[3][0]+2.9,rp2040[0][1]+rp2040[3][1]+1.75,46," ","470");
-o6o3(rp2040[0][0]+rp2040[3][0]+3.8,rp2040[0][1]+rp2040[3][1]+0.4,-44," ","LED");
-o6o3(rp2040[0][0]+rp2040[3][0]+2.7,rp2040[0][1]+rp2040[3][1]-0.5,101," ","23 24");
-sot(sot523[0][0],sot523[0][1],sot523[0][2]);
-o6o3(sot523[0][0]+sot523[3][0]+0.8,sot523[0][1]+sot523[3][1]+3.4,90," ","100k");
-o6o3(sot523[0][0]+sot523[3][0]-0.1,sot523[0][1]+sot523[3][1]+3.4,90," ","1nF");
-o6o3(sot523[0][0]+sot523[3][0]-1,sot523[0][1]+sot523[3][1]+2.6,90," ","200k");
-o6o3(pico[0][0]+pico[35][0]-1.4,pico[0][1]+pico[35][1]+1.1,90," ","200");
-o6o3(pico[0][0]+pico[35][0]-1.5,pico[0][1]+pico[35][1]-1.1,90," ","2u2");
-o6o3(pico[0][0]+pico[35][0]-2.5,pico[0][1]+pico[35][1]-1.1,90," ","1ohm");
-o6o3(sot523[0][0]+sot523[3][0]-1,sot523[0][1]+sot523[3][1]+2.6,90," ","200k");
-o6o3(2.8,11.7,90," ","100n");
-o6o3(2.8,15.9,100," ","100n");
-    
+rp20footprint(offsetX,offsetY,0,0);
+usbb(homebrusb[0][0],homebrusb[0][1],homebrusb[0][2],"Homemade","USB-B",0);
+DPAK3V3(DPAK[0][0],DPAK[0][1],DPAK[0][2],0);
+o6o3(5.3,12,0,0," ");
+o6o3(5.3,13,0,0," ");
+o6o3(-2-0.1,21.1,90,0,"100n");
+o6o3(-0.5-0.1,21.1,90,0,"10u");
+spiflash(spiflash16mb[0][0],spiflash16mb[0][1],spiflash16mb[0][2],"SPIFLASH","16Mb",0);
+chrystal(chryst[0][0],chryst[0][1],chryst[0][2],0);
+o6o3(chryst[0][0]+chryst[3][0]-1.9,chryst[0][1]+chryst[3][1]+2,90,0,"R1k");
+o6o3(chryst[0][0]+chryst[1][0]-0.5,chryst[0][1]+chryst[1][1]-2,90,0,"15p");
+o6o3(chryst[0][0]+chryst[1][0]+0.5,chryst[0][1]+chryst[1][1]-2,90,0,"15p");
+o6o3(rp2040[0][0]+rp2040[3][0]+2.9,rp2040[0][1]+rp2040[3][1]+1.75,46,0,"470");
+o6o3(rp2040[0][0]+rp2040[3][0]+3.8,rp2040[0][1]+rp2040[3][1]+0.4,-44,0,"LED");
+o6o3(rp2040[0][0]+rp2040[3][0]+2.7,rp2040[0][1]+rp2040[3][1]-0.5,101,0,"23 24");
+sot(sot523[0][0],sot523[0][1],sot523[0][2],0);
+o6o3(sot523[0][0]+sot523[3][0]+0.8,sot523[0][1]+sot523[3][1]+3.4,90,0,"100k");
+o6o3(sot523[0][0]+sot523[3][0]-0.1,sot523[0][1]+sot523[3][1]+3.4,90,0,"1nF");
+o6o3(sot523[0][0]+sot523[3][0]-1,sot523[0][1]+sot523[3][1]+2.6,90,0,"200k");
+o6o3(pico[0][0]+pico[35][0]-1.4,pico[0][1]+pico[35][1]+1.1,90,0,"200");
+o6o3(pico[0][0]+pico[35][0]-1.5,pico[0][1]+pico[35][1]-1.1,90,0,"2u2");
+o6o3(pico[0][0]+pico[35][0]-2.5,pico[0][1]+pico[35][1]-1.1,90,0,"1ohm");
+o6o3(sot523[0][0]+sot523[3][0]-1,sot523[0][1]+sot523[3][1]+2.6,90,0,"200k");
+o6o3(2.8,11.7,90,0,"100n");
+o6o3(2.8,15.9,100,0,"100n");
+}    
+
 //   ****            MODULES       ****
-module chrystal(x,y,rotation){
-    color("black") translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
+module chrystal(x,y,rotation,room){
+     translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
         for(i=[1:1:4])
             difference(){
-   translate([chryst[i][0],chryst[i][1],0])square([1.3,1.1],center=true);
-   translate([chryst[i][0]-0.3,chryst[i][1]-0.3,0])text(str(i),0.5);}
+   translate([chryst[i][0],chryst[i][1],0])square([1.3+room,1.1+room],center=true);
+   if (room==0){translate([chryst[i][0]-0.3,chryst[i][1]-0.3,0])text(str(i),0.5);}}
         }
 }
-module usbb(x,y,rotation,name,value){
-   color("black") translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
-   translate([homebrusb[1][0],homebrusb[1][1],0])difference(){circle(pad, $fn=detail);circle(,hullradius);}
-   translate([homebrusb[2][0],homebrusb[2][1],0])difference(){circle(pad, $fn=detail);circle(,hullradius);}
-   translate([homebrusb[3][0],homebrusb[3][1],0])difference(){circle(pad, $fn=detail);circle(,hullradius);}
-   translate([homebrusb[4][0],homebrusb[4][1],0])difference(){circle(pad, $fn=detail);circle(,hullradius);}
-   translate([-3.5,0.92,0])text(name,0.3);
-   translate([-0.5,0.92,0])text(value,0.3);
+module usbb(x,y,rotation,name,value,room){
+    translate([x,y,0.5])rotate([0,0,rotation])linear_extrude(1){
+   translate([homebrusb[1][0],homebrusb[1][1],0])difference(){circle(pad+room); circle(hullradius);}
+   translate([homebrusb[2][0],homebrusb[2][1],0])difference(){circle(pad+room); circle(hullradius);}
+   translate([homebrusb[3][0],homebrusb[3][1],0])difference(){circle(pad+room); circle(hullradius);}
+   translate([homebrusb[4][0],homebrusb[4][1],0])difference(){circle(pad+room); circle(hullradius);}
+   if (room!=0){translate([-3.5,0.92,0])text(name,0.3);
+   translate([-0.5,0.92,0])text(value,0.3);}
 }}
-module spiflash(x,y,rotation,name,value){
-   color("black") translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
+module spiflash(x,y,rotation,name,value,room){
+    translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
    translate([0,0,0])square([0.4,1.9],center=true);
-   translate([spiflash16mb[1][0],spiflash16mb[1][1],0])square([1,0.25],center=true);
-       translate([spiflash16mb[2][0],spiflash16mb[2][1],0])square([1,0.25],center=true);
-       translate([spiflash16mb[3][0],spiflash16mb[3][1],0])square([1,0.25],center=true);
-       translate([spiflash16mb[4][0],spiflash16mb[4][1],0])square([1,0.25],center=true);
-       translate([spiflash16mb[5][0],spiflash16mb[5][1],0])square([1,0.25],center=true);
-       translate([spiflash16mb[6][0],spiflash16mb[6][1],0])square([1,0.25],center=true);
-       translate([spiflash16mb[7][0],spiflash16mb[7][1],0])square([1,0.25],center=true);
-       translate([spiflash16mb[8][0],spiflash16mb[8][1],0])square([1,0.25],center=true);
-   translate([-0.4,-0.9,0])rotate([0,0,90])text(name,0.28);
-   translate([0.7,-0.4,0])rotate([0,0,90])text(value,0.3);
+   translate([spiflash16mb[1][0],spiflash16mb[1][1],0])square([1+room,0.25+room],center=true);
+       translate([spiflash16mb[2][0],spiflash16mb[2][1],0])square([1+room,0.25+room],center=true);
+       translate([spiflash16mb[3][0],spiflash16mb[3][1],0])square([1+room,0.25+room],center=true);
+       translate([spiflash16mb[4][0],spiflash16mb[4][1],0])square([1+room,0.25+room],center=true);
+       translate([spiflash16mb[5][0],spiflash16mb[5][1],0])square([1+room,0.25+room],center=true);
+       translate([spiflash16mb[6][0],spiflash16mb[6][1],0])square([1+room,0.25+room],center=true);
+       translate([spiflash16mb[7][0],spiflash16mb[7][1],0])square([1+room,0.25+room],center=true);
+       translate([spiflash16mb[8][0],spiflash16mb[8][1],0])square([1+room,0.25+room],center=true);
+   if (room!=0){translate([-0.4,-0.9,0])rotate([0,0,90])text(name,0.28);
+   translate([0.7,-0.4,0])rotate([0,0,90])text(value,0.3);}
 }}
-module o6o3(x,y,rotation,name,value){
-   color("black") translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
-   translate([osixothree[1][0],osixothree[1][1],0])square(0.8,center=true);
-   translate([osixothree[2][0],osixothree[2][1],0])square(0.8,center=true);
-   translate([-0.4,0.5,0])text(name,0.3);
-   translate([-0.2,0.4,0])rotate([0,0,-90])text(value,0.3);
+module o6o3(x,y,rotation,room,value){
+    translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
+   translate([osixothree[1][0],osixothree[1][1],0])square(0.8+room,center=true);
+   translate([osixothree[2][0],osixothree[2][1],0])square(0.8+room,center=true);
+  
+   if(room!=0){translate([-0.2,0.4,0])rotate([0,0,-90])text(value,0.3);}
 }}
-module DPAK3V3(x,y,rotation){
-   color("black") translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
-        translate([DPAK[1][0],DPAK[1][1],0])square(6.7,center=true);
-        translate([DPAK[2][0],DPAK[2][1],0])square([3,1.6],center=true);
-        translate([DPAK[3][0],DPAK[3][1],0])square([3,1.6],center=true);
+module DPAK3V3(x,y,rotation,room){
+    translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
+        translate([DPAK[1][0],DPAK[1][1],0])square(6.7+room*2,center=true);
+        translate([DPAK[2][0],DPAK[2][1],0])square([3+room*2,1.6+room*2],center=true);
+        translate([DPAK[3][0],DPAK[3][1],0])square([3+room*2,1.6+room*2],center=true);
 }}
-module sot(x,y,rotation){
-  color("black") translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
-        translate([sot523[1][0],sot523[1][1],0])square([0.4,0.51],center=true);
-        translate([sot523[2][0],sot523[2][1],0])square([0.4,0.51],center=true);
-        translate([sot523[3][0],sot523[3][1],0])square([0.4,0.51],center=true);  
+
+module sot(x,y,rotation,room){
+   translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
+        translate([sot523[1][0],sot523[1][1],0])square([0.4+room,0.51+room],center=true);
+        translate([sot523[2][0],sot523[2][1],0])square([0.4+room,0.51+room],center=true);
+        translate([sot523[3][0],sot523[3][1],0])square([0.4+room,0.51+room],center=true);  
 }}
-module rp20footprint(x,y,rotation){
-    color("black")translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
-        square(3.2,center=true);
+module rp20footprint(x,y,rotation,room){
+    translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
+        square(3.2+room,center=true);
         for(a=[0:90:359]){
         for (b=[2.6:-0.4:-2.6]){
-            rotate([0,0,a])translate([7.26/2,b,0])square([1,0.2],center=true);rotate([0,0,a+180])translate([7.26/2-0.7,b,0])rotate([0,0,-a+180])translate([-0.1,-0.1,0])text(str((a/90)*14+((b+2.6)/0.4)+1),0.15);
+            rotate([0,0,a])translate([7.26/2,b,0])square([1+room,0.2+room],center=true);
+            if(room!=0){rotate([0,0,a+180])translate([7.26/2-0.7,b,0])rotate([0,0,-a+180])translate([-0.1,-0.1,0])text(str((a/90)*14+((b+2.6)/0.4)+1),0.15);}
         }
     }
-    translate([-7.26/2,7.26/2,0])circle(0.3);
+    translate([-7.26/2,7.26/2,0])circle(0.3+room);
     }
 }
-module spacers(){
-    difference(){
-    union(){
-    translate([pinplacement[0][0],pinplacement[0][1],-0.5])cube(3,center=true);
-    translate([arduino[3][0],arduino[3][1]-2,-0.5])cube([3,pinneavstand*17,3],center=true);
-}
-pins();
-}
-}
+
 module traces () {
-color("black")
-{    
-    
+{        
  for (n=[1:1:len(pico)/2-2 ]){
     bane(pico[0][0]+pico[n][0],pico[0][1]+pico[n][1],pico[0][0]+pico[n][0]+0.15*sqrt(abs(pico[0][1]+pico[n][1])*abs(pico[0][1]+pico[n][1])+abs(pico[0][0]+pico[n][0])*abs(pico[0][0]+pico[n][0])),pico[0][1]+pico[n][1],1,0);
+     
 }
 for (o=[len(pico)/2-1:1:len(pico)-4]){
     bane(pico[0][0]+pico[o][0],pico[0][1]+pico[o][1],pico[0][0]+pico[o][0]-0.15*sqrt(abs(pico[0][1]+pico[o][1])*abs(pico[0][1]+pico[o][1])+abs(pico[0][0]+pico[o][0])*abs(pico[0][0]+pico[o][0])),pico[0][1]+pico[o][1],1,0);
@@ -223,7 +181,7 @@ for (o=[len(pico)/2-1:1:len(pico)-4]){
             rotate([0,0,a])translate([7.26/2+0.2,b,0])bane(rp2040[1][1],rp2040[1][1],rp2040[1][1]+2-abs(b)*0.6,rp2040[1][1]+0,0,0);
         }
     }
-//traces 
+ 
     //GPIOs in numerical order 
 bane(pico[9][0]+5.2,pico[9][1]+2,pico[9][0]+4.6,pico[9][1]+1,2,0);
 bane(pico[9][0]+4.6,pico[9][1]+1,rp2040[0][1]-4.22,rp2040[0][0]+2.6,0,0);
@@ -379,12 +337,13 @@ bane(8.18,0,9.18,0,0,0);
     }
 
 module roomfortraces () {
-     //translate([offsetX,offsetY,0])
  for (n=[1:1:len(pico)/2-2 ]){
     baneplass(pico[0][0]+pico[n][0],pico[0][1]+pico[n][1],pico[0][0]+pico[n][0]+0.15*sqrt(abs(pico[0][1]+pico[n][1])*abs(pico[0][1]+pico[n][1])+abs(pico[0][0]+pico[n][0])*abs(pico[0][0]+pico[n][0])),pico[0][1]+pico[n][1],1,0);
+     translate([pico[0][0]+pico[n][0]-1,pico[0][1]+pico[n][1]+0.6,0])rotate([0,0,30])linear_extrude(6){text(str(n),0.41);}
 }
 for (o=[len(pico)/2-1:1:len(pico)-4]){
     baneplass(pico[0][0]+pico[o][0],pico[0][1]+pico[o][1],pico[0][0]+pico[o][0]-0.15*sqrt(abs(pico[0][1]+pico[o][1])*abs(pico[0][1]+pico[o][1])+abs(pico[0][0]+pico[o][0])*abs(pico[0][0]+pico[o][0])),pico[0][1]+pico[o][1],1,0);
+    translate([pico[0][0]+pico[o][0]+0.6,pico[0][1]+pico[o][1]+0.8,0])rotate([0,0,-30])linear_extrude(6){text(str(o),0.41);}
 }
    for(a=[0:90:359]){
         for (b=[2.6:-0.4:-2.6]){
@@ -540,36 +499,30 @@ baneplass(spiflash16mb[0][0]+spiflash16mb[8][0]+0.5,spiflash16mb[0][1]+spiflash1
 //LED trace
 baneplass(rp2040[0][0]+rp2040[3][0]+2.0,rp2040[0][1]+rp2040[3][1]+1.2,rp2040[0][0]+rp2040[3][0]+1.6,rp2040[0][1]+rp2040[3][1]+0.6,0,0);
 baneplass(7.18,1,7.18,2,0,0);
-baneplassplass(8.18,0,9.18,0,0,0);
+baneplass(8.18,0,9.18,0,0,0);
     }
 module border(){
- translate([0,0,2])color("black")difference(){
-cube([width+3*ramme,heigth+3*ramme,2],center=true);
+ translate([0,0,1])difference(){
+cube([width+3*ramme,heigth+3*ramme,0.2],center=true);
 cube([width-ramme,heigth-ramme,4],center=true);
 }  
 }
-module pins () {
-   for (i=[0:pinneavstand:pinneavstand*7])
-    {
-    pinne();  
- }    
- }
 module textlabel() {
       translate([offsetX,offsetY-2,-1])linear_extrude(6){
-translate([-04.9,-11.6])rotate([0,0,37])mirror([0,0,0])text("Postapocalyptical",2.85);
-translate([-06,-19])rotate([0,0,36])mirror([0,0,0])text("Pico",4.4);
-translate([-1,-22])rotate([0,0,36])mirror([0,0,0])text("open",2.35);
-translate([+14,-15.5])rotate([0,0,0])mirror([0,0,0])text("hardware",1.6);}
+translate([2.2,19.5])rotate([0,0,90])mirror([0,0,0])text("Postapocalyptical",0.35,font="Courier");
+translate([3.4,20])rotate([0,0,93])mirror([0,0,0])text("Pico",1.2,font="Courier");
+translate([4.5,20])rotate([0,0,98])mirror([0,0,0])text("open hardware",0.4,font="Courier");
+translate([3.8,19.9])rotate([0,0,95])mirror([0,0,0])text("version 1 Melbu april22",0.23,font="Courier");}
 }
 module copperclad (){
-translate([0,0,0])color("black")linear_extrude(1)polygon([[21/2,51/2],[21/2,-51/2],[-21/2,-51/2],[-21/2,51/2]]);  
+translate([0,0,1])color("black")linear_extrude(0.1)polygon([[21/2,51/2],[21/2,-51/2],[-21/2,-51/2],[-21/2,51/2]]);  
 }
 
 //The two last arguments in "bane" is 1 for pad or 0 for via at start and end of trace
 module bane(startx,starty,sluttx,slutty,startpad,endpad){
   difference(){
      union(){
-         translate([0,0,1]) linear_extrude(1){
+         translate([0,0,1]) linear_extrude(0.1){
         if (startpad==1)translate([startx,starty,0])rotate([0,0,360/(4*detail)])circle(pad, $fn=detail);
             if (startpad==2)translate([startx,starty,0])rotate([0,0,360/(4*detail)])circle(pad*0.75, $fn=detail);
        if (endpad==1)translate([sluttx,slutty,0])rotate([0,0,360/(4*detail)])circle(pad, $fn=detail);
@@ -590,15 +543,15 @@ module baneplass(startx,starty,sluttx,slutty,startpad,endpad){
      union(){
          translate([0,0,-10]) linear_extrude(60){
         if (startpad==1)translate([startx,starty,0])rotate([0,0,360/(4*detail)])circle(pad+klaring, $fn=detail);
+            if (startpad==2)translate([startx,starty,0])rotate([0,0,360/(4*detail)])circle(pad*0.75+klaring, $fn=detail);
        if (endpad==1)translate([sluttx,slutty,0])rotate([0,0,360/(4*detail)])circle(pad+klaring, $fn=detail);
-       
-    translate([startx+(sluttx-startx)/2,starty+(slutty-starty)/2,-3])rotate([0,0,90+asin((sluttx-startx)/sqrt((sluttx-startx)*(sluttx-startx)+(slutty-starty)*(slutty-starty)))])square([sqrt((sluttx-startx)*(sluttx-startx)+(slutty-starty)*(slutty-starty)),pad+2*klaring],center=true);
-if (startpad==0)translate([startx,starty,1])circle(pad/2+klaring);
-if (endpad==0)translate([sluttx,slutty,1])circle(pad/2+klaring);
+       if (endpad==2)translate([sluttx,slutty,0])rotate([0,0,360/(4*detail)])circle(pad*0.75+klaring, $fn=detail);
+    translate([startx+(sluttx-startx)/2,starty+(slutty-starty)/2,-3])rotate([0,0,90+asin((sluttx-startx)/sqrt((sluttx-startx)*(sluttx-startx)+(slutty-starty)*(slutty-starty)))])square([sqrt((sluttx-startx)*(sluttx-startx)+(slutty-starty)*(slutty-starty)),trace+klaring],center=true);
+if (startpad==0)translate([startx,starty,1])circle(trace/2+klaring);
+if (endpad==0)translate([sluttx,slutty,1])circle(trace/2+klaring);
+    if (startpad==2)  translate([startx,starty,0])rotate([0,0,360/(4*detail)])circle(hullradius);
+if (endpad==2) translate([sluttx,slutty,0])rotate([0,0,360/(4*detail)])circle(hullradius);
     }
 }
 }
-}
-module pinne (){
- color("silver")cube([pinnebredde,pinnebredde,pinnehoyde],center=true);  
 }
