@@ -1,0 +1,611 @@
+//Here is my postapocalyptical pico, made mostly with parts I have on hand.
+//The goal is that one should be able to alter it to meet needs. It is not there yet.
+//Todo: Chekt if th DPAK even fits. Write 4 trace-functions into one smooth curve. Angle everything. ground points #3.
+
+//Input parameters
+
+pad=1.0;
+trace=0.23;
+hullradius=0.2;
+klaring=0.2;
+offsetY=0;
+offsetX=0;
+detail=5;
+ramme=0.6;
+heigth=51;
+width=21;
+//components input, center x, y and rotation, then pins
+
+chryst=[[-1,-18,0],[-1.15,-0.95],[1.15,-0.95],[1.15,0.95],[-1.15,0.95]];
+DPAK=[
+[-1.5, 17, 90],[-6.7/2,0],[1.8+1.5,2.30],[1.8+1.5,-2.30]
+];
+homebrusb=[
+[0, 51/2-1.6, 0],[-2.54*1.5,0],
+[-2.54*0.5,0],[2.54*0.5,0],[2.54*1.5,0]
+];
+osixothree=[
+[0, 0, 0],[0.7/2+0.8/2,0],[-0.7/2-0.8/2,0]
+];
+pico=[
+[0, 0, 0],[-17.78/2,48.26/2],[-17.78/2,48.26/2-2.54*1],[-17.78/2,48.26/2-2.54*2],[-17.78/2,48.26/2-2.54*3],[-17.78/2,48.26/2-2.54*4],[-17.78/2,48.26/2-2.54*5],[-17.78/2,48.26/2-2.54*6],[-17.78/2,48.26/2-2.54*7],[-17.78/2,48.26/2-2.54*8],[-17.78/2,48.26/2-2.54*9],[-17.78/2,48.26/2-2.54*10],[-17.78/2,48.26/2-2.54*11],[-17.78/2,48.26/2-2.54*12],[-17.78/2,48.26/2-2.54*13],[-17.78/2,48.26/2-2.54*14],[-17.78/2,48.26/2-2.54*15],[-17.78/2,48.26/2-2.54*16],[-17.78/2,48.26/2-2.54*17],[-17.78/2,48.26/2-2.54*18],[-17.78/2,48.26/2-2.54*19],[17.78/2,48.26/2-2.54*19],[17.78/2,48.26/2-2.54*18],[17.78/2,48.26/2-2.54*17],[17.78/2,48.26/2-2.54*16],[17.78/2,48.26/2-2.54*15],[17.78/2,48.26/2-2.54*14],[17.78/2,48.26/2-2.54*13],[17.78/2,48.26/2-2.54*12],[17.78/2,48.26/2-2.54*11],[17.78/2,48.26/2-2.54*10],[17.78/2,48.26/2-2.54*9],[17.78/2,48.26/2-2.54*8],[17.78/2,48.26/2-2.54*7],[17.78/2,48.26/2-2.54*6],[17.78/2,48.26/2-2.54*5],[17.78/2,48.26/2-2.54*4],[17.78/2,48.26/2-2.54*3],[17.78/2,48.26/2-2.54*2],[17.78/2,48.26/2-2.54*1],[17.78/2,48.26/2],[-2.54,-51/2+1.6],[0,-51/2+1.6],[2.54,-51/2+1.6]
+];
+rp2040=[
+[0,0,0],[-7.75/2,0],[0,7.75/2],[7.75/2,0],[0,-7.75/2]];//3.20 square and [-2.6:0.4:2.6]1*.2mmstrip
+spiflash16mb=[
+[-1,9,0],[-3/2,0.75],[-3/2,0.25],[-3/2,-0.25],[-3/2,-0.75],[3/2,-0.75],[3/2,-0.25],[3/2,0.25],[3/2,0.75]];
+sot523=[
+[5,3.8,48],[-0.5,-1.29/2],[0,1.29/2],[0.5,-1.29/2]];
+
+//  MAIN  code starts here where various modules are called
+
+difference(){
+copperclad(); 
+   
+color("white")union(){
+roomfortraces();
+rp20footprint(offsetX,offsetY,0,klaring);    
+usbb(homebrusb[0][0],homebrusb[0][1],homebrusb[0][2],"Homemade","USB-B",klaring);
+DPAK3V3(DPAK[0][0],DPAK[0][1],DPAK[0][2],klaring);
+o6o3(5.3,12,0,klaring," ");
+o6o3(5.3,13,0,klaring," ");
+o6o3(-2-0.1,21.1,90,klaring,"100n");
+o6o3(-0.5-0.1,21.1,90,klaring,"10u");
+spiflash(spiflash16mb[0][0],spiflash16mb[0][1],spiflash16mb[0][2],"SPIFLASH","16Mb",klaring);
+chrystal(chryst[0][0],chryst[0][1],chryst[0][2],klaring);
+o6o3(chryst[0][0]+chryst[3][0]-1.9,chryst[0][1]+chryst[3][1]+2,90,klaring,"R1k");
+o6o3(chryst[0][0]+chryst[1][0]-0.5,chryst[0][1]+chryst[1][1]-2,90,klaring,"15p");
+o6o3(chryst[0][0]+chryst[1][0]+0.5,chryst[0][1]+chryst[1][1]-2,90,klaring,"15p");
+o6o3(rp2040[0][0]+rp2040[3][0]+2.9,rp2040[0][1]+rp2040[3][1]+1.75,46,klaring,"470");
+o6o3(rp2040[0][0]+rp2040[3][0]+3.8,rp2040[0][1]+rp2040[3][1]+0.4,-44,klaring,"LED");
+o6o3(rp2040[0][0]+rp2040[3][0]+2.7,rp2040[0][1]+rp2040[3][1]-0.5,101,klaring,"23 24");
+sot(sot523[0][0],sot523[0][1],sot523[0][2],klaring);
+o6o3(sot523[0][0]+sot523[3][0]+0.8,sot523[0][1]+sot523[3][1]+3.4,90,klaring,"100k");
+o6o3(sot523[0][0]+sot523[3][0]-0.1,sot523[0][1]+sot523[3][1]+3.4,90,klaring,"1nF");
+o6o3(sot523[0][0]+sot523[3][0]-1,sot523[0][1]+sot523[3][1]+2.6,90,klaring,"200k");
+o6o3(pico[0][0]+pico[35][0]-1.4,pico[0][1]+pico[35][1]+1.1,90,klaring,"200");
+o6o3(pico[0][0]+pico[35][0]-1.5,pico[0][1]+pico[35][1]-1.1,90,klaring,"2u2");
+o6o3(pico[0][0]+pico[35][0]-2.5,pico[0][1]+pico[35][1]-1.1,90,klaring,"1ohm");
+o6o3(sot523[0][0]+sot523[3][0]-1,sot523[0][1]+sot523[3][1]+2.6,90,klaring,"200k");
+o6o3(2.8,11.7,90,klaring,"100n");
+o6o3(2.8,15.9,100,klaring,"100n");   
+label(2.2,17.5,90,0,"Postapocalyptical", 0.35,"Courier");
+label(3.4,18,93,0,"Pico", 1,"Courier");
+label(4.5,18,98,0,"open hardware", 0.4,"Courier");
+label(3.8,17.9,95,0,"version 1 Melbu april22", 0.23,"Courier");
+}}
+
+color("black")union(){
+    //track parameters: startx,starty,startangle,startradius,startpad,endx,endy,endangle,endradius,endpad,room
+    track(20,20,30,5,1,30,35,20,4,2,0);
+traces();
+border();
+rp20footprint(offsetX,offsetY,0,0);
+usbb(homebrusb[0][0],homebrusb[0][1],homebrusb[0][2],"Homemade","USB-B",0);
+DPAK3V3(DPAK[0][0],DPAK[0][1],DPAK[0][2],0);
+o6o3(5.3,12,0,0," ");
+o6o3(5.3,13,0,0," ");
+o6o3(-2-0.1,21.1,90,0,"100n");
+o6o3(-0.5-0.1,21.1,90,0,"10u");
+spiflash(spiflash16mb[0][0],spiflash16mb[0][1],spiflash16mb[0][2],"SPIFLASH","16Mb",0);
+chrystal(chryst[0][0],chryst[0][1],chryst[0][2],0);
+o6o3(chryst[0][0]+chryst[3][0]-1.9,chryst[0][1]+chryst[3][1]+2,90,0,"R1k");
+o6o3(chryst[0][0]+chryst[1][0]-0.5,chryst[0][1]+chryst[1][1]-2,90,0,"15p");
+o6o3(chryst[0][0]+chryst[1][0]+0.5,chryst[0][1]+chryst[1][1]-2,90,0,"15p");
+o6o3(rp2040[0][0]+rp2040[3][0]+2.9,rp2040[0][1]+rp2040[3][1]+1.75,46,0,"470");
+o6o3(rp2040[0][0]+rp2040[3][0]+3.8,rp2040[0][1]+rp2040[3][1]+0.4,-44,0,"LED");
+o6o3(rp2040[0][0]+rp2040[3][0]+2.7,rp2040[0][1]+rp2040[3][1]-0.5,101,0,"23 24");
+sot(sot523[0][0],sot523[0][1],sot523[0][2],0);
+o6o3(sot523[0][0]+sot523[3][0]+0.8,sot523[0][1]+sot523[3][1]+3.4,90,0,"100k");
+o6o3(sot523[0][0]+sot523[3][0]-0.1,sot523[0][1]+sot523[3][1]+3.4,90,0,"1nF");
+o6o3(sot523[0][0]+sot523[3][0]-1,sot523[0][1]+sot523[3][1]+2.6,90,0,"200k");
+o6o3(pico[0][0]+pico[35][0]-1.4,pico[0][1]+pico[35][1]+1.1,90,0,"200");
+o6o3(pico[0][0]+pico[35][0]-1.5,pico[0][1]+pico[35][1]-1.1,90,0,"2u2");
+o6o3(pico[0][0]+pico[35][0]-2.5,pico[0][1]+pico[35][1]-1.1,90,0,"1ohm");
+o6o3(sot523[0][0]+sot523[3][0]-1,sot523[0][1]+sot523[3][1]+2.6,90,0,"200k");
+o6o3(2.8,11.7,90,0,"100n");
+o6o3(2.8,15.9,100,0,"100n");
+}    
+
+//   ****            MODULES       ****
+module track (startx,starty,startangle,startradius,startpad,endx,endy,endangle,endradius,endpad,room) {
+    
+    translate([startx,starty,0])
+    rotate([0,0,startangle])
+    translate([0,startradius,0])
+    difference(){
+        cylinder(1,startradius+trace/2,startradius+trace/2,center=true);
+        cylinder(2,startradius-trace/2,startradius-trace/2,center=true);
+        translate([-(startradius+trace),0,0])cube(startradius*2+2*trace,center=true);
+        rotate([0,0,(startangle+90-endangle)/2])translate([(startradius+trace),0,0])cube(startradius*2+2*trace,center=true);
+    }
+    //point to start arc
+    translate([endx,endy,0])
+    rotate([0,0,endangle+180])
+    translate([0,endradius,0])
+    difference(){
+        cylinder(1,endradius+trace/2,endradius+trace/2,center=true);
+        cylinder(2,endradius-trace/2,endradius-trace/2,center=true);
+        translate([-(endradius+trace),0,0])cube(endradius*2+2*trace,center=true);
+        rotate([0,0,(endangle+90-startangle)/2])translate([(endradius+trace),0,0])cube(endradius*2+2*trace,center=true);
+    }
+    //point to end arc
+difference(){
+union(){
+translate([0,0,1]) linear_extrude(0.1){
+    if (startpad==1)translate([startx,starty,0])rotate([0,0,360/(4*detail)])circle(pad, $fn=detail);
+            if (startpad==2)translate([startx,starty,0])rotate([0,0,360/(4*detail)])circle(pad*0.75, $fn=detail);
+       if (endpad==1)translate([endx,endy,0])rotate([0,0,360/(4*detail)])circle(pad, $fn=detail);
+    if (endpad==2)translate([endx,endy,0])rotate([0,0,360/(4*detail)])circle(pad*0.75, $fn=detail);
+
+    translate([startx,starty,0])
+    rotate([0,0,startangle])
+    translate([0,startradius,0])
+    rotate([0,0,startangle/2+(endangle+90-startangle)/2])
+    translate([0,-startradius,0])
+    //translate([(endx-startx)/2,(endy-starty)/2,-3])
+    //rotate([0,0,asin((endx-startx)/sqrt((endx-startx)*(endx-startx)+(endy-starty)*(endy-starty)))])
+   difference(){circle(1); circle(0.6);}
+   //square([sqrt((endx-startx+sqrt((startradius*startradius)-((startradius*cos((startangle+90-endangle)/2))*(startradius*2*cos((startangle+90-endangle)/2))))*sin((startangle+90-endangle)-startangle))*(endx-startx+sqrt((startradius*startradius)-((startradius*cos((startangle+90-endangle)/2))*(startradius*2*cos((startangle+90-endangle)/2))))*sin((startangle+90-endangle)-startangle))+(endy-starty)*(endy-starty))/2,trace],center=true);
+    
+if (startpad==0)translate([startx,starty,1])circle(trace/2);
+if (endpad==0)translate([endx,endy,1])circle(trace/2);
+}
+}
+if (startpad==1)  translate([startx,starty,0])rotate([0,0,360/(4*detail)])cylinder(15,hullradius,hullradius,center=true );
+if (endpad==1) translate([endx,endy,0])rotate([0,0,360/(4*detail)])cylinder(15,hullradius,hullradius,center=true );
+ if (startpad==2)  translate([startx,starty,0])rotate([0,0,360/(4*detail)])cylinder(15,hullradius,hullradius,center=true );
+if (endpad==2) translate([endx,endy,0])rotate([0,0,360/(4*detail)])cylinder(15,hullradius,hullradius,center=true );   
+}    
+}
+module label(posx,posy,rotation,mirr,labeltext,size,labelfont) {
+      translate([0,0,-1])linear_extrude(6){
+translate([posx,posy])rotate([0,0,rotation])mirror([mirr,0,0])text(labeltext,size,font=labelfont);
+}
+}
+module chrystal(x,y,rotation,room){
+     translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
+        for(i=[1:1:4])
+            difference(){
+   translate([chryst[i][0],chryst[i][1],0])square([1.3+room,1.1+room],center=true);
+   if (room==0){translate([chryst[i][0]-0.3,chryst[i][1]-0.3,0])text(str(i),0.5);}}
+        }
+}
+module usbb(x,y,rotation,name,value,room){
+    translate([x,y,0.5])rotate([0,0,rotation])linear_extrude(1){
+   translate([homebrusb[1][0],homebrusb[1][1],0])difference(){circle(pad+room); circle(hullradius);}
+   translate([homebrusb[2][0],homebrusb[2][1],0])difference(){circle(pad+room); circle(hullradius);}
+   translate([homebrusb[3][0],homebrusb[3][1],0])difference(){circle(pad+room); circle(hullradius);}
+   translate([homebrusb[4][0],homebrusb[4][1],0])difference(){circle(pad+room); circle(hullradius);}
+   if (room!=0){translate([-3.5,0.92,0])text(name,0.3);
+   translate([-0.5,0.92,0])text(value,0.3);}
+}}
+module spiflash(x,y,rotation,name,value,room){
+    translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
+   translate([0,0,0])square([0.4,1.9],center=true);
+   translate([spiflash16mb[1][0],spiflash16mb[1][1],0])square([1+room,0.25+room],center=true);
+       translate([spiflash16mb[2][0],spiflash16mb[2][1],0])square([1+room,0.25+room],center=true);
+       translate([spiflash16mb[3][0],spiflash16mb[3][1],0])square([1+room,0.25+room],center=true);
+       translate([spiflash16mb[4][0],spiflash16mb[4][1],0])square([1+room,0.25+room],center=true);
+       translate([spiflash16mb[5][0],spiflash16mb[5][1],0])square([1+room,0.25+room],center=true);
+       translate([spiflash16mb[6][0],spiflash16mb[6][1],0])square([1+room,0.25+room],center=true);
+       translate([spiflash16mb[7][0],spiflash16mb[7][1],0])square([1+room,0.25+room],center=true);
+       translate([spiflash16mb[8][0],spiflash16mb[8][1],0])square([1+room,0.25+room],center=true);
+   if (room!=0){translate([-0.4,-0.9,0])rotate([0,0,90])text(name,0.28);
+   translate([0.7,-0.4,0])rotate([0,0,90])text(value,0.3);}
+}}
+module o6o3(x,y,rotation,room,value){
+    translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
+   translate([osixothree[1][0],osixothree[1][1],0])square(0.8+room,center=true);
+   translate([osixothree[2][0],osixothree[2][1],0])square(0.8+room,center=true);
+  
+   if(room!=0){translate([-0.2,0.4,0])rotate([0,0,-90])text(value,0.3);}
+}}
+module DPAK3V3(x,y,rotation,room){
+    translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
+        translate([DPAK[1][0],DPAK[1][1],0])square(6.7+room*2,center=true);
+        translate([DPAK[2][0],DPAK[2][1],0])square([3+room*2,1.6+room*2],center=true);
+        translate([DPAK[3][0],DPAK[3][1],0])square([3+room*2,1.6+room*2],center=true);
+}}
+
+module sot(x,y,rotation,room){
+   translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
+        translate([sot523[1][0],sot523[1][1],0])square([0.4+room,0.51+room],center=true);
+        translate([sot523[2][0],sot523[2][1],0])square([0.4+room,0.51+room],center=true);
+        translate([sot523[3][0],sot523[3][1],0])square([0.4+room,0.51+room],center=true);  
+}}
+module rp20footprint(x,y,rotation,room){
+    translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
+        square(3.2+room,center=true);
+        for(a=[0:90:359]){
+        for (b=[2.6:-0.4:-2.6]){
+            rotate([0,0,a])translate([7.26/2,b,0])square([1+room,0.2+room],center=true);
+            if(room!=0){rotate([0,0,a+180])translate([7.26/2-0.7,b,0])rotate([0,0,-a+180])translate([-0.1,-0.1,0])text(str((a/90)*14+((b+2.6)/0.4)+1),0.15);}
+        }
+    }
+    translate([-7.26/2,7.26/2,0])circle(0.3+room);
+    }
+}
+
+module traces () {
+{        
+ for (n=[1:1:len(pico)/2-2 ]){
+    bane(pico[0][0]+pico[n][0],pico[0][1]+pico[n][1],pico[0][0]+pico[n][0]+0.15*sqrt(abs(pico[0][1]+pico[n][1])*abs(pico[0][1]+pico[n][1])+abs(pico[0][0]+pico[n][0])*abs(pico[0][0]+pico[n][0])),pico[0][1]+pico[n][1],1,0);
+     
+}
+for (o=[len(pico)/2-1:1:len(pico)-4]){
+    bane(pico[0][0]+pico[o][0],pico[0][1]+pico[o][1],pico[0][0]+pico[o][0]-0.15*sqrt(abs(pico[0][1]+pico[o][1])*abs(pico[0][1]+pico[o][1])+abs(pico[0][0]+pico[o][0])*abs(pico[0][0]+pico[o][0])),pico[0][1]+pico[o][1],1,0);
+}
+   for(a=[0:90:359]){
+        for (b=[2.6:-0.4:-2.6]){
+            rotate([0,0,a])translate([7.26/2+0.2,b,0])bane(rp2040[1][1],rp2040[1][1],rp2040[1][1]+2-abs(b)*0.6,rp2040[1][1]+0,0,0);
+        }
+    }
+ 
+    //GPIOs in numerical order 
+bane(pico[9][0]+5.2,pico[9][1]+2,pico[9][0]+4.6,pico[9][1]+1,2,0);
+bane(pico[9][0]+4.6,pico[9][1]+1,rp2040[0][1]-4.22,rp2040[0][0]+2.6,0,0);
+bane(-5.0,pico[1][1],-5.2,pico[6][1],0,0); 
+bane(-5.2,pico[6][1],rp2040[0][0]-4.49,rp2040[0][1]+2.2,0,0);
+bane(-5.33,pico[2][1],-5.55,pico[6][1],0,0); 
+bane(-5.55,pico[6][1],rp2040[0][0]-4.74,rp2040[0][1]+1.8,0,0);
+bane(-6.13,pico[4][1],-6.03,pico[6][1],0,0); 
+bane(-6.03,pico[6][1],rp2040[0][0]-4.98,rp2040[0][1]+1.4,0,0);
+bane(-6.43,pico[5][1],-6.23,pico[7][1],0,0); 
+bane(-6.23,pico[7][1],rp2040[0][0]-5.22,rp2040[0][1]+1,0,0);     
+bane(-6.73,pico[6][1],-6.5,pico[8][1],0,0); 
+bane(-6.5,pico[8][1],rp2040[0][0]-5.45,rp2040[0][1]+0.6,0,0);   
+bane(-7.0,pico[7][1],-6.8,pico[9][1],0,0);
+bane(-6.8,pico[9][1],rp2040[0][0]-5.7,rp2040[0][1]+0.2,0,0);
+bane(-7.45,pico[9][1],rp2040[0][0]-5.9,rp2040[0][1]-0.2,0,0);
+bane(rp2040[0][0]-5.9,rp2040[0][1]-0.2,rp2040[0][0]-5.3,rp2040[0][1]-0.2,0,0);        
+bane(-7.55,pico[10][1],rp2040[0][0]-6.5,rp2040[0][1]+0.2,0,0);
+bane(rp2040[0][0]-6.5,rp2040[0][1]+0.2,rp2040[0][0]-6.1,rp2040[0][1]-0.6,0,0);
+bane(rp2040[0][0]-6.1,rp2040[0][1]-0.6,rp2040[0][0]-5.3,rp2040[0][1]-0.6,0,0);    
+bane(-7.4,pico[10][1]-1.4,rp2040[0][0]-6.2,rp2040[0][1]-1.0,2,0);
+bane(rp2040[0][0]-6.2,rp2040[0][1]-1.0,rp2040[0][0]-5.3,rp2040[0][1]-1.0,0,0);
+bane(-7.55,pico[11][1],rp2040[0][0]-4.99,rp2040[0][1]-1.4,0,0);
+bane(rp2040[0][0]-4.7,rp2040[0][1]-1.8,-7.45,pico[12][1],0,0);
+bane(rp2040[0][0]-4.5,rp2040[0][1]-2.2,-6.9,pico[14][1],0,0);
+bane(rp2040[0][0]-4.25,rp2040[0][1]-2.6,-6.65,pico[15][1],0,0);    
+bane(rp2040[0][0]-2.6,rp2040[0][1]-4.3,-6.35,pico[16][1],0,0);
+bane(rp2040[0][0]-2.2,rp2040[0][1]-4.5,-5.95,pico[17][1],0,0);
+bane(rp2040[0][0]-1.8,rp2040[0][1]-4.7,-5.4,pico[19][1],0,0);    
+bane(rp2040[0][0]-1.4,rp2040[0][1]-4.8,-5,pico[20][1],0,0);
+bane(rp2040[0][0]-1.0,rp2040[0][1]-4.8,rp2040[0][0]-1.30,pico[13][1],0,0);
+//chrystal to pin 1
+bane(rp2040[0][0]-0.6,rp2040[0][1]-5.25,chryst[0][0]+chryst[1][0]-1.0,chryst[0][1]+chryst[1][1]+1.8,0,0);
+bane(chryst[0][0]+chryst[1][0]-1.0,chryst[0][1]+chryst[1][1]+1.8,chryst[0][0]+chryst[1][0]-0.6,chryst[0][1]+chryst[1][1],0,0);
+//chrystal via R1k to pin 3
+bane(rp2040[0][0]-0.2,rp2040[0][1]-5.5,chryst[0][0]+chryst[3][0]-2.0,chryst[0][1]+chryst[3][1]+2.8,0,0);
+bane(chryst[0][0]+chryst[3][0]-2.0,chryst[0][1]+chryst[3][1]+1.6,chryst[0][0]+chryst[3][0]-0.6,chryst[0][1]+chryst[3][1],0,0);
+bane(chryst[0][0]+chryst[3][0]-0.3,chryst[0][1]+chryst[3][1],chryst[0][0]+chryst[1][0]+0.9,chryst[0][1]+chryst[1][1]-0,0,0);
+bane(chryst[0][0]+chryst[1][0]+0.9,chryst[0][1]+chryst[1][1]-0,chryst[0][0]+chryst[1][0]+0.8,chryst[0][1]+chryst[1][1]-1,0,0);
+bane(chryst[0][0]+chryst[1][0]-0.6,chryst[0][1]+chryst[1][1]-0,chryst[0][0]+chryst[1][0]-0.8,chryst[0][1]+chryst[1][1]-1,0,0);
+//3v3
+bane(rp2040[0][0]+0.2,rp2040[0][1]-5.5,rp2040[0][0]-0.6,pico[16][1],0,2);
+//1v1
+bane(rp2040[0][0]+0.6,rp2040[0][1]-5.5,rp2040[0][0]+0.3,pico[16][1]-1.4,0,2);
+bane(rp2040[0][0]+1.0,rp2040[0][1]-4.8,1.5,pico[41][1]+4,0,0);
+bane(1.5,pico[41][1]+4,pico[41][0],pico[41][1],0,1);
+bane(0,pico[42][1]+1.6,0,pico[42][1],0,1);
+bane(rp2040[0][0]+1.4,rp2040[0][1]-4.8,pico[43][0],pico[43][1],0,1);
+//run from rp2040  
+bane(rp2040[0][0]+1.8,rp2040[0][1]-4.8,rp2040[0][0]+3.2,pico[18][1],0,2);
+
+bane(rp2040[0][0]+2.2,rp2040[0][1]-4.5,pico[21][0]-3.9,pico[21][1],0,0); 
+bane(rp2040[0][0]+2.6,rp2040[0][1]-4.3,pico[22][0]-3.5,pico[22][1],0,0);
+bane(rp2040[0][1]+4.25,rp2040[0][0]-2.6,pico[24][0]-2.9,pico[24][1],0,0);
+bane(rp2040[0][1]+4.53,rp2040[0][0]-2.2,pico[25][0]-2.5,pico[25][1],0,0);
+bane(rp2040[0][1]+4.8,rp2040[0][0]-1.8,pico[26][0]-2.2,pico[26][1],0,0);
+bane(rp2040[0][1]+5,rp2040[0][0]-1.4,pico[27][0]-1.9,pico[27][1],0,0);
+//3v3
+bane(rp2040[0][1]+5.25,rp2040[0][0]-1.0,pico[29][0]-2.0,pico[29][1]-1,0,2);
+bane(rp2040[0][1]+5.5,rp2040[0][0]-0.6,pico[29][0]-1.5,pico[29][1],0,0);
+//Run reset pin
+bane(pico[30][0]-1.1,pico[30][1]-0.9,pico[30][0]-1.3,pico[30][1],2,0);
+//GPIO 23 and 24 unconnected
+bane(rp2040[0][1]+5.7,rp2040[0][0]+0.2,6.6,0.2,0,0);
+bane(rp2040[0][1]+5.7,rp2040[0][0]-0.2,6.5,-1.5,0,0);
+bane(pico[31][0]-1.4,pico[31][1]+2.2,rp2040[0][1]+5.25,rp2040[0][0]+1,0,0);
+bane(pico[31][0]-1.4,pico[31][1]+2.2,pico[31][0]-1.0,pico[31][1]+2.2,0,0);
+bane(pico[31][0]-1.0,pico[31][1]+2.2,pico[31][0]-0,pico[31][1],0,1);
+
+bane(pico[32][0]-1.5,pico[32][1],rp2040[0][1]+5.0,rp2040[0][0]+1.4,0,0);
+
+bane(pico[34][0]-1.9,pico[34][1],pico[32][0]-2.1,pico[32][1]+0.2,0,0);
+bane(pico[32][0]-2.1,pico[32][1]+0.2,rp2040[0][1]+4.8,rp2040[0][0]+1.8,0,0);
+//mosfet traces
+bane(sot523[0][0]+sot523[1][0]+0.6,sot523[0][1]+sot523[1][1],rp2040[0][1]+4.5,rp2040[0][0]+2.2,0,0);
+bane(sot523[0][0]+sot523[3][0]+0.7,sot523[0][1]+sot523[3][1]+2.6,sot523[0][0]+sot523[3][0]+0.4,sot523[0][1]+sot523[3][1]+0.6,0,0);
+bane(sot523[0][0]+sot523[3][0]-0.9,sot523[0][1]+sot523[3][1]+3,sot523[0][0]+sot523[3][0]+0.7,sot523[0][1]+sot523[3][1]+2.6,0,0);
+bane(sot523[0][0]+sot523[3][0]-0.9,sot523[0][1]+sot523[3][1]+2,sot523[0][0]+sot523[1][0],sot523[0][1]+sot523[1][1]+1,0,0);
+//3v3 upper right
+bane(pico[32][0]-5,pico[32][1],rp2040[0][1]+4.3,rp2040[0][0]+2.6,2,0);
+
+bane(pico[35][0]-5.0,pico[35][1]-4.5,rp2040[0][0]+2.6,rp2040[0][2]+4.3,0,0);
+bane(pico[35][0]-2.5,pico[35][1]-2,pico[35][0]-5.0,pico[35][1]-4.5,0,0);
+//USB traces
+bane(homebrusb[0][0]+homebrusb[1][0],homebrusb[0][1]+homebrusb[1][1]-0.7,homebrusb[0][0]+homebrusb[1][0],homebrusb[0][1]+homebrusb[1][1]-1.3,0,0);
+bane(homebrusb[0][0]+homebrusb[2][0],homebrusb[0][1]+homebrusb[2][1]-0.8,4.5,21+1.3,0,0);
+bane(5,21+1.5,pico[0][0]+pico[35][0]-2.7,pico[0][1]+pico[35][1]+2.2,0,0);
+bane(pico[0][0]+pico[35][0]-2.7,pico[0][1]+pico[35][1]+2.2,pico[0][0]+pico[35][0]-2.2,pico[0][1]+pico[35][1]+2.2,0,0);
+bane(pico[0][0]+pico[35][0]-2.2,pico[0][1]+pico[35][1]+2.2,pico[0][0]+pico[35][0]-2.2,pico[0][1]+pico[35][1]+0.7,0,0);
+bane(pico[0][0]+pico[35][0]-2.2,pico[0][1]+pico[35][1]+0.7,pico[0][0]+pico[35][0]-2.5,pico[0][1]+pico[35][1]+0.7,0,0);
+bane(4.5,21+1.3,5.8,pico[0][1]+pico[35][1]+1.8,0,0);
+bane(homebrusb[0][0]+homebrusb[3][0],homebrusb[0][1]+homebrusb[3][1]-0.6,5,21.1+1.5,0,0);
+bane(4.0,13.2,3.1,21-13,0,0);
+bane(4.0,13.2,4.2,13.2,0,0);
+bane(3.1,21-13,rp2040[0][0]+1,rp2040[0][1]+5.25,0,0);
+bane(4.2,12.2,3.45,21-13,0,0);
+bane(3.45,21-13,rp2040[0][0]+1.4,rp2040[0][1]+5.0,0,0);
+bane(homebrusb[0][0]+homebrusb[4][0],homebrusb[0][1]+homebrusb[4][1]-0.7,homebrusb[0][0]+homebrusb[4][0]+1.4,homebrusb[0][1]+homebrusb[4][1]-0.3,0,2);
+//Vreg traces
+bane(homebrusb[0][0]+homebrusb[1][0],homebrusb[0][1]+homebrusb[1][1]-0.7,-2,21.7,0,0);
+bane(homebrusb[0][0]+homebrusb[1][0]+0.7,homebrusb[0][1]+homebrusb[1][1],-0.5,21.7,0,0);
+bane(homebrusb[0][0]+homebrusb[1][0],homebrusb[0][1]+homebrusb[1][1]-3.7,-2.3,20.2,0,0);
+bane(-0.5,16.2,-0.5,20.2,0,0);
+bane(-3.5,19.1,-1.5,19.1,0,2);
+//top voltages
+bane(5.45,10.5,rp2040[0][0]+rp2040[2][0]+2.2,rp2040[0][1]+rp2040[2][1]+0.6,0,0);
+bane(5.15,10.6,rp2040[0][0]+rp2040[2][0]+1.8,rp2040[0][1]+rp2040[2][1]+0.5,0,0);
+bane(5.45,10.5,5.45,13.5,0,0);
+bane(5.15,10.6,5.15,13.5,0,0);
+bane(4.55,17.6,5.45,13.5,0,0);
+bane(4.55,17.6,0,16.5,0,0);
+bane(4.15,14.5,5.15,13.5,2,0);
+bane(2.4,7.5,rp2040[0][0]+rp2040[2][0]+0.2,rp2040[0][1]+rp2040[2][1]+1.6,0,0);
+bane(rp2040[0][0]+rp2040[2][0]+0.6,rp2040[0][1]+rp2040[2][1]+1.9,rp2040[0][0]+rp2040[2][0]+0.6,rp2040[0][1]+rp2040[2][1]+1.6,0,0);
+bane(2.0,7.5,rp2040[0][0]+rp2040[2][0]-0.2,rp2040[0][1]+rp2040[2][1]+1.8,0,0);
+bane(2.6,8.5,2.4,7.5,0,0);
+bane(3,10.5,2.6,8.5,0,0);
+bane(3,10.5,0,10.5,0,0);
+
+bane(2.2,8.5,2.0,7.5,0,0);
+bane(1.9,9.54,2.2,8.5,2,0);
+//SPIflash traces
+bane(spiflash16mb[0][0]+spiflash16mb[1][0]-0.5,spiflash16mb[0][1]+spiflash16mb[1][1],-4.7,9.7,0,0);
+bane(-4.7,9.7,-4.5,7.7,0,0);
+bane(-4.5,7.7,-2.6,6,0,0);
+bane(-2.6,6,rp2040[0][0]+rp2040[2][0]-2.6,rp2040[0][1]+rp2040[2][1]+0.25,0,0);
+bane(rp2040[0][0]+rp2040[2][0]-3.4,rp2040[0][1]+rp2040[2][1]+0.45,rp2040[0][0]+rp2040[2][0]-2.6,rp2040[0][1]+rp2040[2][1]+0.25,2,0);
+bane(spiflash16mb[0][0]+spiflash16mb[2][0]-0.5,spiflash16mb[0][1]+spiflash16mb[2][1],-4.0,8.7,0,0);
+bane(-4.0,8.7,-4.0,7.7,0,0);
+bane(-4.0,7.7,-2.2,6,0,0);
+bane(-2.2,6,rp2040[0][0]+rp2040[2][0]-2.2,rp2040[0][1]+rp2040[2][1]+0.5,0,0);
+bane(spiflash16mb[0][0]+spiflash16mb[3][0]-0.5,spiflash16mb[0][1]+spiflash16mb[3][1],-3.5,7.9,0,0);
+bane(-3.5,7.9,-1.8,6,0,0);
+bane(-1.8,6,rp2040[0][0]+rp2040[2][0]-1.8,rp2040[0][1]+rp2040[2][1]+0.75,0,0);
+bane(spiflash16mb[0][0]+spiflash16mb[4][0]-0.3,spiflash16mb[0][1]+spiflash16mb[4][1],spiflash16mb[0][0]+spiflash16mb[4][0]-0.3,spiflash16mb[0][1]+spiflash16mb[4][1]-0.3,0,0);
+bane(spiflash16mb[0][0]+spiflash16mb[5][0]+0.3,spiflash16mb[0][1]+spiflash16mb[5][1],-0.3,7,0,0);
+bane(-0.3,7,-1.4,6,0,0);
+bane(-1.4,6,rp2040[0][0]+rp2040[2][0]-1.4,rp2040[0][1]+rp2040[2][1]+1,0,0);
+bane(spiflash16mb[0][0]+spiflash16mb[6][0]+0.5,spiflash16mb[0][1]+spiflash16mb[6][1],1.4,8.3,0,0);
+bane(1.4,8.3,0.4,7,0,0);
+bane(0.4,7,-1.0,5.9,0,0);
+bane(-1.0,5.9,rp2040[0][0]+rp2040[2][0]-1.0,rp2040[0][1]+rp2040[2][1]+1.25,0,0);
+bane(spiflash16mb[0][0]+spiflash16mb[7][0]+0.5,spiflash16mb[0][1]+spiflash16mb[7][1],1.9,8.3,0,0);
+bane(1.9,8.3,0.9,7,0,0);
+bane(0.9,7,-0.6,5.8,0,0);
+bane(-0.6,5.8,rp2040[0][0]+rp2040[2][0]-0.6,rp2040[0][1]+rp2040[2][1]+1.5,0,0);
+bane(spiflash16mb[0][0]+spiflash16mb[8][0]+0.5,spiflash16mb[0][1]+spiflash16mb[8][1],spiflash16mb[0][0]+spiflash16mb[8][0]+0.5,spiflash16mb[0][1]+spiflash16mb[8][1]+3,0,0);
+//LED trace
+bane(rp2040[0][0]+rp2040[3][0]+2.0,rp2040[0][1]+rp2040[3][1]+1.2,rp2040[0][0]+rp2040[3][0]+1.6,rp2040[0][1]+rp2040[3][1]+0.6,0,0);
+bane(7.18,1,7.18,2,0,0);
+bane(8.18,0,9.18,0,0,0);
+    }     
+    }
+
+module roomfortraces () {
+ for (n=[1:1:len(pico)/2-2 ]){
+    baneplass(pico[0][0]+pico[n][0],pico[0][1]+pico[n][1],pico[0][0]+pico[n][0]+0.15*sqrt(abs(pico[0][1]+pico[n][1])*abs(pico[0][1]+pico[n][1])+abs(pico[0][0]+pico[n][0])*abs(pico[0][0]+pico[n][0])),pico[0][1]+pico[n][1],1,0);
+     translate([pico[0][0]+pico[n][0]-1,pico[0][1]+pico[n][1]+0.6,0])rotate([0,0,30])linear_extrude(6){text(str(n),0.41);}
+}
+for (o=[len(pico)/2-1:1:len(pico)-4]){
+    baneplass(pico[0][0]+pico[o][0],pico[0][1]+pico[o][1],pico[0][0]+pico[o][0]-0.15*sqrt(abs(pico[0][1]+pico[o][1])*abs(pico[0][1]+pico[o][1])+abs(pico[0][0]+pico[o][0])*abs(pico[0][0]+pico[o][0])),pico[0][1]+pico[o][1],1,0);
+    translate([pico[0][0]+pico[o][0]+0.6,pico[0][1]+pico[o][1]+0.8,0])rotate([0,0,-30])linear_extrude(6){text(str(o),0.41);}
+}
+   for(a=[0:90:359]){
+        for (b=[2.6:-0.4:-2.6]){
+            rotate([0,0,a])translate([7.26/2+0.2,b,0])baneplass(rp2040[1][1],rp2040[1][1],rp2040[1][1]+2-abs(b)*0.6,rp2040[1][1]+0,0,0);
+        }
+    }     
+baneplass(pico[9][0]+5.2,pico[9][1]+2,pico[9][0]+4.6,pico[9][1]+1,2,0);
+baneplass(pico[9][0]+4.6,pico[9][1]+1,rp2040[0][1]-4.22,rp2040[0][0]+2.6,0,0);
+baneplass(-5.0,pico[1][1],-5.2,pico[6][1],0,0); 
+baneplass(-5.2,pico[6][1],rp2040[0][0]-4.49,rp2040[0][1]+2.2,0,0);
+baneplass(-5.33,pico[2][1],-5.55,pico[6][1],0,0); 
+baneplass(-5.55,pico[6][1],rp2040[0][0]-4.74,rp2040[0][1]+1.8,0,0);
+baneplass(-6.13,pico[4][1],-6.03,pico[6][1],0,0); 
+baneplass(-6.03,pico[6][1],rp2040[0][0]-4.98,rp2040[0][1]+1.4,0,0);
+baneplass(-6.43,pico[5][1],-6.23,pico[7][1],0,0); 
+baneplass(-6.23,pico[7][1],rp2040[0][0]-5.22,rp2040[0][1]+1,0,0);     
+baneplass(-6.73,pico[6][1],-6.5,pico[8][1],0,0); 
+baneplass(-6.5,pico[8][1],rp2040[0][0]-5.45,rp2040[0][1]+0.6,0,0);   
+baneplass(-7.0,pico[7][1],-6.8,pico[9][1],0,0);
+baneplass(-6.8,pico[9][1],rp2040[0][0]-5.7,rp2040[0][1]+0.2,0,0);
+baneplass(-7.45,pico[9][1],rp2040[0][0]-5.9,rp2040[0][1]-0.2,0,0);
+baneplass(rp2040[0][0]-5.9,rp2040[0][1]-0.2,rp2040[0][0]-5.3,rp2040[0][1]-0.2,0,0);        
+baneplass(-7.55,pico[10][1],rp2040[0][0]-6.5,rp2040[0][1]+0.2,0,0);
+baneplass(rp2040[0][0]-6.5,rp2040[0][1]+0.2,rp2040[0][0]-6.1,rp2040[0][1]-0.6,0,0);
+baneplass(rp2040[0][0]-6.1,rp2040[0][1]-0.6,rp2040[0][0]-5.3,rp2040[0][1]-0.6,0,0);    
+baneplass(-7.4,pico[10][1]-1.4,rp2040[0][0]-6.2,rp2040[0][1]-1.0,2,0);
+baneplass(rp2040[0][0]-6.2,rp2040[0][1]-1.0,rp2040[0][0]-5.3,rp2040[0][1]-1.0,0,0);
+baneplass(-7.55,pico[11][1],rp2040[0][0]-4.99,rp2040[0][1]-1.4,0,0);
+baneplass(rp2040[0][0]-4.7,rp2040[0][1]-1.8,-7.45,pico[12][1],0,0);
+baneplass(rp2040[0][0]-4.5,rp2040[0][1]-2.2,-6.9,pico[14][1],0,0);
+baneplass(rp2040[0][0]-4.25,rp2040[0][1]-2.6,-6.65,pico[15][1],0,0);    
+baneplass(rp2040[0][0]-2.6,rp2040[0][1]-4.3,-6.35,pico[16][1],0,0);
+baneplass(rp2040[0][0]-2.2,rp2040[0][1]-4.5,-5.95,pico[17][1],0,0);
+baneplass(rp2040[0][0]-1.8,rp2040[0][1]-4.7,-5.4,pico[19][1],0,0);    
+baneplass(rp2040[0][0]-1.4,rp2040[0][1]-4.8,-5,pico[20][1],0,0);
+baneplass(rp2040[0][0]-1.0,rp2040[0][1]-4.8,rp2040[0][0]-1.30,pico[13][1],0,0);
+//chrystal to pin 1
+baneplass(rp2040[0][0]-0.6,rp2040[0][1]-5.25,chryst[0][0]+chryst[1][0]-1.0,chryst[0][1]+chryst[1][1]+1.8,0,0);
+baneplass(chryst[0][0]+chryst[1][0]-1.0,chryst[0][1]+chryst[1][1]+1.8,chryst[0][0]+chryst[1][0]-0.6,chryst[0][1]+chryst[1][1],0,0);
+//chrystal via R1k to pin 3
+baneplass(rp2040[0][0]-0.2,rp2040[0][1]-5.5,chryst[0][0]+chryst[3][0]-2.0,chryst[0][1]+chryst[3][1]+2.8,0,0);
+baneplass(chryst[0][0]+chryst[3][0]-2.0,chryst[0][1]+chryst[3][1]+1.6,chryst[0][0]+chryst[3][0]-0.6,chryst[0][1]+chryst[3][1],0,0);
+baneplass(chryst[0][0]+chryst[3][0]-0.3,chryst[0][1]+chryst[3][1],chryst[0][0]+chryst[1][0]+0.9,chryst[0][1]+chryst[1][1]-0,0,0);
+baneplass(chryst[0][0]+chryst[1][0]+0.9,chryst[0][1]+chryst[1][1]-0,chryst[0][0]+chryst[1][0]+0.8,chryst[0][1]+chryst[1][1]-1,0,0);
+baneplass(chryst[0][0]+chryst[1][0]-0.6,chryst[0][1]+chryst[1][1]-0,chryst[0][0]+chryst[1][0]-0.8,chryst[0][1]+chryst[1][1]-1,0,0);
+//3v3
+baneplass(rp2040[0][0]+0.2,rp2040[0][1]-5.5,rp2040[0][0]-0.6,pico[16][1],0,2);
+//1v1
+baneplass(rp2040[0][0]+0.6,rp2040[0][1]-5.5,rp2040[0][0]+0.3,pico[16][1]-1.4,0,2);
+baneplass(rp2040[0][0]+1.0,rp2040[0][1]-4.8,1.5,pico[41][1]+4,0,0);
+baneplass(1.5,pico[41][1]+4,pico[41][0],pico[41][1],0,1);
+baneplass(0,pico[42][1]+1.6,0,pico[42][1],0,1);
+baneplass(rp2040[0][0]+1.4,rp2040[0][1]-4.8,pico[43][0],pico[43][1],0,1);
+//run from rp2040  
+baneplass(rp2040[0][0]+1.8,rp2040[0][1]-4.8,rp2040[0][0]+3.2,pico[18][1],0,2);
+
+baneplass(rp2040[0][0]+2.2,rp2040[0][1]-4.5,pico[21][0]-3.9,pico[21][1],0,0); 
+baneplass(rp2040[0][0]+2.6,rp2040[0][1]-4.3,pico[22][0]-3.5,pico[22][1],0,0);
+baneplass(rp2040[0][1]+4.25,rp2040[0][0]-2.6,pico[24][0]-2.9,pico[24][1],0,0);
+baneplass(rp2040[0][1]+4.53,rp2040[0][0]-2.2,pico[25][0]-2.5,pico[25][1],0,0);
+baneplass(rp2040[0][1]+4.8,rp2040[0][0]-1.8,pico[26][0]-2.2,pico[26][1],0,0);
+baneplass(rp2040[0][1]+5,rp2040[0][0]-1.4,pico[27][0]-1.9,pico[27][1],0,0);
+//3v3
+baneplass(rp2040[0][1]+5.25,rp2040[0][0]-1.0,pico[29][0]-2.0,pico[29][1]-1,0,2);
+baneplass(rp2040[0][1]+5.5,rp2040[0][0]-0.6,pico[29][0]-1.5,pico[29][1],0,0);
+//Run reset pin
+baneplass(pico[30][0]-1.1,pico[30][1]-0.9,pico[30][0]-1.3,pico[30][1],2,0);
+//GPIO 23 and 24 unconnected
+baneplass(rp2040[0][1]+5.7,rp2040[0][0]+0.2,6.6,0.2,0,0);
+baneplass(rp2040[0][1]+5.7,rp2040[0][0]-0.2,6.5,-1.5,0,0);
+baneplass(pico[31][0]-1.4,pico[31][1]+2.2,rp2040[0][1]+5.25,rp2040[0][0]+1,0,0);
+baneplass(pico[31][0]-1.4,pico[31][1]+2.2,pico[31][0]-1.0,pico[31][1]+2.2,0,0);
+baneplass(pico[31][0]-1.0,pico[31][1]+2.2,pico[31][0]-0,pico[31][1],0,1);
+
+baneplass(pico[32][0]-1.5,pico[32][1],rp2040[0][1]+5.0,rp2040[0][0]+1.4,0,0);
+
+baneplass(pico[34][0]-1.9,pico[34][1],pico[32][0]-2.1,pico[32][1]+0.2,0,0);
+baneplass(pico[32][0]-2.1,pico[32][1]+0.2,rp2040[0][1]+4.8,rp2040[0][0]+1.8,0,0);
+//mosfet traces
+baneplass(sot523[0][0]+sot523[1][0]+0.6,sot523[0][1]+sot523[1][1],rp2040[0][1]+4.5,rp2040[0][0]+2.2,0,0);
+baneplass(sot523[0][0]+sot523[3][0]+0.7,sot523[0][1]+sot523[3][1]+2.6,sot523[0][0]+sot523[3][0]+0.4,sot523[0][1]+sot523[3][1]+0.6,0,0);
+baneplass(sot523[0][0]+sot523[3][0]-0.9,sot523[0][1]+sot523[3][1]+3,sot523[0][0]+sot523[3][0]+0.7,sot523[0][1]+sot523[3][1]+2.6,0,0);
+baneplass(sot523[0][0]+sot523[3][0]-0.9,sot523[0][1]+sot523[3][1]+2,sot523[0][0]+sot523[1][0],sot523[0][1]+sot523[1][1]+1,0,0);
+//3v3 upper right
+baneplass(pico[32][0]-5,pico[32][1],rp2040[0][1]+4.3,rp2040[0][0]+2.6,2,0);
+
+baneplass(pico[35][0]-5.0,pico[35][1]-4.5,rp2040[0][0]+2.6,rp2040[0][2]+4.3,0,0);
+baneplass(pico[35][0]-2.5,pico[35][1]-2,pico[35][0]-5.0,pico[35][1]-4.5,0,0);
+//USB traces
+baneplass(homebrusb[0][0]+homebrusb[1][0],homebrusb[0][1]+homebrusb[1][1]-0.7,homebrusb[0][0]+homebrusb[1][0],homebrusb[0][1]+homebrusb[1][1]-1.3,0,0);
+baneplass(homebrusb[0][0]+homebrusb[2][0],homebrusb[0][1]+homebrusb[2][1]-0.8,4.5,21+1.3,0,0);
+baneplass(5,21+1.5,pico[0][0]+pico[35][0]-2.7,pico[0][1]+pico[35][1]+2.2,0,0);
+baneplass(pico[0][0]+pico[35][0]-2.7,pico[0][1]+pico[35][1]+2.2,pico[0][0]+pico[35][0]-2.2,pico[0][1]+pico[35][1]+2.2,0,0);
+baneplass(pico[0][0]+pico[35][0]-2.2,pico[0][1]+pico[35][1]+2.2,pico[0][0]+pico[35][0]-2.2,pico[0][1]+pico[35][1]+0.7,0,0);
+baneplass(pico[0][0]+pico[35][0]-2.2,pico[0][1]+pico[35][1]+0.7,pico[0][0]+pico[35][0]-2.5,pico[0][1]+pico[35][1]+0.7,0,0);
+baneplass(4.5,21+1.3,5.8,pico[0][1]+pico[35][1]+1.8,0,0);
+baneplass(homebrusb[0][0]+homebrusb[3][0],homebrusb[0][1]+homebrusb[3][1]-0.6,5,21.1+1.5,0,0);
+baneplass(4.0,13.2,3.1,21-13,0,0);
+baneplass(4.0,13.2,4.2,13.2,0,0);
+baneplass(3.1,21-13,rp2040[0][0]+1,rp2040[0][1]+5.25,0,0);
+baneplass(4.2,12.2,3.45,21-13,0,0);
+baneplass(3.45,21-13,rp2040[0][0]+1.4,rp2040[0][1]+5.0,0,0);
+baneplass(homebrusb[0][0]+homebrusb[4][0],homebrusb[0][1]+homebrusb[4][1]-0.7,homebrusb[0][0]+homebrusb[4][0]+1.4,homebrusb[0][1]+homebrusb[4][1]-0.3,0,2);
+//Vreg traces
+baneplass(homebrusb[0][0]+homebrusb[1][0],homebrusb[0][1]+homebrusb[1][1]-0.7,-2,21.7,0,0);
+baneplass(homebrusb[0][0]+homebrusb[1][0]+0.7,homebrusb[0][1]+homebrusb[1][1],-0.5,21.7,0,0);
+baneplass(homebrusb[0][0]+homebrusb[1][0],homebrusb[0][1]+homebrusb[1][1]-3.7,-2.3,20.2,0,0);
+baneplass(-0.5,16.2,-0.5,20.2,0,0);
+baneplass(-3.5,19.1,-1.5,19.1,0,2);
+//top voltages
+baneplass(5.45,10.5,rp2040[0][0]+rp2040[2][0]+2.2,rp2040[0][1]+rp2040[2][1]+0.6,0,0);
+baneplass(5.15,10.6,rp2040[0][0]+rp2040[2][0]+1.8,rp2040[0][1]+rp2040[2][1]+0.5,0,0);
+baneplass(5.45,10.5,5.45,13.5,0,0);
+baneplass(5.15,10.6,5.15,13.5,0,0);
+baneplass(4.55,17.6,5.45,13.5,0,0);
+baneplass(4.55,17.6,0,16.5,0,0);
+baneplass(4.15,14.5,5.15,13.5,2,0);
+baneplass(2.4,7.5,rp2040[0][0]+rp2040[2][0]+0.2,rp2040[0][1]+rp2040[2][1]+1.6,0,0);
+baneplass(rp2040[0][0]+rp2040[2][0]+0.6,rp2040[0][1]+rp2040[2][1]+1.9,rp2040[0][0]+rp2040[2][0]+0.6,rp2040[0][1]+rp2040[2][1]+1.6,0,0);
+baneplass(2.0,7.5,rp2040[0][0]+rp2040[2][0]-0.2,rp2040[0][1]+rp2040[2][1]+1.8,0,0);
+baneplass(2.6,8.5,2.4,7.5,0,0);
+baneplass(3,10.5,2.6,8.5,0,0);
+baneplass(3,10.5,0,10.5,0,0);
+
+baneplass(2.2,8.5,2.0,7.5,0,0);
+baneplass(1.9,9.54,2.2,8.5,2,0);
+//SPIflash traces
+baneplass(spiflash16mb[0][0]+spiflash16mb[1][0]-0.5,spiflash16mb[0][1]+spiflash16mb[1][1],-4.7,9.7,0,0);
+baneplass(-4.7,9.7,-4.5,7.7,0,0);
+baneplass(-4.5,7.7,-2.6,6,0,0);
+baneplass(-2.6,6,rp2040[0][0]+rp2040[2][0]-2.6,rp2040[0][1]+rp2040[2][1]+0.25,0,0);
+baneplass(rp2040[0][0]+rp2040[2][0]-3.4,rp2040[0][1]+rp2040[2][1]+0.45,rp2040[0][0]+rp2040[2][0]-2.6,rp2040[0][1]+rp2040[2][1]+0.25,2,0);
+baneplass(spiflash16mb[0][0]+spiflash16mb[2][0]-0.5,spiflash16mb[0][1]+spiflash16mb[2][1],-4.0,8.7,0,0);
+baneplass(-4.0,8.7,-4.0,7.7,0,0);
+baneplass(-4.0,7.7,-2.2,6,0,0);
+baneplass(-2.2,6,rp2040[0][0]+rp2040[2][0]-2.2,rp2040[0][1]+rp2040[2][1]+0.5,0,0);
+baneplass(spiflash16mb[0][0]+spiflash16mb[3][0]-0.5,spiflash16mb[0][1]+spiflash16mb[3][1],-3.5,7.9,0,0);
+baneplass(-3.5,7.9,-1.8,6,0,0);
+baneplass(-1.8,6,rp2040[0][0]+rp2040[2][0]-1.8,rp2040[0][1]+rp2040[2][1]+0.75,0,0);
+baneplass(spiflash16mb[0][0]+spiflash16mb[4][0]-0.3,spiflash16mb[0][1]+spiflash16mb[4][1],spiflash16mb[0][0]+spiflash16mb[4][0]-0.3,spiflash16mb[0][1]+spiflash16mb[4][1]-0.3,0,0);
+baneplass(spiflash16mb[0][0]+spiflash16mb[5][0]+0.3,spiflash16mb[0][1]+spiflash16mb[5][1],-0.3,7,0,0);
+baneplass(-0.3,7,-1.4,6,0,0);
+baneplass(-1.4,6,rp2040[0][0]+rp2040[2][0]-1.4,rp2040[0][1]+rp2040[2][1]+1,0,0);
+baneplass(spiflash16mb[0][0]+spiflash16mb[6][0]+0.5,spiflash16mb[0][1]+spiflash16mb[6][1],1.4,8.3,0,0);
+baneplass(1.4,8.3,0.4,7,0,0);
+baneplass(0.4,7,-1.0,5.9,0,0);
+baneplass(-1.0,5.9,rp2040[0][0]+rp2040[2][0]-1.0,rp2040[0][1]+rp2040[2][1]+1.25,0,0);
+baneplass(spiflash16mb[0][0]+spiflash16mb[7][0]+0.5,spiflash16mb[0][1]+spiflash16mb[7][1],1.9,8.3,0,0);
+baneplass(1.9,8.3,0.9,7,0,0);
+baneplass(0.9,7,-0.6,5.8,0,0);
+baneplass(-0.6,5.8,rp2040[0][0]+rp2040[2][0]-0.6,rp2040[0][1]+rp2040[2][1]+1.5,0,0);
+baneplass(spiflash16mb[0][0]+spiflash16mb[8][0]+0.5,spiflash16mb[0][1]+spiflash16mb[8][1],spiflash16mb[0][0]+spiflash16mb[8][0]+0.5,spiflash16mb[0][1]+spiflash16mb[8][1]+3,0,0);
+//LED trace
+baneplass(rp2040[0][0]+rp2040[3][0]+2.0,rp2040[0][1]+rp2040[3][1]+1.2,rp2040[0][0]+rp2040[3][0]+1.6,rp2040[0][1]+rp2040[3][1]+0.6,0,0);
+baneplass(7.18,1,7.18,2,0,0);
+baneplass(8.18,0,9.18,0,0,0);
+    }
+module border(){
+ translate([0,0,1])difference(){
+cube([width+3*ramme,heigth+3*ramme,0.2],center=true);
+cube([width-ramme,heigth-ramme,4],center=true);
+}  
+}
+
+module copperclad (){
+translate([0,0,1])color("black")linear_extrude(0.1)polygon([[21/2,51/2],[21/2,-51/2],[-21/2,-51/2],[-21/2,51/2]]);  
+}
+
+//The two last arguments in "bane" is 1 for pad or 0 for via at start and end of trace
+module bane(startx,starty,sluttx,slutty,startpad,endpad){
+  difference(){
+     union(){
+         translate([0,0,1]) linear_extrude(0.1){
+        if (startpad==1)translate([startx,starty,0])rotate([0,0,360/(4*detail)])circle(pad, $fn=detail);
+            if (startpad==2)translate([startx,starty,0])rotate([0,0,360/(4*detail)])circle(pad*0.75, $fn=detail);
+       if (endpad==1)translate([sluttx,slutty,0])rotate([0,0,360/(4*detail)])circle(pad, $fn=detail);
+    if (endpad==2)translate([sluttx,slutty,0])rotate([0,0,360/(4*detail)])circle(pad*0.75, $fn=detail);   
+    translate([startx+(sluttx-startx)/2,starty+(slutty-starty)/2,-3])rotate([0,0,90+asin((sluttx-startx)/sqrt((sluttx-startx)*(sluttx-startx)+(slutty-starty)*(slutty-starty)))])square([sqrt((sluttx-startx)*(sluttx-startx)+(slutty-starty)*(slutty-starty)),trace],center=true);
+if (startpad==0)translate([startx,starty,1])circle(trace/2);
+if (endpad==0)translate([sluttx,slutty,1])circle(trace/2);
+    }
+}
+if (startpad==1)  translate([startx,starty,0])rotate([0,0,360/(4*detail)])cylinder(15,hullradius,hullradius,center=true );
+if (endpad==1) translate([sluttx,slutty,0])rotate([0,0,360/(4*detail)])cylinder(15,hullradius,hullradius,center=true );
+ if (startpad==2)  translate([startx,starty,0])rotate([0,0,360/(4*detail)])cylinder(15,hullradius,hullradius,center=true );
+if (endpad==2) translate([sluttx,slutty,0])rotate([0,0,360/(4*detail)])cylinder(15,hullradius,hullradius,center=true );   
+}
+}
+module baneplass(startx,starty,sluttx,slutty,startpad,endpad){
+  difference(){
+     union(){
+         translate([0,0,-10]) linear_extrude(60){
+        if (startpad==1)translate([startx,starty,0])rotate([0,0,360/(4*detail)])circle(pad+klaring, $fn=detail);
+            if (startpad==2)translate([startx,starty,0])rotate([0,0,360/(4*detail)])circle(pad*0.75+klaring, $fn=detail);
+       if (endpad==1)translate([sluttx,slutty,0])rotate([0,0,360/(4*detail)])circle(pad+klaring, $fn=detail);
+       if (endpad==2)translate([sluttx,slutty,0])rotate([0,0,360/(4*detail)])circle(pad*0.75+klaring, $fn=detail);
+    translate([startx+(sluttx-startx)/2,starty+(slutty-starty)/2,-3])rotate([0,0,90+asin((sluttx-startx)/sqrt((sluttx-startx)*(sluttx-startx)+(slutty-starty)*(slutty-starty)))])square([sqrt((sluttx-startx)*(sluttx-startx)+(slutty-starty)*(slutty-starty)),trace+klaring],center=true);
+if (startpad==0)translate([startx,starty,1])circle(trace/2+klaring);
+if (endpad==0)translate([sluttx,slutty,1])circle(trace/2+klaring);
+    if (startpad==2)  translate([startx,starty,0])rotate([0,0,360/(4*detail)])circle(hullradius);
+if (endpad==2) translate([sluttx,slutty,0])rotate([0,0,360/(4*detail)])circle(hullradius);
+    }
+}
+}
+}
