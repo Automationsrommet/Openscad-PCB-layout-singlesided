@@ -120,10 +120,21 @@ o6o3(2.8,15.9,100,0,"100n");
 module track (startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider,startpad,endcompx,endcompy,erotation,epinx,epiny,endtype,enddivider,endpad,room) {
     translate([startcompx,startcompy,0])rotate([0,0,srotation])translate([spinx,spiny,0])cylinder(5,0.5,0.5,center=true);
     translate([endcompx,endcompy,0])rotate([0,0,erotation])translate([epinx,epiny,0])cylinder(5,0.5,0.5,center=true);
-    startx=1;
-    starty=1;
-    endx=1;
-    endy=1;
+    startx=
+    sqrt(abs(spinx)*abs(spinx)+abs(spiny)*abs(spiny))*cos(-asin(spiny/abs(spinx)*abs(spinx)+abs(spiny)*abs(spiny)))
+    -sqrt(abs(spinx)*abs(spinx)+abs(spiny)*abs(spiny))*cos(-asin(spiny/abs(spinx)*abs(spinx)+abs(spiny)*abs(spiny))+srotation);
+    
+    starty=
+    sqrt(abs(spinx)*abs(spinx)+spiny*spiny)*sin(asin(spiny/abs(spinx)*abs(spinx)+spiny*spiny))
+    -sqrt(abs(spinx)*abs(spinx)+abs(spiny)*abs(spiny))*sin(asin(spiny/abs(spinx)*abs(spinx)+abs(spiny)*abs(spiny))+srotation);
+    endx=
+    sqrt(abs(epinx)*abs(epinx)+abs(epiny)*abs(epiny))*cos(asin(epiny/abs(epinx)*abs(epinx)+epiny*epiny))
+    -sqrt(abs(epinx)*abs(epinx)+abs(epiny)*abs(epiny))*cos(asin(epiny/abs(epinx)*abs(epinx)+abs(epiny)*abs(epiny))+erotation);
+    ;
+    endy=
+    sqrt(abs(epinx)*abs(epinx)+abs(epiny)*abs(epiny))*sin(asin(epiny/abs(epinx)*abs(epinx)+abs(epiny)*abs(epiny)))
+    -sqrt(abs(epinx)*abs(epinx)+abs(epiny)*abs(epiny))*sin(asin(epiny/abs(epinx)*abs(epinx)+abs(epiny)*abs(epiny))+erotation);
+    ;
     startendx=startx+(endx-startx)/2;
     startendy=starty+(endy-starty)/2;
     incrementxs=((endx-startx)/2)/(startdivider);
@@ -228,7 +239,7 @@ if (endpad==2) translate([endx,endy,0])rotate([0,0,360/(4*detail)])cylinder(15,h
    }        
     }
     module hyp(adjacent,opposite){
-     echo(sqrt(adjacent*adjacent+oppocite*oppocite)); 
+     echo(sqrt(abs(adjacent)*abs(adjacent)+abs(oppocite)*abs(oppocite))); 
     }
 module label(posx,posy,rotation,mirr,labeltext,size,labelfont) {
       translate([0,0,-1])linear_extrude(6){
@@ -309,4 +320,5 @@ cube([width-frame,heigth-frame,4],center=true);
 module copperclad (){
 translate([0,0,1])color("black")linear_extrude(0.1)polygon([[21/2,51/2],[21/2,-51/2],[-21/2,-51/2],[-21/2,51/2]]);  
 }
+
 
