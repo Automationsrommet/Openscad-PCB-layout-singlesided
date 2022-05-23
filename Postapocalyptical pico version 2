@@ -1,4 +1,4 @@
-//Here is my postapocalyptical pico, made mostly with parts I have on hand.
+ //Here is my postapocalyptical pico, made mostly with parts I have on hand.
 //The goal is that one should be able to alter it to meet needs. It is not there yet.
 //Todo: Chekt if th DPAK even fits. Write 4 trace-functions into one smooth curve. Angle everything. ground points #3.
 
@@ -88,6 +88,7 @@ color("black")union(){
 
 track(pico[0][0],pico[0][1],pico[0][2],pico[1][0],pico[1][1],1,4,2,pico[0][0],pico[0][1],pico[0][2],pico[26][0],pico[26][1],1,4,1,0);
 track(pico[0][0],pico[0][1],pico[0][2],pico[5][0],pico[5][1],1,2,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[3][0],rp2040[3][1],0,2,0,0);
+track(rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[40][0],rp2040[40][1],1,2,2,pico[0][0],pico[0][1],pico[0][2],pico[36][0],pico[36][1],0,2,0,0);
 border();
 rp20footprint(offsetX,offsetY,rp2040[0][2],0);
 usbb(homebrusb[0][0],homebrusb[0][1],homebrusb[0][2],"Homemade","USB-B",0);
@@ -120,21 +121,15 @@ o6o3(2.8,15.9,100,0,"100n");
 module track (startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider,startpad,endcompx,endcompy,erotation,epinx,epiny,endtype,enddivider,endpad,room) {
     translate([startcompx,startcompy,0])rotate([0,0,srotation])translate([spinx,spiny,0])cylinder(5,0.5,0.5,center=true);
     translate([endcompx,endcompy,0])rotate([0,0,erotation])translate([epinx,epiny,0])cylinder(5,0.5,0.5,center=true);
-    startx=
-    sqrt(abs(spinx)*abs(spinx)+abs(spiny)*abs(spiny))*cos(-asin(spiny/abs(spinx)*abs(spinx)+abs(spiny)*abs(spiny)))
-    -sqrt(abs(spinx)*abs(spinx)+abs(spiny)*abs(spiny))*cos(-asin(spiny/abs(spinx)*abs(spinx)+abs(spiny)*abs(spiny))+srotation);
+   
+    startx=startcompx+spinx+sqrt(spinx*spinx+spiny*spiny)*cos((180-srotation)/2);
     
-    starty=
-    sqrt(abs(spinx)*abs(spinx)+spiny*spiny)*sin(asin(spiny/abs(spinx)*abs(spinx)+spiny*spiny))
-    -sqrt(abs(spinx)*abs(spinx)+abs(spiny)*abs(spiny))*sin(asin(spiny/abs(spinx)*abs(spinx)+abs(spiny)*abs(spiny))+srotation);
-    endx=
-    sqrt(abs(epinx)*abs(epinx)+abs(epiny)*abs(epiny))*cos(asin(epiny/abs(epinx)*abs(epinx)+epiny*epiny))
-    -sqrt(abs(epinx)*abs(epinx)+abs(epiny)*abs(epiny))*cos(asin(epiny/abs(epinx)*abs(epinx)+abs(epiny)*abs(epiny))+erotation);
-    ;
-    endy=
-    sqrt(abs(epinx)*abs(epinx)+abs(epiny)*abs(epiny))*sin(asin(epiny/abs(epinx)*abs(epinx)+abs(epiny)*abs(epiny)))
-    -sqrt(abs(epinx)*abs(epinx)+abs(epiny)*abs(epiny))*sin(asin(epiny/abs(epinx)*abs(epinx)+abs(epiny)*abs(epiny))+erotation);
-    ;
+    starty=startcompy+spiny+sqrt(spinx*spinx+spiny*spiny)*sin((180-srotation));
+ 
+    endx=endcompx+epinx+sqrt(spinx*spinx+spiny*spiny)*-0.25*cos((180-erotation)/2);
+    
+    endy=endcompy+epiny+sqrt(spinx*spinx+spiny*spiny)*-0.25*sin((180-erotation));
+   
     startendx=startx+(endx-startx)/2;
     startendy=starty+(endy-starty)/2;
     incrementxs=((endx-startx)/2)/(startdivider);
@@ -320,5 +315,3 @@ cube([width-frame,heigth-frame,4],center=true);
 module copperclad (){
 translate([0,0,1])color("black")linear_extrude(0.1)polygon([[21/2,51/2],[21/2,-51/2],[-21/2,-51/2],[-21/2,51/2]]);  
 }
-
-
