@@ -81,14 +81,18 @@ label(4.5,18,98,0,"open hardware", 0.4,"Courier");
 label(3.8,17.9,95,0,"version 1 Melbu april22", 0.23,"Courier");
 }}
 
-color("black")union(){
+color("blac k")union(){
 //track parameters:
 // startcompx,startcompy,startrotation,startx,starty,starttype,startdivider,startpad,
 //endcompx,endcompy,endrotation,endx,endy,endtype,enddivider,endpad,room
 
-track(pico[0][0],pico[0][1],pico[0][2],pico[1][0],pico[1][1],1,4,2,pico[0][0],pico[0][1],pico[0][2],pico[26][0],pico[26][1],1,4,1,0);
-track(pico[0][0],pico[0][1],pico[0][2],pico[5][0],pico[5][1],1,2,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[3][0],rp2040[3][1],0,2,0,0);
-track(rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[40][0],rp2040[40][1],1,2,2,pico[0][0],pico[0][1],pico[0][2],pico[36][0],pico[36][1],0,2,0,0);
+track(pico[0][0],pico[0][1],pico[0][2],pico[1][0],pico[1][1],1,4,2,pico[0][0],pico[0][1],pico[0][2],pico[26][0],pico[26][1],1,4,2,0);
+track(pico[0][0],pico[0][1],pico[0][2],pico[5][0],pico[5][1],1,3,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[1][0],rp2040[1][1],0,3,2,0);
+track(rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[50][0],rp2040[50][1],1,3,2,pico[0][0],pico[0][1],pico[0][2],pico[35][0],pico[35][1],0,3,2,0);
+    
+    track(rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[29][0],rp2040[29][1],1,3,2,pico[0][0],pico[0][1],pico[0][2],pico[21][0],pico[21][1],0,3,2,0);
+    
+    
 border();
 rp20footprint(offsetX,offsetY,rp2040[0][2],0);
 usbb(homebrusb[0][0],homebrusb[0][1],homebrusb[0][2],"Homemade","USB-B",0);
@@ -119,16 +123,16 @@ o6o3(2.8,15.9,100,0,"100n");
 
 //   ****            MODULES       ****
 module track (startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider,startpad,endcompx,endcompy,erotation,epinx,epiny,endtype,enddivider,endpad,room) {
-    translate([startcompx,startcompy,0])rotate([0,0,srotation])translate([spinx,spiny,0])cylinder(5,0.5,0.5,center=true);
-    translate([endcompx,endcompy,0])rotate([0,0,erotation])translate([epinx,epiny,0])cylinder(5,0.5,0.5,center=true);
+    color("red")translate([startcompx,startcompy,0])rotate([0,0,srotation])translate([spinx,spiny,0])cylinder(5,0.3,0.3,center=true);
+    color("green")translate([endcompx,endcompy,0])rotate([0,0,erotation])translate([epinx,epiny,0])cylinder(5,0.3,0.3,center=true);
    
-    startx=startcompx+spinx+sqrt(spinx*spinx+spiny*spiny)*cos((180-srotation)/2);
+    startx=startcompx+spinx+sqrt(spinx*spinx+spiny*spiny)*-1.95*(cos((180-srotation)/2));
     
-    starty=startcompy+spiny+sqrt(spinx*spinx+spiny*spiny)*sin((180-srotation));
+    starty=startcompy+spiny+sqrt(spinx*spinx+spiny*spiny)*-0.23*sin((-180+srotation));
  
-    endx=endcompx+epinx+sqrt(spinx*spinx+spiny*spiny)*-0.25*cos((180-erotation)/2);
+    endx=endcompx+epinx+sqrt(spinx*spinx+spiny*spiny)*-0.42*cos((-180+erotation)/2);
     
-    endy=endcompy+epiny+sqrt(spinx*spinx+spiny*spiny)*-0.25*sin((180-erotation));
+    endy=endcompy+epiny+sqrt(spinx*spinx+spiny*spiny)*-0.38*sin((erotation)/2);
    
     startendx=startx+(endx-startx)/2;
     startendy=starty+(endy-starty)/2;
@@ -173,13 +177,14 @@ module track (startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider
             translate([pointsend[l][0]+(pointsend[l-1][0]-pointsend[l][0])/2,pointsend[l][1]+(pointsend[l-1][1]-pointsend[l][1])/2,1])rotate([0,0,90-asin((pointsend[l-1][0]-pointsend[l][0])/sqrt((pointsend[l-1][0]-pointsend[l][0])*(pointsend[l-1][0]-pointsend[l][0])+(pointsend[l-1][1]-pointsend[l][1])*(pointsend[l-1][1]-pointsend[l][1])))])square([sqrt((pointsend[l-1][0]-pointsend[l][0])*(pointsend[l-1][0]-pointsend[l][0])+(pointsend[l-1][1]-pointsend[l][1])*(pointsend[l-1][1]-pointsend[l][1])),trace],center=true);
             }
          if(l==enddivider-1) {
+             if (pointscurveend[l][1]>=endy){
           translate([endx+(pointsend[l-1][0]-endx)/2,endy+(pointsend[l-1][1]-endy)/2,1])rotate([0,0,90-asin((pointsend[l-1][0]-endx)/sqrt((pointsend[l-1][0]-endx)*(pointsend[l-1][0]-endx)+(pointsend[l-1][1]-endy)*(pointsend[l-1][1]-endy)))])square([sqrt((pointsend[l-1][0]-endx)*(pointsend[l-1][0]-endx)+(pointsend[l-1][1]-endy)*(pointsend[l-1][1]-endy)),trace],center=true);
          }
       else
        {
-          translate([endx+(pointsend[l-1][0]-endx)/2,endy+(pointsend[l-1][1]-endy)/2,1])rotate([0,0,asin((pointsend[l-1][0]-endx)/sqrt((pointsend[l-1][0]-endx)*(pointsend[l-1][0]-endx)+(pointsend[l-1][1]-endy)*(pointsend[l-1][1]-endy)))])square([sqrt((pointsend[l-1][0]-endx)*(pointsend[l-1][0]-endx)+(pointsend[l-1][1]-endy)*(pointsend[l-1][1]-endy)),trace],center=true);
+          translate([endx+(pointsend[l-1][0]-endx)/2,endy+(pointsend[l-1][1]-endy)/2,1])rotate([0,0,90+asin((pointsend[l-1][0]-endx)/sqrt((pointsend[l-1][0]-endx)*(pointsend[l-1][0]-endx)+(pointsend[l-1][1]-endy)*(pointsend[l-1][1]-endy)))])square([sqrt((pointsend[l-1][0]-endx)*(pointsend[l-1][0]-endx)+(pointsend[l-1][1]-endy)*(pointsend[l-1][1]-endy)),trace],center=true);
          }     
-        }         
+        }  }       
             }       
            for (m=[1:1:startdivider]){
             if (starttype==1){
