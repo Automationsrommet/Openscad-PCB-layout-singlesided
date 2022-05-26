@@ -1,6 +1,8 @@
- //Here is my postapocalyptical pico, made mostly with parts I have on hand.
-//The goal is that one should be able to alter it to meet needs. It is not there yet.
-//Todo: Chekt if th DPAK even fits. Write 4 trace-functions into one smooth curve. Angle everything. ground points #3.
+  //Here is my postapocalyptical pico, made mostly with parts I have on hand.
+//Todo: 
+//Chekt if th DPAK even fits. 
+//Write 4 trace-functions into one smooth curve. 
+//Angle everything. ground points #3.
 
 //Input parameters
 
@@ -14,7 +16,7 @@ detail=5;
 frame=0.6;
 heigth=51;
 width=21;
-//components input, center x, y and rotation, then pins
+//components input, center x, y and rotation, then pin coordinates relative to center of component
 
 chryst=[
 [-1,-18,0],[-1.15,-0.95],[1.15,-0.95],[1.15,0.95],[-1.15,0.95]];
@@ -32,7 +34,7 @@ pico=[
 [0, 0, 0],[-17.78/2,48.26/2],[-17.78/2,48.26/2-2.54*1],[-17.78/2,48.26/2-2.54*2],[-17.78/2,48.26/2-2.54*3],[-17.78/2,48.26/2-2.54*4],[-17.78/2,48.26/2-2.54*5],[-17.78/2,48.26/2-2.54*6],[-17.78/2,48.26/2-2.54*7],[-17.78/2,48.26/2-2.54*8],[-17.78/2,48.26/2-2.54*9],[-17.78/2,48.26/2-2.54*10],[-17.78/2,48.26/2-2.54*11],[-17.78/2,48.26/2-2.54*12],[-17.78/2,48.26/2-2.54*13],[-17.78/2,48.26/2-2.54*14],[-17.78/2,48.26/2-2.54*15],[-17.78/2,48.26/2-2.54*16],[-17.78/2,48.26/2-2.54*17],[-17.78/2,48.26/2-2.54*18],[-17.78/2,48.26/2-2.54*19],[17.78/2,48.26/2-2.54*19],[17.78/2,48.26/2-2.54*18],[17.78/2,48.26/2-2.54*17],[17.78/2,48.26/2-2.54*16],[17.78/2,48.26/2-2.54*15],[17.78/2,48.26/2-2.54*14],[17.78/2,48.26/2-2.54*13],[17.78/2,48.26/2-2.54*12],[17.78/2,48.26/2-2.54*11],[17.78/2,48.26/2-2.54*10],[17.78/2,48.26/2-2.54*9],[17.78/2,48.26/2-2.54*8],[17.78/2,48.26/2-2.54*7],[17.78/2,48.26/2-2.54*6],[17.78/2,48.26/2-2.54*5],[17.78/2,48.26/2-2.54*4],[17.78/2,48.26/2-2.54*3],[17.78/2,48.26/2-2.54*2],[17.78/2,48.26/2-2.54*1],[17.78/2,48.26/2],[-2.54,-51/2+1.6],[0,-51/2+1.6],[2.54,-51/2+1.6]
 ];
 rp2040=[
-[0,0,-30],
+[0,-10,-30],
 [-7.75/2,+2.6],[-7.75/2,+2.2],[-7.75/2,1.8],[-7.75/2,1.4],[-7.75/2,1.0],[-7.75/2,0.6],[-7.75/2,0.2],[-7.75/2,-0.2],[-7.75/2,-0.6],[-7.75/2,-1],[-7.75/2,-1.4],[-7.75/2,-1.8],[-7.75/2,-2.2],[-7.75/2,-2.6],
 [-2.6,-7.75/2],[-2.2,-7.75/2],[-1.8,-7.75/2],[-1.4,-7.75/2],[-1,-7.75/2],[-0.6,-7.75/2],[-0.2,-7.75/2],[0.2,-7.75/2],[0.6,-7.75/2],[1,-7.75/2],[1.4,-7.75/2],[1.8,-7.75/2],[2.2,-7.75/2],[2.6,-7.75/2],
 [7.75/2,-2.6],[7.75/2,-2.2],[7.75/2,-1.8],[7.75/2,-1.4],[7.75/2,-1],[7.75/2,-0.6],[7.75/2,-0.2],[7.75/2,0.2],[7.75/2,0.6],[7.75/2,1],[7.75/2,1.4],[7.75/2,1.8],[7.75/2,2.2],[7.75/2,2.6],
@@ -50,7 +52,7 @@ difference(){
 color("white")union(){
    
 
-rp20footprint(offsetX,offsetY,rp2040[0][2],clearance);    
+rp20footprint(rp2040[0][0],rp2040[0][1],rp2040[0][2],clearance);    
 usbb(homebrusb[0][0],homebrusb[0][1],homebrusb[0][2],"Homemade","USB-B",clearance);
 DPAK3V3(DPAK[0][0],DPAK[0][1],DPAK[0][2],clearance);
 o6o3(5.3,12,0,clearance," ");
@@ -82,19 +84,19 @@ label(3.8,17.9,95,0,"version 1 Melbu april22", 0.23,"Courier");
 }}
 
 color("blac k")union(){
-//track parameters:
+//my monster function "track" parameters:
 // startcompx,startcompy,startrotation,startx,starty,starttype,startdivider,startpad,
 //endcompx,endcompy,endrotation,endx,endy,endtype,enddivider,endpad,room
 
-track(pico[0][0],pico[0][1],pico[0][2],pico[1][0],pico[1][1],1,4,2,pico[0][0],pico[0][1],pico[0][2],pico[26][0],pico[26][1],1,4,2,0);
-track(pico[0][0],pico[0][1],pico[0][2],pico[5][0],pico[5][1],1,3,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[1][0],rp2040[1][1],0,3,2,0);
-track(rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[50][0],rp2040[50][1],1,3,2,pico[0][0],pico[0][1],pico[0][2],pico[35][0],pico[35][1],0,3,2,0);
-    
-    track(rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[29][0],rp2040[29][1],1,3,2,pico[0][0],pico[0][1],pico[0][2],pico[21][0],pico[21][1],0,3,2,0);
+
+track(pico[0][0],pico[0][1],pico[0][2],pico[1][0],pico[1][1],1,4,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[2][0],rp2040[2][1],1,4,0,0);
+track(pico[0][0],pico[0][1],pico[0][2],pico[2][0],pico[2][1],1,3,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[3][0],rp2040[3][1],0,3,0,0);
+track(pico[0][0],pico[0][1],pico[0][2],pico[4][0],pico[4][1],0,3,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[4][0],rp2040[4][1],1,3,0,0);
+track(pico[0][0],pico[0][1],pico[0][2],pico[5][0],pico[5][1],0,3,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[5][0],rp2040[5][1],1,3,0,0);
     
     
 border();
-rp20footprint(offsetX,offsetY,rp2040[0][2],0);
+rp20footprint(rp2040[0][0],rp2040[0][1],rp2040[0][2],0);
 usbb(homebrusb[0][0],homebrusb[0][1],homebrusb[0][2],"Homemade","USB-B",0);
 DPAK3V3(DPAK[0][0],DPAK[0][1],DPAK[0][2],0);
 o6o3(5.3,12,0,0," ");
@@ -126,13 +128,19 @@ module track (startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider
     color("red")translate([startcompx,startcompy,0])rotate([0,0,srotation])translate([spinx,spiny,0])cylinder(5,0.3,0.3,center=true);
     color("green")translate([endcompx,endcompy,0])rotate([0,0,erotation])translate([epinx,epiny,0])cylinder(5,0.3,0.3,center=true);
    
-    startx=startcompx+spinx+sqrt(spinx*spinx+spiny*spiny)*-1.95*(cos((180-srotation)/2));
     
-    starty=startcompy+spiny+sqrt(spinx*spinx+spiny*spiny)*-0.23*sin((-180+srotation));
- 
-    endx=endcompx+epinx+sqrt(spinx*spinx+spiny*spiny)*-0.42*cos((-180+erotation)/2);
+    startradius=sqrt(spinx*spinx+spiny*spiny);
+    endradius=sqrt(epinx*epinx+epiny*epiny);
     
-    endy=endcompy+epiny+sqrt(spinx*spinx+spiny*spiny)*-0.38*sin((erotation)/2);
+    oldangle=[90-asin(spinx/startradius),90-asin(epinx/endradius)];
+    newangle=[ oldangle[0]+srotation,oldangle[1]+erotation];
+    
+    coords=[ [startradius*cos(newangle[0]), startradius*sin(newangle[0])*(newangle[1]/(abs(newangle[1])))],[endradius*cos(newangle[1]),endradius*sin(newangle[1])*(epiny/(abs(epiny)))] ];
+    
+    startx=coords[0][0];
+    starty=coords[0][1];
+    endx=coords[1][0];
+    endy=coords[1][1];
    
     startendx=startx+(endx-startx)/2;
     startendy=starty+(endy-starty)/2;
@@ -159,60 +167,37 @@ module track (startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider
 //   }
     for (k=[1:1:startdivider]){
             if (starttype==0){
-                if (pointsstart[k][1]>=pointsstart[k-1][1]){
-            translate([pointsstart[k][0]+(pointsstart[k-1][0]-pointsstart[k][0])/2,pointsstart[k][1]+(pointsstart[k-1][1]-pointsstart[k][1])/2,1])rotate([0,0,90+asin((pointsstart[k-1][0]-pointsstart[k][0])/sqrt((pointsstart[k-1][0]-pointsstart[k][0])*(pointsstart[k-1][0]-pointsstart[k][0])+(pointsstart[k-1][1]-pointsstart[k][1])*(pointsstart[k-1][1]-pointsstart[k][1])))])square([sqrt((pointsstart[k-1][0]-pointsstart[k][0])*(pointsstart[k-1][0]-pointsstart[k][0])+(pointsstart[k-1][1]-pointsstart[k][1])*(pointsstart[k-1][1]-pointsstart[k][1])),trace],center=true);
-            } 
-            else{
-                translate([pointsstart[k][0]+(pointsstart[k-1][0]-pointsstart[k][0])/2,pointsstart[k][1]+(pointsstart[k-1][1]-pointsstart[k][1])/2,1])rotate([0,0,90-asin((pointsstart[k-1][0]-pointsstart[k][0])/sqrt((pointsstart[k-1][0]-pointsstart[k][0])*(pointsstart[k-1][0]-pointsstart[k][0])+(pointsstart[k-1][1]-pointsstart[k][1])*(pointsstart[k-1][1]-pointsstart[k][1])))])square([sqrt((pointsstart[k-1][0]-pointsstart[k][0])*(pointsstart[k-1][0]-pointsstart[k][0])+(pointsstart[k-1][1]-pointsstart[k][1])*(pointsstart[k-1][1]-pointsstart[k][1])),trace],center=true);
-                }
+                updowntest1=pointsstart[k][1]-pointsstart[k-1][1];
+            translate([pointsstart[k][0]+(pointsstart[k-1][0]-pointsstart[k][0])/2,pointsstart[k][1]+(pointsstart[k-1][1]-pointsstart[k][1])/2,1])rotate([0,0,90-(updowntest1/(abs(updowntest1)))*asin((pointsstart[k-1][0]-pointsstart[k][0])/sqrt((pointsstart[k-1][0]-pointsstart[k][0])*(pointsstart[k-1][0]-pointsstart[k][0])+(pointsstart[k-1][1]-pointsstart[k][1])*(pointsstart[k-1][1]-pointsstart[k][1])))])square([sqrt((pointsstart[k-1][0]-pointsstart[k][0])*(pointsstart[k-1][0]-pointsstart[k][0])+(pointsstart[k-1][1]-pointsstart[k][1])*(pointsstart[k-1][1]-pointsstart[k][1])),trace],center=true);
+            
         }           
             }
     for (l=[1:1:enddivider-1]){
             if (endtype==0){
-                if (pointsend[l][1]>=pointsend[l-1][1]){
-           translate([pointsend[l][0]+(pointsend[l-1][0]-pointsend[l][0])/2,pointsend[l][1]+(pointsend[l-1][1]-pointsend[l][1])/2,1])rotate([0,0,90+asin((pointsend[l-1][0]-pointsend[l][0])/sqrt((pointsend[l-1][0]-pointsend[l][0])*(pointsend[l-1][0]-pointsend[l][0])+(pointsend[l-1][1]-pointsend[l][1])*(pointsend[l-1][1]-pointsend[l][1])))])square([sqrt((pointsend[l-1][0]-pointsend[l][0])*(pointsend[l-1][0]-pointsend[l][0])+(pointsend[l-1][1]-pointsend[l][1])*(pointsend[l-1][1]-pointsend[l][1])),trace],center=true);
-            }   
-            else
-                {
-            translate([pointsend[l][0]+(pointsend[l-1][0]-pointsend[l][0])/2,pointsend[l][1]+(pointsend[l-1][1]-pointsend[l][1])/2,1])rotate([0,0,90-asin((pointsend[l-1][0]-pointsend[l][0])/sqrt((pointsend[l-1][0]-pointsend[l][0])*(pointsend[l-1][0]-pointsend[l][0])+(pointsend[l-1][1]-pointsend[l][1])*(pointsend[l-1][1]-pointsend[l][1])))])square([sqrt((pointsend[l-1][0]-pointsend[l][0])*(pointsend[l-1][0]-pointsend[l][0])+(pointsend[l-1][1]-pointsend[l][1])*(pointsend[l-1][1]-pointsend[l][1])),trace],center=true);
-            }
+                srs=pointsend[l][1]-pointsend[l-1][1];
+               translate([pointsend[l][0]+(pointsend[l-1][0]-pointsend[l][0])/2,pointsend[l][1]+(pointsend[l-1][1]-pointsend[l][1])/2,1])rotate([0,0,90+(srs/(abs(srs)))*asin((pointsend[l-1][0]-pointsend[l][0])/sqrt((pointsend[l-1][0]-pointsend[l][0])*(pointsend[l-1][0]-pointsend[l][0])+(pointsend[l-1][1]-pointsend[l][1])*(pointsend[l-1][1]-pointsend[l][1])))])square([sqrt((pointsend[l-1][0]-pointsend[l][0])*(pointsend[l-1][0]-pointsend[l][0])+(pointsend[l-1][1]-pointsend[l][1])*(pointsend[l-1][1]-pointsend[l][1])),trace],center=true);
+          
          if(l==enddivider-1) {
-             if (pointscurveend[l][1]>=endy){
-          translate([endx+(pointsend[l-1][0]-endx)/2,endy+(pointsend[l-1][1]-endy)/2,1])rotate([0,0,90-asin((pointsend[l-1][0]-endx)/sqrt((pointsend[l-1][0]-endx)*(pointsend[l-1][0]-endx)+(pointsend[l-1][1]-endy)*(pointsend[l-1][1]-endy)))])square([sqrt((pointsend[l-1][0]-endx)*(pointsend[l-1][0]-endx)+(pointsend[l-1][1]-endy)*(pointsend[l-1][1]-endy)),trace],center=true);
-         }
-      else
-       {
-          translate([endx+(pointsend[l-1][0]-endx)/2,endy+(pointsend[l-1][1]-endy)/2,1])rotate([0,0,90+asin((pointsend[l-1][0]-endx)/sqrt((pointsend[l-1][0]-endx)*(pointsend[l-1][0]-endx)+(pointsend[l-1][1]-endy)*(pointsend[l-1][1]-endy)))])square([sqrt((pointsend[l-1][0]-endx)*(pointsend[l-1][0]-endx)+(pointsend[l-1][1]-endy)*(pointsend[l-1][1]-endy)),trace],center=true);
-         }     
+             sre=endy-pointscurveend[l][1];
+             translate([endx+(pointsend[l-1][0]-endx)/2,endy+(pointsend[l-1][1]-endy)/2,1])rotate([0,0,90+(sre/(abs(sre)))*asin((pointsend[l-1][0]-endx)/sqrt((pointsend[l-1][0]-endx)*(pointsend[l-1][0]-endx)+(pointsend[l-1][1]-endy)*(pointsend[l-1][1]-endy)))])square([sqrt((pointsend[l-1][0]-endx)*(pointsend[l-1][0]-endx)+(pointsend[l-1][1]-endy)*(pointsend[l-1][1]-endy)),trace],center=true);
+       
         }  }       
             }       
            for (m=[1:1:startdivider]){
             if (starttype==1){
-                if (pointscurvestart[m][1]>=pointscurvestart[m-1][1]){
-            translate([pointscurvestart[m][0]+(pointscurvestart[m-1][0]-pointscurvestart[m][0])/2,pointscurvestart[m][1]+(pointscurvestart[m-1][1]-pointscurvestart[m][1])/2,1])rotate([0,0,90+asin((pointscurvestart[m-1][0]-pointscurvestart[m][0])/sqrt((pointscurvestart[m-1][0]-pointscurvestart[m][0])*(pointscurvestart[m-1][0]-pointscurvestart[m][0])+(pointscurvestart[m-1][1]-pointscurvestart[m][1])*(pointscurvestart[m-1][1]-pointscurvestart[m][1])))])square([sqrt((pointscurvestart[m-1][0]-pointscurvestart[m][0])*(pointscurvestart[m-1][0]-pointscurvestart[m][0])+(pointscurvestart[m-1][1]-pointscurvestart[m][1])*(pointscurvestart[m-1][1]-pointscurvestart[m][1]))+clearance,trace+room*clearance],center=true);
-//translate([pointscurvestart[m][1],pointscurvestart[m][1],1])circle(trace/2+clearance*room);
-                    }
-            else{
-                translate([pointscurvestart[m][0]+(pointscurvestart[m-1][0]-pointscurvestart[m][0])/2,pointscurvestart[m][1]+(pointscurvestart[m-1][1]-pointscurvestart[m][1])/2,1])rotate([0,0,90-asin((pointscurvestart[m-1][0]-pointscurvestart[m][0])/sqrt((pointscurvestart[m-1][0]-pointscurvestart[m][0])*(pointscurvestart[m-1][0]-pointscurvestart[m][0])+(pointscurvestart[m-1][1]-pointscurvestart[m][1])*(pointscurvestart[m-1][1]-pointscurvestart[m][1])))])square([sqrt((pointscurvestart[m-1][0]-pointscurvestart[m][0])*(pointscurvestart[m-1][0]-pointscurvestart[m][0])+(pointscurvestart[m-1][1]-pointscurvestart[m][1])*(pointscurvestart[m-1][1]-pointscurvestart[m][1]))+clearance,trace+room*clearance],center=true);
-//translate([pointscurvestart[m][1],pointscurvestart[m][1],1])circle(trace/2+clearance*room);
-                }
-            
-         }   
+                mrc=pointscurvestart[m][1]-pointscurvestart[m-1][1];
+                translate([pointscurvestart[m][0]+(pointscurvestart[m-1][0]-pointscurvestart[m][0])/2,pointscurvestart[m][1]+(pointscurvestart[m-1][1]-pointscurvestart[m][1])/2,1])rotate([0,0,90+(mrc/(abs(mrc)))*asin((pointscurvestart[m-1][0]-pointscurvestart[m][0])/sqrt((pointscurvestart[m-1][0]-pointscurvestart[m][0])*(pointscurvestart[m-1][0]-pointscurvestart[m][0])+(pointscurvestart[m-1][1]-pointscurvestart[m][1])*(pointscurvestart[m-1][1]-pointscurvestart[m][1])))])square([sqrt((pointscurvestart[m-1][0]-pointscurvestart[m][0])*(pointscurvestart[m-1][0]-pointscurvestart[m][0])+(pointscurvestart[m-1][1]-pointscurvestart[m][1])*(pointscurvestart[m-1][1]-pointscurvestart[m][1]))+clearance,trace+room*clearance],center=true);
+
+             }   
             }
     for (n=[1:1:enddivider-1]){
             if (endtype==1){
-                if (pointscurveend[n][1]>=pointscurveend[n-1][1]){
-            translate([pointscurveend[n][0]+(pointscurveend[n-1][0]-pointscurveend[n][0])/2,pointscurveend[n][1]+(pointscurveend[n-1][1]-pointscurveend[n][1])/2,1])rotate([0,0,90+asin((pointscurveend[n-1][0]-pointscurveend[n][0])/sqrt((pointscurveend[n-1][0]-pointscurveend[n][0])*(pointscurveend[n-1][0]-pointscurveend[n][0])+(pointscurveend[n-1][1]-pointscurveend[n][1])*(pointscurveend[n-1][1]-pointscurveend[n][1])))])square([sqrt((pointscurveend[n-1][0]-pointscurveend[n][0])*(pointscurveend[n-1][0]-pointscurveend[n][0])+(pointscurveend[n-1][1]-pointscurveend[n][1])*(pointscurveend[n-1][1]-pointscurveend[n][1]))+clearance,trace+room*clearance],center=true);}
-            else{
-            translate([pointscurveend[n][0]+(pointscurveend[n-1][0]-pointscurveend[n][0])/2,pointscurveend[n][1]+(pointscurveend[n-1][1]-pointscurveend[n][1])/2,1])rotate([0,0,90-asin((pointscurveend[n-1][0]-pointscurveend[n][0])/sqrt((pointscurveend[n-1][0]-pointscurveend[n][0])*(pointscurveend[n-1][0]-pointscurveend[n][0])+(pointscurveend[n-1][1]-pointscurveend[n][1])*(pointscurveend[n-1][1]-pointscurveend[n][1])))])square([sqrt((pointscurveend[n-1][0]-pointscurveend[n][0])*(pointscurveend[n-1][0]-pointscurveend[n][0])+(pointscurveend[n-1][1]-pointscurveend[n][1])*(pointscurveend[n-1][1]-pointscurveend[n][1]))+clearance,trace+room*clearance],center=true);}
-             if(n==enddivider-1) { 
-                 if (pointscurveend[n][1]>=endy){
-            translate([endx+(pointscurveend[n][0]-endx)/2,endy+(pointscurveend[n][1]-endy)/2,1])rotate([0,0,90-asin((pointscurveend[n][0]-endx)/sqrt((pointscurveend[n][0]-endx)*(pointscurveend[n][0]-endx)+(pointscurveend[n][1]-endy)*(pointscurveend[n][1]-endy)))])square([sqrt((pointscurveend[n][0]-endx)*(pointscurveend[n][0]-endx)+(pointscurveend[n][1]-endy)*(pointscurveend[n][1]-endy))+clearance,trace+room*clearance],center=true);
-             }
-             else
-             {
-            translate([endx+(pointscurveend[n][0]-endx)/2,endy+(pointscurveend[n][1]-endy)/2,1])rotate([0,0,90+asin((pointscurveend[n][0]-endx)/sqrt((pointscurveend[n][0]-endx)*(pointscurveend[n][0]-endx)+(pointscurveend[n][1]-endy)*(pointscurveend[n][1]-endy)))])square([sqrt((pointscurveend[n][0]-endx)*(pointscurveend[n][0]-endx)+(pointscurveend[n][1]-endy)*(pointscurveend[n][1]-endy))+clearance,trace+room*clearance],center=true);
-             }    
+                nrc=pointscurveend[n][1]-pointscurveend[n-1][1];
+                translate([pointscurveend[n][0]+(pointscurveend[n-1][0]-pointscurveend[n][0])/2,pointscurveend[n][1]+(pointscurveend[n-1][1]-pointscurveend[n][1])/2,1])rotate([0,0,90+(nrc/(abs(nrc)))*asin((pointscurveend[n-1][0]-pointscurveend[n][0])/sqrt((pointscurveend[n-1][0]-pointscurveend[n][0])*(pointscurveend[n-1][0]-pointscurveend[n][0])+(pointscurveend[n-1][1]-pointscurveend[n][1])*(pointscurveend[n-1][1]-pointscurveend[n][1])))])square([sqrt((pointscurveend[n-1][0]-pointscurveend[n][0])*(pointscurveend[n-1][0]-pointscurveend[n][0])+(pointscurveend[n-1][1]-pointscurveend[n][1])*(pointscurveend[n-1][1]-pointscurveend[n][1]))+clearance,trace+room*clearance],center=true);//}
+                if(n==enddivider-1) {
+                 nre=endy-pointscurveend[n][1];
+                 translate([endx+(pointscurveend[n][0]-endx)/2,endy+(pointscurveend[n][1]-endy)/2,1])rotate([0,0,90+(nre/(abs(nre)))*asin((pointscurveend[n][0]-endx)/sqrt((pointscurveend[n][0]-endx)*(pointscurveend[n][0]-endx)+(pointscurveend[n][1]-endy)*(pointscurveend[n][1]-endy)))])square([sqrt((pointscurveend[n][0]-endx)*(pointscurveend[n][0]-endx)+(pointscurveend[n][1]-endy)*(pointscurveend[n][1]-endy))+clearance,trace+room*clearance],center=true);
+          
              }
             }
             }       
