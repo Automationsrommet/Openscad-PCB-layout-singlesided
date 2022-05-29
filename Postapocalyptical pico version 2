@@ -1,15 +1,18 @@
-  //Here is my postapocalyptical pico, made mostly with parts I have on hand.
+ //Here is my postapocalyptical pico, made mostly with parts I have on hand.
 //Todo: 
 //Chekt if th DPAK even fits. 
-//Write 4 trace-functions into one smooth curve. 
-//Angle everything. ground points #3.
+//Write 4 trace-functions into one smooth curve.    Check
+//Angle everything.                                 Halvcheck
+//ground points #3.
+//add vertical curve at 2
+//Reduce track input to component and pin somehow  
 
 //Input parameters
 
 pad=1.0;
 trace=0.23;
 holeradius=0.2;
-clearance=0.2;
+clearance=0.3;
 offsetY=0;
 offsetX=0;
 detail=5;
@@ -35,10 +38,10 @@ pico=[
 ];
 rp2040=[
 [0,-10,-30],
-[-7.75/2,+2.6],[-7.75/2,+2.2],[-7.75/2,1.8],[-7.75/2,1.4],[-7.75/2,1.0],[-7.75/2,0.6],[-7.75/2,0.2],[-7.75/2,-0.2],[-7.75/2,-0.6],[-7.75/2,-1],[-7.75/2,-1.4],[-7.75/2,-1.8],[-7.75/2,-2.2],[-7.75/2,-2.6],
-[-2.6,-7.75/2],[-2.2,-7.75/2],[-1.8,-7.75/2],[-1.4,-7.75/2],[-1,-7.75/2],[-0.6,-7.75/2],[-0.2,-7.75/2],[0.2,-7.75/2],[0.6,-7.75/2],[1,-7.75/2],[1.4,-7.75/2],[1.8,-7.75/2],[2.2,-7.75/2],[2.6,-7.75/2],
-[7.75/2,-2.6],[7.75/2,-2.2],[7.75/2,-1.8],[7.75/2,-1.4],[7.75/2,-1],[7.75/2,-0.6],[7.75/2,-0.2],[7.75/2,0.2],[7.75/2,0.6],[7.75/2,1],[7.75/2,1.4],[7.75/2,1.8],[7.75/2,2.2],[7.75/2,2.6],
-[2.6,7.75/2],[2.2,7.75/2],[1.8,7.75/2],[1.4,7.75/2],[1.0,7.75/2],[0.6,7.75/2],[0.2,7.75/2],[-0.2,7.75/2],[-0.6,7.75/2],[-1,7.75/2],[-1.4,7.75/2],[-1.8,7.75/2],[-2.2,7.75/2],[-2.6,7.75/2]];
+[-8.25/2,+2.6],[-8.25/2,+2.2],[-8.25/2,1.8],[-8.25/2,1.4],[-8.25/2,1.0],[-8.25/2,0.6],[-8.25/2,0.2],[-8.25/2,-0.2],[-8.25/2,-0.6],[-8.25/2,-1],[-8.25/2,-1.4],[-8.25/2,-1.8],[-8.25/2,-2.2],[-8.25/2,-2.6],
+[-2.6,-8.25/2],[-2.2,-8.25/2],[-1.8,-8.25/2],[-1.4,-8.25/2],[-1,-8.25/2],[-0.6,-8.25/2],[-0.2,-8.25/2],[0.2,-8.25/2],[0.6,-8.25/2],[1,-8.25/2],[1.4,-8.25/2],[1.8,-8.25/2],[2.2,-8.25/2],[2.6,-8.25/2],
+[8.25/2,-2.6],[8.25/2,-2.2],[8.25/2,-1.8],[8.25/2,-1.4],[8.25/2,-1],[8.25/2,-0.6],[8.25/2,-0.2],[8.25/2,0.2],[8.25/2,0.6],[8.25/2,1],[8.25/2,1.4],[8.25/2,1.8],[8.25/2,2.2],[8.25/2,2.6],
+[2.6,8.25/2],[2.2,8.25/2],[1.8,8.25/2],[1.4,8.25/2],[1.0,8.25/2],[0.6,8.25/2],[0.2,8.25/2],[-0.2,8.25/2],[-0.6,8.25/2],[-1,8.25/2],[-1.4,8.25/2],[-1.8,8.25/2],[-2.2,8.25/2],[-2.6,8.25/2]];
 spiflash16mb=[
 [-1,9,0],[-3/2,0.75],[-3/2,0.25],[-3/2,-0.25],[-3/2,-0.75],[3/2,-0.75],[3/2,-0.25],[3/2,0.25],[3/2,0.75]];
 sot523=[
@@ -47,10 +50,27 @@ sot523=[
 //  MAIN  code starts here where various modules are called
 
 difference(){
-//copperclad(); 
+copperclad(); 
    
 color("white")union(){
-   
+
+
+track(pico[0][0],pico[0][1],pico[0][2],pico[1][0],pico[1][1],2,4,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[2][0],rp2040[2][1],2,4,0,1);
+track(pico[0][0],pico[0][1],pico[0][2],pico[2][0],pico[2][1],2,3,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[3][0],rp2040[3][1],2,3,0,1);
+
+track(pico[0][0],pico[0][1],pico[0][2],pico[4][0],pico[4][1],0,3,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[4][0],rp2040[4][1],0,3,0,1);
+track(pico[0][0],pico[0][1],pico[0][2],pico[5][0],pico[5][1],0,3,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[5][0],rp2040[5][1],0,3,0,1);
+track(pico[0][0],pico[0][1],pico[0][2],pico[6][0],pico[6][1],0,3,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[6][0],rp2040[6][1],0,3,0,1);
+track(pico[0][0],pico[0][1],pico[0][2],pico[7][0],pico[7][1],0,3,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[7][0],rp2040[7][1],0,3,0,1);
+
+track(pico[0][0],pico[0][1],pico[0][2],pico[9][0],pico[9][1],0,3,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[8][0],rp2040[8][1],0,3,0,1);
+track(pico[0][0],pico[0][1],pico[0][2],pico[10][0],pico[10][1],0,3,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[9][0],rp2040[9][1],0,3,0,1);
+track(pico[0][0],pico[0][1],pico[0][2],pico[11][0],pico[11][1],0,3,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[11][0],rp2040[11][1],0,3,0,1);
+track(pico[0][0],pico[0][1],pico[0][2],pico[12][0],pico[12][1],0,3,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[12][0],rp2040[12][1],0,3,0,1);
+
+track(pico[0][0],pico[0][1],pico[0][2],pico[14][0],pico[14][1],0,3,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[13][0],rp2040[13][1],0,3,0,1);
+track(pico[0][0],pico[0][1],pico[0][2],pico[15][0],pico[15][1],0,3,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[14][0],rp2040[14][1],0,3,0,1);  
+       
 
 rp20footprint(rp2040[0][0],rp2040[0][1],rp2040[0][2],clearance);    
 usbb(homebrusb[0][0],homebrusb[0][1],homebrusb[0][2],"Homemade","USB-B",clearance);
@@ -84,16 +104,26 @@ label(3.8,17.9,95,0,"version 1 Melbu april22", 0.23,"Courier");
 }}
 
 color("blac k")union(){
-//my monster function "track" parameters:
+//the monster function "track" and its parameters:
 // startcompx,startcompy,startrotation,startx,starty,starttype,startdivider,startpad,
 //endcompx,endcompy,endrotation,endx,endy,endtype,enddivider,endpad,room
 
 
-track(pico[0][0],pico[0][1],pico[0][2],pico[1][0],pico[1][1],1,4,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[2][0],rp2040[2][1],1,4,0,0);
-track(pico[0][0],pico[0][1],pico[0][2],pico[2][0],pico[2][1],1,3,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[3][0],rp2040[3][1],0,3,0,0);
-track(pico[0][0],pico[0][1],pico[0][2],pico[4][0],pico[4][1],0,3,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[4][0],rp2040[4][1],1,3,0,0);
-track(pico[0][0],pico[0][1],pico[0][2],pico[5][0],pico[5][1],0,3,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[5][0],rp2040[5][1],1,3,0,0);
-    
+track(pico[0][0],pico[0][1],pico[0][2],pico[1][0],pico[1][1],2,4,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[2][0],rp2040[2][1],2,4,0,0);
+track(pico[0][0],pico[0][1],pico[0][2],pico[2][0],pico[2][1],2,3,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[3][0],rp2040[3][1],2,3,0,0);
+
+track(pico[0][0],pico[0][1],pico[0][2],pico[4][0],pico[4][1],0,3,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[4][0],rp2040[4][1],0,3,0,0);
+track(pico[0][0],pico[0][1],pico[0][2],pico[5][0],pico[5][1],0,3,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[5][0],rp2040[5][1],0,3,0,0);
+track(pico[0][0],pico[0][1],pico[0][2],pico[6][0],pico[6][1],0,3,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[6][0],rp2040[6][1],0,3,0,0);
+track(pico[0][0],pico[0][1],pico[0][2],pico[7][0],pico[7][1],0,3,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[7][0],rp2040[7][1],0,3,0,0);
+
+track(pico[0][0],pico[0][1],pico[0][2],pico[9][0],pico[9][1],0,3,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[8][0],rp2040[8][1],0,3,0,0);
+track(pico[0][0],pico[0][1],pico[0][2],pico[10][0],pico[10][1],0,3,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[9][0],rp2040[9][1],0,3,0,0);
+track(pico[0][0],pico[0][1],pico[0][2],pico[11][0],pico[11][1],0,3,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[11][0],rp2040[11][1],0,3,0,0);
+track(pico[0][0],pico[0][1],pico[0][2],pico[12][0],pico[12][1],0,3,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[12][0],rp2040[12][1],0,3,0,0);
+
+track(pico[0][0],pico[0][1],pico[0][2],pico[14][0],pico[14][1],0,3,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[13][0],rp2040[13][1],0,3,0,0);
+track(pico[0][0],pico[0][1],pico[0][2],pico[15][0],pico[15][1],0,3,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[14][0],rp2040[14][1],0,3,0,0);  
     
 border();
 rp20footprint(rp2040[0][0],rp2040[0][1],rp2040[0][2],0);
@@ -125,8 +155,8 @@ o6o3(2.8,15.9,100,0,"100n");
 
 //   ****            MODULES       ****
 module track (startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider,startpad,endcompx,endcompy,erotation,epinx,epiny,endtype,enddivider,endpad,room) {
-    color("red")translate([startcompx,startcompy,0])rotate([0,0,srotation])translate([spinx,spiny,0])cylinder(5,0.3,0.3,center=true);
-    color("green")translate([endcompx,endcompy,0])rotate([0,0,erotation])translate([epinx,epiny,0])cylinder(5,0.3,0.3,center=true);
+    color("red")translate([startcompx,startcompy,0])rotate([0,0,srotation])translate([spinx,spiny,0])cylinder(5,0.2,0.2,center=true);
+    color("green")translate([endcompx,endcompy,0])rotate([0,0,erotation])translate([epinx,epiny,0])cylinder(5,0.2,0.2,center=true);
    
     
     startradius=sqrt(spinx*spinx+spiny*spiny);
@@ -135,12 +165,12 @@ module track (startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider
     oldangle=[90-asin(spinx/startradius),90-asin(epinx/endradius)];
     newangle=[ oldangle[0]+srotation,oldangle[1]+erotation];
     
-    coords=[ [startradius*cos(newangle[0]), startradius*sin(newangle[0])*(newangle[1]/(abs(newangle[1])))],[endradius*cos(newangle[1]),endradius*sin(newangle[1])*(epiny/(abs(epiny)))] ];
+    coords=[ [startradius*cos(newangle[0])*-(spinx/(abs(spinx))), startradius*sin(newangle[0])*(spiny/(abs(spiny)))],[endradius*cos(180-newangle[1])*+(epinx/(abs(epinx))),endradius*sin(newangle[1])*(epiny/(abs(epiny)))] ];
     
-    startx=coords[0][0];
-    starty=coords[0][1];
-    endx=coords[1][0];
-    endy=coords[1][1];
+    startx=startcompx+coords[0][0];
+    starty=startcompy+coords[0][1];
+    endx=endcompx+coords[1][0];
+    endy=endcompy+coords[1][1];
    
     startendx=startx+(endx-startx)/2;
     startendy=starty+(endy-starty)/2;
@@ -156,11 +186,17 @@ module track (startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider
     pointsend = [
     [startendx,startendy],[startendx+1*incrementxe,startendy+1*incrementye], [startendx+2*incrementxe,startendy+2*incrementye], [startendx+3*incrementxe,startendy+3*incrementye],[startendx+4*incrementxe,startendy+4*incrementye],[startendx+5*incrementxe,startendy+5*incrementye],[startendx+6*incrementxe,startendy+6*incrementye],[endx,endy]];
     
-    pointscurvestart = [
+    pointsHcurvestart = [
 [startx,starty],[startx+1*incrementxs,starty+1*incrementys-startdivider*sin(1*90/(startdivider/2))],[startx+2*incrementxs,starty+2*incrementys-startdivider*sin(2*90/(startdivider/2))],[startx+3*incrementxs,starty+3*incrementys-startdivider*sin(3*90/(startdivider/2))],[startx+4*incrementxs,starty+4*incrementys-startdivider*sin(4*90/(startdivider/2))],[startx+5*incrementxs,starty+5*incrementys-startdivider*sin(5*90/(startdivider/2))],[startx+6*incrementxs,starty+6*incrementys-startdivider*sin(6*90/(startdivider/2))],[startx+7*incrementxs,starty+7*incrementys-startdivider*sin(7*90/(startdivider/2))],[startendx,startendy]];
     
-    pointscurveend = [
-    [startendx,startendy],[startendx+1*incrementxe,startendy+1*incrementye+enddivider*sin(1*90/(enddivider/2))], [startendx+2*incrementxe,startendy+2*incrementye+enddivider*sin(2*90/(enddivider/2))], [startendx+3*incrementxe,startendy+3*incrementye+enddivider*sin(3*90/(enddivider/2))],[startendx+4*incrementxe,startendy+4*incrementye+enddivider*sin(4*90/(enddivider/2))],[startendx+5*incrementxe,startendy+5*incrementye+enddivider*sin(5*90/(enddivider/2))],[startendx+6*incrementxe,startendy+6*incrementye+enddivider*sin(6*90/(enddivider/2))],[endx,endy]];
+    pointsHcurveend = [
+    [startendx,startendy],[startendx+1*incrementxe+enddivider*sin(1*90/(enddivider/2)),startendy+1*incrementye], [startendx+2*incrementxe+enddivider*sin(2*90/(enddivider/2)),startendy+2*incrementye], [startendx+3*incrementxe+enddivider*sin(3*90/(enddivider/2)),startendy+3*incrementye],[startendx+4*incrementxe+enddivider*sin(4*90/(enddivider/2)),startendy+4*incrementye],[startendx+5*incrementxe+enddivider*sin(5*90/(enddivider/2)),startendy+5*incrementye],[startendx+6*incrementxe+enddivider*sin(6*90/(enddivider/2)),startendy+6*incrementye],[endx,endy]];
+    
+    pointsVcurvestart = [
+[startx,starty],[startx+1*incrementxs+startdivider*0.2*sin(1*90/(startdivider/2)),starty+1*incrementys],[startx+2*incrementxs+startdivider*0.2*sin(2*90/(startdivider/2)),starty+2*incrementys],[startx+3*incrementxs+startdivider*0.2*sin(3*90/(startdivider/2)),starty+3*incrementys],[startx+4*incrementxs+startdivider*0.2*sin(4*90/(startdivider/2)),starty+4*incrementys],[startx+5*incrementxs-startdivider*sin(5*90/(startdivider/2)),starty+5*incrementys],[startx+6*incrementxs-startdivider*sin(6*90/(startdivider/2)),starty+6*incrementys],[startx+7*incrementxs-startdivider*sin(7*90/(startdivider/2)),starty+7*incrementys],[startendx,startendy]];
+    
+    pointsVcurveend = [
+    [startendx,startendy],[startendx+1*incrementxe,startendy+1*incrementye+enddivider*cos(1*90/(enddivider/2))], [startendx+2*incrementxe,startendy+2*incrementye+enddivider*cos(2*90/(enddivider/2))], [startendx+3*incrementxe,startendy+3*incrementye+enddivider*cos(3*90/(enddivider/2))],[startendx+4*incrementxe,startendy+4*incrementye+enddivider*cos(4*90/(enddivider/2))],[startendx+5*incrementxe,startendy+5*incrementye+enddivider*cos(5*90/(enddivider/2))],[startendx+6*incrementxe,startendy+6*incrementye+enddivider*cos(6*90/(enddivider/2))],[endx,endy]];
 //    color("chocolate")translate([pointsstart[0][0],pointsstart[0][1],0])circle(0.3);
 //    for (i=[1:1:startdivider]){
 //        color("red")translate([pointsstart[i][0],pointsstart[i][1]-startdivider*sin(i*90/(startdivider/2)),0])circle(0.3);
@@ -168,39 +204,60 @@ module track (startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider
     for (k=[1:1:startdivider]){
             if (starttype==0){
                 updowntest1=pointsstart[k][1]-pointsstart[k-1][1];
-            translate([pointsstart[k][0]+(pointsstart[k-1][0]-pointsstart[k][0])/2,pointsstart[k][1]+(pointsstart[k-1][1]-pointsstart[k][1])/2,1])rotate([0,0,90-(updowntest1/(abs(updowntest1)))*asin((pointsstart[k-1][0]-pointsstart[k][0])/sqrt((pointsstart[k-1][0]-pointsstart[k][0])*(pointsstart[k-1][0]-pointsstart[k][0])+(pointsstart[k-1][1]-pointsstart[k][1])*(pointsstart[k-1][1]-pointsstart[k][1])))])square([sqrt((pointsstart[k-1][0]-pointsstart[k][0])*(pointsstart[k-1][0]-pointsstart[k][0])+(pointsstart[k-1][1]-pointsstart[k][1])*(pointsstart[k-1][1]-pointsstart[k][1])),trace],center=true);
+            translate([pointsstart[k][0]+(pointsstart[k-1][0]-pointsstart[k][0])/2,pointsstart[k][1]+(pointsstart[k-1][1]-pointsstart[k][1])/2,1])rotate([0,0,90+(updowntest1/(abs(updowntest1)))*asin((pointsstart[k-1][0]-pointsstart[k][0])/sqrt((pointsstart[k-1][0]-pointsstart[k][0])*(pointsstart[k-1][0]-pointsstart[k][0])+(pointsstart[k-1][1]-pointsstart[k][1])*(pointsstart[k-1][1]-pointsstart[k][1])))])square([sqrt((pointsstart[k-1][0]-pointsstart[k][0])*(pointsstart[k-1][0]-pointsstart[k][0])+(pointsstart[k-1][1]-pointsstart[k][1])*(pointsstart[k-1][1]-pointsstart[k][1])),trace+room*clearance],center=true);
             
         }           
             }
     for (l=[1:1:enddivider-1]){
             if (endtype==0){
-                srs=pointsend[l][1]-pointsend[l-1][1];
-               translate([pointsend[l][0]+(pointsend[l-1][0]-pointsend[l][0])/2,pointsend[l][1]+(pointsend[l-1][1]-pointsend[l][1])/2,1])rotate([0,0,90+(srs/(abs(srs)))*asin((pointsend[l-1][0]-pointsend[l][0])/sqrt((pointsend[l-1][0]-pointsend[l][0])*(pointsend[l-1][0]-pointsend[l][0])+(pointsend[l-1][1]-pointsend[l][1])*(pointsend[l-1][1]-pointsend[l][1])))])square([sqrt((pointsend[l-1][0]-pointsend[l][0])*(pointsend[l-1][0]-pointsend[l][0])+(pointsend[l-1][1]-pointsend[l][1])*(pointsend[l-1][1]-pointsend[l][1])),trace],center=true);
+                updowntest2=pointsend[l][1]-pointsend[l-1][1];
+               translate([pointsend[l][0]+(pointsend[l-1][0]-pointsend[l][0])/2,pointsend[l][1]+(pointsend[l-1][1]-pointsend[l][1])/2,1])rotate([0,0,90+(updowntest2/(abs(updowntest2)))*asin((pointsend[l-1][0]-pointsend[l][0])/sqrt((pointsend[l-1][0]-pointsend[l][0])*(pointsend[l-1][0]-pointsend[l][0])+(pointsend[l-1][1]-pointsend[l][1])*(pointsend[l-1][1]-pointsend[l][1])))])square([sqrt((pointsend[l-1][0]-pointsend[l][0])*(pointsend[l-1][0]-pointsend[l][0])+(pointsend[l-1][1]-pointsend[l][1])*(pointsend[l-1][1]-pointsend[l][1])),trace+room*clearance],center=true);
           
          if(l==enddivider-1) {
-             sre=endy-pointscurveend[l][1];
-             translate([endx+(pointsend[l-1][0]-endx)/2,endy+(pointsend[l-1][1]-endy)/2,1])rotate([0,0,90+(sre/(abs(sre)))*asin((pointsend[l-1][0]-endx)/sqrt((pointsend[l-1][0]-endx)*(pointsend[l-1][0]-endx)+(pointsend[l-1][1]-endy)*(pointsend[l-1][1]-endy)))])square([sqrt((pointsend[l-1][0]-endx)*(pointsend[l-1][0]-endx)+(pointsend[l-1][1]-endy)*(pointsend[l-1][1]-endy)),trace],center=true);
+             updowntest5=endy-pointsHcurveend[l][1];
+             translate([endx+(pointsend[l-1][0]-endx)/2,endy+(pointsend[l-1][1]-endy)/2,1])rotate([0,0,90+(updowntest5/(abs(updowntest5)))*asin((pointsend[l-1][0]-endx)/sqrt((pointsend[l-1][0]-endx)*(pointsend[l-1][0]-endx)+(pointsend[l-1][1]-endy)*(pointsend[l-1][1]-endy)))])square([sqrt((pointsend[l-1][0]-endx)*(pointsend[l-1][0]-endx)+(pointsend[l-1][1]-endy)*(pointsend[l-1][1]-endy)),trace+room*clearance],center=true);
        
         }  }       
             }       
            for (m=[1:1:startdivider]){
             if (starttype==1){
-                mrc=pointscurvestart[m][1]-pointscurvestart[m-1][1];
-                translate([pointscurvestart[m][0]+(pointscurvestart[m-1][0]-pointscurvestart[m][0])/2,pointscurvestart[m][1]+(pointscurvestart[m-1][1]-pointscurvestart[m][1])/2,1])rotate([0,0,90+(mrc/(abs(mrc)))*asin((pointscurvestart[m-1][0]-pointscurvestart[m][0])/sqrt((pointscurvestart[m-1][0]-pointscurvestart[m][0])*(pointscurvestart[m-1][0]-pointscurvestart[m][0])+(pointscurvestart[m-1][1]-pointscurvestart[m][1])*(pointscurvestart[m-1][1]-pointscurvestart[m][1])))])square([sqrt((pointscurvestart[m-1][0]-pointscurvestart[m][0])*(pointscurvestart[m-1][0]-pointscurvestart[m][0])+(pointscurvestart[m-1][1]-pointscurvestart[m][1])*(pointscurvestart[m-1][1]-pointscurvestart[m][1]))+clearance,trace+room*clearance],center=true);
+                updowntest3=pointsHcurvestart[m][1]-pointsHcurvestart[m-1][1];
+                translate([pointsHcurvestart[m][0]+(pointsHcurvestart[m-1][0]-pointsHcurvestart[m][0])/2,pointsHcurvestart[m][1]+(pointsHcurvestart[m-1][1]-pointsHcurvestart[m][1])/2,1])rotate([0,0,90+(updowntest3/(abs(updowntest3)))*asin((pointsHcurvestart[m-1][0]-pointsHcurvestart[m][0])/sqrt((pointsHcurvestart[m-1][0]-pointsHcurvestart[m][0])*(pointsHcurvestart[m-1][0]-pointsHcurvestart[m][0])+(pointsHcurvestart[m-1][1]-pointsHcurvestart[m][1])*(pointsHcurvestart[m-1][1]-pointsHcurvestart[m][1])))])square([sqrt((pointsHcurvestart[m-1][0]-pointsHcurvestart[m][0])*(pointsHcurvestart[m-1][0]-pointsHcurvestart[m][0])+(pointsHcurvestart[m-1][1]-pointsHcurvestart[m][1])*(pointsHcurvestart[m-1][1]-pointsHcurvestart[m][1]))+clearance,trace+room*clearance],center=true);
 
-             }   
+             }
+             
             }
     for (n=[1:1:enddivider-1]){
             if (endtype==1){
-                nrc=pointscurveend[n][1]-pointscurveend[n-1][1];
-                translate([pointscurveend[n][0]+(pointscurveend[n-1][0]-pointscurveend[n][0])/2,pointscurveend[n][1]+(pointscurveend[n-1][1]-pointscurveend[n][1])/2,1])rotate([0,0,90+(nrc/(abs(nrc)))*asin((pointscurveend[n-1][0]-pointscurveend[n][0])/sqrt((pointscurveend[n-1][0]-pointscurveend[n][0])*(pointscurveend[n-1][0]-pointscurveend[n][0])+(pointscurveend[n-1][1]-pointscurveend[n][1])*(pointscurveend[n-1][1]-pointscurveend[n][1])))])square([sqrt((pointscurveend[n-1][0]-pointscurveend[n][0])*(pointscurveend[n-1][0]-pointscurveend[n][0])+(pointscurveend[n-1][1]-pointscurveend[n][1])*(pointscurveend[n-1][1]-pointscurveend[n][1]))+clearance,trace+room*clearance],center=true);//}
+                updowntest4=pointsHcurveend[n][1]-pointsHcurveend[n-1][1];
+                translate([pointsHcurveend[n][0]+(pointsHcurveend[n-1][0]-pointsHcurveend[n][0])/2,pointsHcurveend[n][1]+(pointsHcurveend[n-1][1]-pointsHcurveend[n][1])/2,1])rotate([0,0,90+(updowntest4/(abs(updowntest4)))*asin((pointsHcurveend[n-1][0]-pointsHcurveend[n][0])/sqrt((pointsHcurveend[n-1][0]-pointsHcurveend[n][0])*(pointsHcurveend[n-1][0]-pointsHcurveend[n][0])+(pointsHcurveend[n-1][1]-pointsHcurveend[n][1])*(pointsHcurveend[n-1][1]-pointsHcurveend[n][1])))])square([sqrt((pointsHcurveend[n-1][0]-pointsHcurveend[n][0])*(pointsHcurveend[n-1][0]-pointsHcurveend[n][0])+(pointsHcurveend[n-1][1]-pointsHcurveend[n][1])*(pointsHcurveend[n-1][1]-pointsHcurveend[n][1]))+clearance,trace+room*clearance],center=true);//}
                 if(n==enddivider-1) {
-                 nre=endy-pointscurveend[n][1];
-                 translate([endx+(pointscurveend[n][0]-endx)/2,endy+(pointscurveend[n][1]-endy)/2,1])rotate([0,0,90+(nre/(abs(nre)))*asin((pointscurveend[n][0]-endx)/sqrt((pointscurveend[n][0]-endx)*(pointscurveend[n][0]-endx)+(pointscurveend[n][1]-endy)*(pointscurveend[n][1]-endy)))])square([sqrt((pointscurveend[n][0]-endx)*(pointscurveend[n][0]-endx)+(pointscurveend[n][1]-endy)*(pointscurveend[n][1]-endy))+clearance,trace+room*clearance],center=true);
+                 updowntest6=endy-pointsHcurveend[n][1];
+                 translate([endx+(pointsHcurveend[n][0]-endx)/2,endy+(pointsHcurveend[n][1]-endy)/2,1])rotate([0,0,90+(updowntest6/(abs(updowntest6)))*asin((pointsHcurveend[n][0]-endx)/sqrt((pointsHcurveend[n][0]-endx)*(pointsHcurveend[n][0]-endx)+(pointsHcurveend[n][1]-endy)*(pointsHcurveend[n][1]-endy)))])square([sqrt((pointsHcurveend[n][0]-endx)*(pointsHcurveend[n][0]-endx)+(pointsHcurveend[n][1]-endy)*(pointsHcurveend[n][1]-endy))+clearance,trace+room*clearance],center=true);
           
              }
             }
-            }       
+            }  
+       
+       for (q=[1:1:startdivider]){
+            if (starttype==2){
+                updowntest3=pointsVcurvestart[q][1]-pointsVcurvestart[q-1][1];
+                translate([pointsVcurvestart[q][0]+(pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])/2,pointsVcurvestart[q][1]+(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1])/2,1])rotate([0,0,90+(updowntest3/(abs(updowntest3)))*asin((pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])/sqrt((pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])*(pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])+(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1])*(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1])))])square([sqrt((pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])*(pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])+(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1])*(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1]))+clearance,trace+room*clearance],center=true);
+
+             }
+             
+            }
+    for (r=[1:1:enddivider-1]){
+            if (endtype==2){
+                updowntest4=pointsVcurveend[r][1]-pointsVcurveend[r-1][1];
+                translate([pointsVcurveend[r][0]+(pointsVcurveend[r-1][0]-pointsVcurveend[r][0])/2,pointsVcurveend[r][1]+(pointsVcurveend[r-1][1]-pointsVcurveend[r][1])/2,1])rotate([0,0,90+(updowntest4/(abs(updowntest4)))*asin((pointsVcurveend[r-1][0]-pointsVcurveend[r][0])/sqrt((pointsVcurveend[r-1][0]-pointsVcurveend[r][0])*(pointsVcurveend[r-1][0]-pointsVcurveend[r][0])+(pointsVcurveend[r-1][1]-pointsVcurveend[r][1])*(pointsVcurveend[r-1][1]-pointsVcurveend[r][1])))])square([sqrt((pointsVcurveend[r-1][0]-pointsVcurveend[r][0])*(pointsVcurveend[r-1][0]-pointsVcurveend[r][0])+(pointsVcurveend[r-1][1]-pointsVcurveend[r][1])*(pointsVcurveend[r-1][1]-pointsVcurveend[r][1]))+clearance,trace+room*clearance],center=true);//}
+                if(r==enddivider-1) {
+                 updowntest6=endy-pointsVcurveend[r][1];
+                 translate([endx+(pointsVcurveend[r][0]-endx)/2,endy+(pointsVcurveend[r][1]-endy)/2,1])rotate([0,0,90+(updowntest6/(abs(updowntest6)))*asin((pointsVcurveend[r][0]-endx)/sqrt((pointsVcurveend[r][0]-endx)*(pointsVcurveend[r][0]-endx)+(pointsVcurveend[r][1]-endy)*(pointsVcurveend[r][1]-endy)))])square([sqrt((pointsVcurveend[r][0]-endx)*(pointsVcurveend[r][0]-endx)+(pointsVcurveend[r][1]-endy)*(pointsVcurveend[r][1]-endy))+clearance,trace+room*clearance],center=true);
+          
+             }
+            }
+            }      
 //    for (j=[0:1:enddivider]){     
 //color("green")translate([pointsend[j][0],pointsend[j][1]+enddivider*sin(j*90/(enddivider/2)),0])circle(0.3);
 //        echo(pointsend[j][0]);
