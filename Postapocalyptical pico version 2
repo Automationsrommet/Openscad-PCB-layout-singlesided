@@ -1,10 +1,10 @@
- //Here is my postapocalyptical pico, made mostly with parts I have on hand.
+  //Here is my postapocalyptical pico, made mostly with parts I have on hand.
 //Todo: 
 //Chekt if th DPAK even fits. 
 //Write 4 trace-functions into one smooth curve.    Check
-//Angle everything.                                 Halvcheck
+//Angle everything.                                 Check
 //ground points #3.
-//add vertical curve at 2
+//add vertical curve at 2                           Check
 //Reduce track input to component and pin somehow  
 
 //Input parameters
@@ -38,7 +38,7 @@ pico=[
 [0, 0, 0],[-17.78/2,48.26/2],[-17.78/2,48.26/2-2.54*1],[-17.78/2,48.26/2-2.54*2],[-17.78/2,48.26/2-2.54*3],[-17.78/2,48.26/2-2.54*4],[-17.78/2,48.26/2-2.54*5],[-17.78/2,48.26/2-2.54*6],[-17.78/2,48.26/2-2.54*7],[-17.78/2,48.26/2-2.54*8],[-17.78/2,48.26/2-2.54*9],[-17.78/2,48.26/2-2.54*10],[-17.78/2,48.26/2-2.54*11],[-17.78/2,48.26/2-2.54*12],[-17.78/2,48.26/2-2.54*13],[-17.78/2,48.26/2-2.54*14],[-17.78/2,48.26/2-2.54*15],[-17.78/2,48.26/2-2.54*16],[-17.78/2,48.26/2-2.54*17],[-17.78/2,48.26/2-2.54*18],[-17.78/2,48.26/2-2.54*19],[17.78/2,48.26/2-2.54*19],[17.78/2,48.26/2-2.54*18],[17.78/2,48.26/2-2.54*17],[17.78/2,48.26/2-2.54*16],[17.78/2,48.26/2-2.54*15],[17.78/2,48.26/2-2.54*14],[17.78/2,48.26/2-2.54*13],[17.78/2,48.26/2-2.54*12],[17.78/2,48.26/2-2.54*11],[17.78/2,48.26/2-2.54*10],[17.78/2,48.26/2-2.54*9],[17.78/2,48.26/2-2.54*8],[17.78/2,48.26/2-2.54*7],[17.78/2,48.26/2-2.54*6],[17.78/2,48.26/2-2.54*5],[17.78/2,48.26/2-2.54*4],[17.78/2,48.26/2-2.54*3],[17.78/2,48.26/2-2.54*2],[17.78/2,48.26/2-2.54*1],[17.78/2,48.26/2],[-2.54,-51/2+1.6],[0,-51/2+1.6],[2.54,-51/2+1.6]
 ];
 rp2040=[
-[3,5,0],
+[2.3,4,-5],
 [-8.25/2,+2.6],[-8.25/2,+2.2],[-8.25/2,1.8],[-8.25/2,1.4],[-8.25/2,1.0],[-8.25/2,0.6],[-8.25/2,0.2],[-8.25/2,-0.2],[-8.25/2,-0.6],[-8.25/2,-1],[-8.25/2,-1.4],[-8.25/2,-1.8],[-8.25/2,-2.2],[-8.25/2,-2.6],
 [-2.6,-8.25/2],[-2.2,-8.25/2],[-1.8,-8.25/2],[-1.4,-8.25/2],[-1,-8.25/2],[-0.6,-8.25/2],[-0.2,-8.25/2],[0.2,-8.25/2],[0.6,-8.25/2],[1,-8.25/2],[1.4,-8.25/2],[1.8,-8.25/2],[2.2,-8.25/2],[2.6,-8.25/2],
 [8.25/2,-2.6],[8.25/2,-2.2],[8.25/2,-1.8],[8.25/2,-1.4],[8.25/2,-1],[8.25/2,-0.6],[8.25/2,-0.2],[8.25/2,0.2],[8.25/2,0.6],[8.25/2,1],[8.25/2,1.4],[8.25/2,1.8],[8.25/2,2.2],[8.25/2,2.6],
@@ -73,7 +73,28 @@ track(pico[0][0],pico[0][1],pico[0][2],pico[12][0],pico[12][1],2,segments,1,rp20
 
 track(pico[0][0],pico[0][1],pico[0][2],pico[14][0],pico[14][1],2,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[13][0],rp2040[13][1],2,segments,0,1);
 track(pico[0][0],pico[0][1],pico[0][2],pico[15][0],pico[15][1],2,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[14][0],rp2040[14][1],2,segments,0,1);  
-       
+ 
+track(pico[0][0],pico[0][1],pico[0][2],pico[16][0],pico[16][1],2,segments,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[15][0],rp2040[15][1],2,segments,0,1);
+track(pico[0][0],pico[0][1],pico[0][2],pico[17][0],pico[17][1],2,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[16][0],rp2040[16][1],2,segments,0,1);
+
+track(pico[0][0],pico[0][1],pico[0][2],pico[19][0],pico[19][1],2,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[17][0],rp2040[17][1],2,segments,0,1);
+track(pico[0][0],pico[0][1],pico[0][2],pico[20][0],pico[20][1],2,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[18][0],rp2040[18][1],2,segments,0,1);  
+ 
+track(pico[0][0],pico[0][1],pico[0][2],pico[21][0],pico[21][1],1,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[27][0],rp2040[28][1],1,segments,0,1);
+track(pico[0][0],pico[0][1],pico[0][2],pico[22][0],pico[22][1],1,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[28][0],rp2040[28][1],1,segments,0,1); 
+
+track(pico[0][0],pico[0][1],pico[0][2],pico[24][0],pico[24][1],1,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[29][0],rp2040[29][1],1,segments,0,1); 
+track(pico[0][0],pico[0][1],pico[0][2],pico[25][0],pico[25][1],1,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[30][0],rp2040[30][1],1,segments,0,1); 
+track(pico[0][0],pico[0][1],pico[0][2],pico[26][0],pico[26][1],1,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[31][0],rp2040[31][1],1,segments,0,1); 
+track(pico[0][0],pico[0][1],pico[0][2],pico[27][0],pico[27][1],1,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[32][0],rp2040[32][1],1,segments,0,1); 
+
+track(pico[0][0],pico[0][1],pico[0][2],pico[29][0],pico[29][1],1,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[34][0],rp2040[34][1],1,segments,0,1);
+
+track(pico[0][0],pico[0][1],pico[0][2],pico[31][0],pico[31][1],0,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[38][0],rp2040[38][1],0,segments,0,1);
+track(pico[0][0],pico[0][1],pico[0][2],pico[32][0],pico[32][1],0,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[39][0],rp2040[39][1],0,segments,0,1);
+
+track(pico[0][0],pico[0][1],pico[0][2],pico[34][0],pico[34][1],0,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[40][0],rp2040[40][1],0,segments,0,1);
+
 
 rp20footprint(rp2040[0][0],rp2040[0][1],rp2040[0][2],clearance);    
 usbb(homebrusb[0][0],homebrusb[0][1],homebrusb[0][2],"Homemade","USB-B",clearance);
@@ -127,7 +148,27 @@ track(pico[0][0],pico[0][1],pico[0][2],pico[12][0],pico[12][1],2,segments,1,rp20
 
 track(pico[0][0],pico[0][1],pico[0][2],pico[14][0],pico[14][1],2,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[13][0],rp2040[13][1],2,segments,0,0);
 track(pico[0][0],pico[0][1],pico[0][2],pico[15][0],pico[15][1],2,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[14][0],rp2040[14][1],2,segments,0,0);  
-    
+track(pico[0][0],pico[0][1],pico[0][2],pico[16][0],pico[16][1],2,segments,2,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[15][0],rp2040[15][1],2,segments,0,0);
+track(pico[0][0],pico[0][1],pico[0][2],pico[17][0],pico[17][1],2,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[16][0],rp2040[16][1],2,segments,0,0);
+
+track(pico[0][0],pico[0][1],pico[0][2],pico[19][0],pico[19][1],2,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[17][0],rp2040[17][1],2,segments,0,0);
+track(pico[0][0],pico[0][1],pico[0][2],pico[20][0],pico[20][1],2,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[18][0],rp2040[18][1],2,segments,0,0);  
+ 
+track(pico[0][0],pico[0][1],pico[0][2],pico[21][0],pico[21][1],1,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[27][0],rp2040[28][1],1,segments,0,0);
+track(pico[0][0],pico[0][1],pico[0][2],pico[22][0],pico[22][1],1,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[28][0],rp2040[28][1],1,segments,0,0);  
+ 
+track(pico[0][0],pico[0][1],pico[0][2],pico[24][0],pico[24][1],1,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[29][0],rp2040[29][1],1,segments,0,0); 
+track(pico[0][0],pico[0][1],pico[0][2],pico[25][0],pico[25][1],1,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[30][0],rp2040[30][1],1,segments,0,0); 
+track(pico[0][0],pico[0][1],pico[0][2],pico[26][0],pico[26][1],1,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[31][0],rp2040[31][1],1,segments,0,0); 
+track(pico[0][0],pico[0][1],pico[0][2],pico[27][0],pico[27][1],1,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[32][0],rp2040[32][1],1,segments,0,0); 
+
+track(pico[0][0],pico[0][1],pico[0][2],pico[29][0],pico[29][1],1,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[34][0],rp2040[34][1],1,segments,0,0);
+
+track(pico[0][0],pico[0][1],pico[0][2],pico[31][0],pico[31][1],0,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[38][0],rp2040[38][1],0,segments,0,0);
+track(pico[0][0],pico[0][1],pico[0][2],pico[32][0],pico[32][1],0,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[39][0],rp2040[39][1],0,segments,0,0);
+
+track(pico[0][0],pico[0][1],pico[0][2],pico[34][0],pico[34][1],0,segments,1,rp2040[0][0],rp2040[0][1],rp2040[0][2],rp2040[40][0],rp2040[40][1],0,segments,0,0);
+
 border();
 rp20footprint(rp2040[0][0],rp2040[0][1],rp2040[0][2],0);
 usbb(homebrusb[0][0],homebrusb[0][1],homebrusb[0][2],"Homemade","USB-B",0);
@@ -190,10 +231,10 @@ module track (startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider
     [startendx,startendy],[startendx+1*incrementxe,startendy+1*incrementye], [startendx+2*incrementxe,startendy+2*incrementye], [startendx+3*incrementxe,startendy+3*incrementye],[startendx+4*incrementxe,startendy+4*incrementye],[startendx+5*incrementxe,startendy+5*incrementye],[startendx+6*incrementxe,startendy+6*incrementye],[endx,endy]];
     
     pointsHcurvestart = [
-[startx,starty],[startx+1*incrementxs,starty+1*incrementys+startdivider*sin(1*90/(startdivider/2))],[startx+2*incrementxs,starty+2*incrementys-startdivider*sin(2*90/(startdivider/2))],[startx+3*incrementxs,starty+3*incrementys-startdivider*sin(3*90/(startdivider/2))],[startx+4*incrementxs,starty+4*incrementys-startdivider*sin(4*90/(startdivider/2))],[startx+5*incrementxs,starty+5*incrementys-startdivider*sin(5*90/(startdivider/2))],[startx+6*incrementxs,starty+6*incrementys-startdivider*sin(6*90/(startdivider/2))],[startx+7*incrementxs,starty+7*incrementys-startdivider*sin(7*90/(startdivider/2))],[startendx,startendy]];
+[startx,starty],[startx+1*incrementxs,starty+1*incrementys+startdivider*0.2*sin(1*90/(startdivider/2))],[startx+2*incrementxs,starty+2*incrementys-startdivider*0.2*sin(2*90/(startdivider/2))],[startx+3*incrementxs,starty+3*incrementys-startdivider*0.2*sin(3*90/(startdivider/2))],[startx+4*incrementxs,starty+4*incrementys-startdivider*0.2*sin(4*90/(startdivider/2))],[startx+5*incrementxs,starty+5*incrementys-startdivider*0.2*sin(5*90/(startdivider/2))],[startx+6*incrementxs,starty+6*incrementys-startdivider*0.2*sin(6*90/(startdivider/2))],[startx+7*incrementxs,starty+7*incrementys-startdivider*0.2*sin(7*90/(startdivider/2))],[startendx,startendy]];
     
     pointsHcurveend = [
-    [startendx,startendy],[startendx+1*incrementxe+enddivider*sin(1*90/(enddivider/2)),startendy+1*incrementye], [startendx+2*incrementxe+enddivider*sin(2*90/(enddivider/2)),startendy+2*incrementye], [startendx+3*incrementxe+enddivider*sin(3*90/(enddivider/2)),startendy+3*incrementye],[startendx+4*incrementxe+enddivider*sin(4*90/(enddivider/2)),startendy+4*incrementye],[startendx+5*incrementxe+enddivider*sin(5*90/(enddivider/2)),startendy+5*incrementye],[startendx+6*incrementxe+enddivider*sin(6*90/(enddivider/2)),startendy+6*incrementye],[endx,endy]];
+    [startendx,startendy],[startendx+1*incrementxe+enddivider*0.2*sin(1*90/(enddivider/2)),startendy+1*incrementye], [startendx+2*incrementxe+enddivider*0.2*sin(2*90/(enddivider/2)),startendy+2*incrementye], [startendx+3*incrementxe+enddivider*0.2*sin(3*90/(enddivider/2)),startendy+3*incrementye],[startendx+4*incrementxe+enddivider*0.2*sin(4*90/(enddivider/2)),startendy+4*incrementye],[startendx+5*incrementxe+enddivider*0.2*sin(5*90/(enddivider/2)),startendy+5*incrementye],[startendx+6*incrementxe+enddivider*0.2*sin(6*90/(enddivider/2)),startendy+6*incrementye],[endx,endy]];
     
     pointsVcurvestart = [
 [startx,starty],[startx+1*incrementxs+startdivider*0.2*sin(1*90/(startdivider/2)),starty+1*incrementys],[startx+2*incrementxs+startdivider*0.2*sin(2*90/(startdivider/2)),starty+2*incrementys],[startx+3*incrementxs+startdivider*0.2*sin(3*90/(startdivider/2)),starty+3*incrementys],[startx+4*incrementxs+startdivider*0.2*sin(4*90/(startdivider/2)),starty+4*incrementys],[startx+5*incrementxs-startdivider*sin(5*90/(startdivider/2)),starty+5*incrementys],[startx+6*incrementxs-startdivider*sin(6*90/(startdivider/2)),starty+6*incrementys],[startx+7*incrementxs-startdivider*sin(7*90/(startdivider/2)),starty+7*incrementys],[startendx,startendy]];
