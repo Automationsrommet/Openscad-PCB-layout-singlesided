@@ -1,0 +1,24 @@
+I teach at a rather old electronicks school and we had a lot of these sevensegment numeric LED displays in stock. I thought it would make a good Arduino programming practice to use them.
+To make shields for our arduinos we would get good a good etching experience as well, using presythesized pcbs and our own UV-LED light box with manual switch. When we tried this out two years ago I used Fritzing to make PCB layout and the boards came out great, apart from the circuit not working.
+Hence we went with a simpler circuit this year. But all of a sudden Fritzing was less avalable to me than before and i set about doing the PCB layout with OpenScad. After all, it is a simple circuit, right?
+I drew a model of the board with components, made a stencil with the copper traces and we etched the boards. We did this with groups of 4 or 5 students and for the first groups it was ok.
+The last group though, the chemicals must have went bad, and so the boards would never finish etching, in the time we had available anyway. So I thought about this and realized that we should have had copper innfills between the traces so that we wouldnt have to use chemicals to etch large areas of material. And i realized I could solve it in OpenScad.
+So this is how next years 2*sevensegment display could look like. But then buying the header pins to finish the shilds proved unsatisfactory, and we could loan some here and there, but really, what i would rather have to do is not having a shield at all.
+So the ATmega328P is relatively cheap, and the Arduino Uno is open source, right? I was greatly inspired by Steven Hawes and his project around this time. Well, to DIY Arduino Uno I would need the serial chip as well along with some more tiny components that I found less tempting to go for as I feel that schools soon should move on from the Uno.
+Thats how I started to remake the Raspberry Pi Pico board as it needs no serial chip, and the uC RP2040 is both better and cheaper than the Atmega328P. I changed the Voltage regulator and went with 0603 components where I could as this will be hand soldering for me, at least the first ones.
+So there it is, the Postapocalyptic pico version one. It looks cool I think, but doing the layout process was far from tempting to repeat. That is why I decided I could do better, and more general too.
+Changing components and even DIY different Open Hardware circuits should be relatively easy, at least for OpenScad users. Also I was determant to have one-line-traces, witch led me to learn a lot. At the most "Postapocalyptic Pico v2" was 670 lines of code and it is currently ___ lines.
+Skipping my todo-list, the code starts with some input parameters. In this parametric code, sadly, changing the imput parameters doesent do all the tricks, so I guess it is only semi-parametric. Next up is the component position lists or vectors or arrays. Starting with x and y position for the components and i third number for degrees of rotation, the rest of the array is twodimentional pin position in that order relative to component center.
+This setup makes sense for the large one-off components with many pins, not so much for the smaller multiple-ones, but I feel that i should keep the structure.
+Now then is the calling of the modules, the "main" if You like. 
+It consists first of a big difference function where the we take the whole circuit, drawn with "room", and subtract it from the bare copper area.
+This is where we want text labels and "silk screen" things to be subtracted as well.
+Next the whole circuit is drawn agian, with thinner lines, that is without "room" in the tracks of the subtracted.
+This way the resulting pcb will be mostly copper with only thin lines etched away, hence less chemicals used, hence consistent student etching experience, hopefully.
+Next is the modules featuring my monster one-line-trace module named "track". This module used to be four separate functions in version one, and i hope to one day get the number of input arguments down to maybe 11.
+It is able to draw straight or sine-shaped traces all the way or half-way from point to point. Perhaps I should expand with triangular-wave shaped traces as well?
+And then there is all the actual footprint modules to go with the position-lists above. 
+Thus each components has both its own position-list and its own footprint module. Even tough these are consistent mamed now, this does not help on the ease-of-use side of things.
+Amongst the modules too is the copper area polygon and a collection of text labels that does not belong to a spesific component.
+That sums it up, I think. I want to make another video on how to adapt the code, perhaps to take on the arduino Uno at some point. I leave no promises as to if and when this will happen.
+Good day.
