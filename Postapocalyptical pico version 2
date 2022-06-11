@@ -443,6 +443,7 @@ module track (startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider
 //    for (i=[1:1:startdivider]){
 //        color("red")translate([pointsstart[i][0],pointsstart[i][1]-startdivider*sin(i*90/(startdivider/2)),0])circle(0.3);
 //   }
+//Straight line vectors
     for (k=[1:1:startdivider]){
             if (starttype==0){
                 updowntest1=pointsstart[k][1]-pointsstart[k-1][1];
@@ -460,46 +461,63 @@ module track (startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider
              translate([endx+(pointsend[l-1][0]-endx)/2,endy+(pointsend[l-1][1]-endy)/2,1])rotate([0,0,90+(updowntest5/(abs(updowntest5)))*asin((pointsend[l-1][0]-endx)/sqrt((pointsend[l-1][0]-endx)*(pointsend[l-1][0]-endx)+(pointsend[l-1][1]-endy)*(pointsend[l-1][1]-endy)))])square([sqrt((pointsend[l-1][0]-endx)*(pointsend[l-1][0]-endx)+(pointsend[l-1][1]-endy)*(pointsend[l-1][1]-endy)),trace+round(room)*clearance],center=true);
        
         }  }       
-            }       
-           for (m=[1:1:startdivider]){
-            if (starttype==1){
-                updowntest3=pointsHcurvestart[m-1][1]-pointsHcurvestart[m][1];
-                translate([pointsHcurvestart[m][0]+abs(pointsHcurvestart[m][0]-pointsHcurvestart[m-1][0])/2,(pointsHcurvestart[m][1])+(pointsHcurvestart[m][1]-pointsHcurvestart[m-1][1])/2,1])rotate([0,0,90+(updowntest3/(abs(updowntest3)))*-asin(abs(pointsHcurvestart[m][0]-pointsHcurvestart[m-1][0])/sqrt((pointsHcurvestart[m][0]-pointsHcurvestart[m-1][0])*(pointsHcurvestart[m][0]-pointsHcurvestart[m-1][0])+(pointsHcurvestart[m][1]-pointsHcurvestart[m-1][1])*(pointsHcurvestart[m][1]-pointsHcurvestart[m-1][1])))])square([sqrt((pointsHcurvestart[m][0]-pointsHcurvestart[m-1][0])*(pointsHcurvestart[m][0]-pointsHcurvestart[m-1][0])+(pointsHcurvestart[m][1]-pointsHcurvestart[m-1][1])*(pointsHcurvestart[m][1]-pointsHcurvestart[m-1][1]))+clearance,trace+round(room)*clearance],center=true);
-
-             }
-             
-            }
-    for (n=[1:1:enddivider-1]){
-            if (endtype==1){
-                updowntest4=pointsHcurveend[n][1]-pointsHcurveend[n-1][1];
-                translate([pointsHcurveend[n][0]+(pointsHcurveend[n-1][0]-pointsHcurveend[n][0])/2,pointsHcurveend[n][1]+(pointsHcurveend[n-1][1]-pointsHcurveend[n][1])/2,1])rotate([0,0,90+(updowntest4/(abs(updowntest4)))*asin((pointsHcurveend[n-1][0]-pointsHcurveend[n][0])/sqrt((pointsHcurveend[n-1][0]-pointsHcurveend[n][0])*(pointsHcurveend[n-1][0]-pointsHcurveend[n][0])+(pointsHcurveend[n-1][1]-pointsHcurveend[n][1])*(pointsHcurveend[n-1][1]-pointsHcurveend[n][1])))])square([sqrt((pointsHcurveend[n-1][0]-pointsHcurveend[n][0])*(pointsHcurveend[n-1][0]-pointsHcurveend[n][0])+(pointsHcurveend[n-1][1]-pointsHcurveend[n][1])*(pointsHcurveend[n-1][1]-pointsHcurveend[n][1]))+clearance,trace+round(room)*clearance],center=true);//}
-                if(n==enddivider-1) {
-                 updowntest6=endy-pointsHcurveend[n][1];
-                 translate([endx+(pointsHcurveend[n][0]-endx)/2,endy+(pointsHcurveend[n][1]-endy)/2,1])rotate([0,0,90+(updowntest6/(abs(updowntest6)))*asin((pointsHcurveend[n][0]-endx)/sqrt((pointsHcurveend[n][0]-endx)*(pointsHcurveend[n][0]-endx)+(pointsHcurveend[n][1]-endy)*(pointsHcurveend[n][1]-endy)))])square([sqrt((pointsHcurveend[n][0]-endx)*(pointsHcurveend[n][0]-endx)+(pointsHcurveend[n][1]-endy)*(pointsHcurveend[n][1]-endy))+clearance,trace+round(room)*clearance],center=true);
-          
-             }
-            }
             }  
        
+//Horisontal sine curve vectors
        for (q=[1:1:startdivider]){
             if (starttype==2){
                 updowntest3=pointsVcurvestart[q][1]-pointsVcurvestart[q-1][1];
                 translate([pointsVcurvestart[q][0]+(pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])/2,pointsVcurvestart[q][1]+(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1])/2,1])rotate([0,0,90+(updowntest3/(abs(updowntest3)))*asin((pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])/sqrt((pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])*(pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])+(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1])*(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1])))])square([sqrt((pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])*(pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])+(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1])*(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1]))+clearance,trace+round(room)*clearance],center=true);
-
-             }
-             
-            }
-    for (r=[1:1:enddivider-1]){
+             }             
+    }
+ for (r=[1:1:enddivider-1]){
             if (endtype==2){
                 updowntest4=pointsVcurveend[r][1]-pointsVcurveend[r-1][1];
-                translate([pointsVcurveend[r][0]+(pointsVcurveend[r-1][0]-pointsVcurveend[r][0])/2,pointsVcurveend[r][1]+(pointsVcurveend[r-1][1]-pointsVcurveend[r][1])/2,1])rotate([0,0,90+(updowntest4/(abs(updowntest4)))*asin((pointsVcurveend[r-1][0]-pointsVcurveend[r][0])/sqrt((pointsVcurveend[r-1][0]-pointsVcurveend[r][0])*(pointsVcurveend[r-1][0]-pointsVcurveend[r][0])+(pointsVcurveend[r-1][1]-pointsVcurveend[r][1])*(pointsVcurveend[r-1][1]-pointsVcurveend[r][1])))])square([sqrt((pointsVcurveend[r-1][0]-pointsVcurveend[r][0])*(pointsVcurveend[r-1][0]-pointsVcurveend[r][0])+(pointsVcurveend[r-1][1]-pointsVcurveend[r][1])*(pointsVcurveend[r-1][1]-pointsVcurveend[r][1]))+clearance,trace+round(room)*clearance],center=true);//}
-                if(r==enddivider-1) {
+                translate([pointsVcurveend[r][0]+(pointsVcurveend[r-1][0]-pointsVcurveend[r][0])/2,pointsVcurveend[r][1]+(pointsVcurveend[r-1][1]-pointsVcurveend[r][1])/2,1])rotate([0,0,90+(updowntest4/(abs(updowntest4)))*asin((pointsVcurveend[r-1][0]-pointsVcurveend[r][0])/sqrt((pointsVcurveend[r-1][0]-pointsVcurveend[r][0])*(pointsVcurveend[r-1][0]-pointsVcurveend[r][0])+(pointsVcurveend[r-1][1]-pointsVcurveend[r][1])*(pointsVcurveend[r-1][1]-pointsVcurveend[r][1])))])square([sqrt((pointsVcurveend[r-1][0]-pointsVcurveend[r][0])*(pointsVcurveend[r-1][0]-pointsVcurveend[r][0])+(pointsVcurveend[r-1][1]-pointsVcurveend[r][1])*(pointsVcurveend[r-1][1]-pointsVcurveend[r][1]))+clearance,trace+round(room)*clearance],center=true);
+                
+                 if(r==enddivider-1) {
                  updowntest7=endy-pointsVcurveend[r][1];
-                 translate([endx+(pointsVcurveend[r][0]-endx)/2,endy+(pointsVcurveend[r][1]-endy)/2,1])rotate([0,0,90+(updowntest7/(abs(updowntest7)))*asin((pointsVcurveend[r][0]-endx)/sqrt((pointsVcurveend[r][0]-endx)*(pointsVcurveend[r][0]-endx)+(pointsVcurveend[r][1]-endy)*(pointsVcurveend[r][1]-endy)))])square([sqrt((pointsVcurveend[r][0]-endx)*(pointsVcurveend[r][0]-endx)+(pointsVcurveend[r][1]-endy)*(pointsVcurveend[r][1]-endy))+clearance,trace+round(room)*clearance],center=true);
-          
-             }
-            }
-            }      
+                 translate([endx+(pointsVcurveend[r][0]-endx)/2,endy+(pointsVcurveend[r][1]-endy)/2,1])rotate([0,0,90+(updowntest7/(abs(updowntest7)))*asin((pointsVcurveend[r][0]-endx)/sqrt((pointsVcurveend[r][0]-endx)*(pointsVcurveend[r][0]-endx)+(pointsVcurveend[r][1]-endy)*(pointsVcurveend[r][1]-endy)))])square([sqrt((pointsVcurveend[r][0]-endx)*(pointsVcurveend[r][0]-endx)+(pointsVcurveend[r][1]-endy)*(pointsVcurveend[r][1]-endy))+clearance,trace+round(room)*clearance],center=true);          
+                        }
+              }
+    }     
+//           for (m=[1:1:startdivider]){
+//            if (starttype==1){
+//                updowntest3=pointsHcurvestart[m-1][1]-pointsHcurvestart[m][1];
+//                translate([pointsHcurvestart[m][0]+abs(pointsHcurvestart[m][0]-pointsHcurvestart[m-1][0])/2,(pointsHcurvestart[m][1])+(pointsHcurvestart[m][1]-pointsHcurvestart[m-1][1])/2,1])rotate([0,0,90+(updowntest3/(abs(updowntest3)))*-asin(abs(pointsHcurvestart[m][0]-pointsHcurvestart[m-1][0])/sqrt((pointsHcurvestart[m][0]-pointsHcurvestart[m-1][0])*(pointsHcurvestart[m][0]-pointsHcurvestart[m-1][0])+(pointsHcurvestart[m][1]-pointsHcurvestart[m-1][1])*(pointsHcurvestart[m][1]-pointsHcurvestart[m-1][1])))])square([sqrt((pointsHcurvestart[m][0]-pointsHcurvestart[m-1][0])*(pointsHcurvestart[m][0]-pointsHcurvestart[m-1][0])+(pointsHcurvestart[m][1]-pointsHcurvestart[m-1][1])*(pointsHcurvestart[m][1]-pointsHcurvestart[m-1][1]))+clearance,trace+round(room)*clearance],center=true);
+//
+//             }
+//             
+//            }
+//    for (n=[1:1:enddivider-1]){
+//            if (endtype==1){
+//                updowntest4=pointsHcurveend[n][1]-pointsHcurveend[n-1][1];
+//                translate([pointsHcurveend[n][0]+(pointsHcurveend[n-1][0]-pointsHcurveend[n][0])/2,pointsHcurveend[n][1]+(pointsHcurveend[n-1][1]-pointsHcurveend[n][1])/2,1])rotate([0,0,90+(updowntest4/(abs(updowntest4)))*asin((pointsHcurveend[n-1][0]-pointsHcurveend[n][0])/sqrt((pointsHcurveend[n-1][0]-pointsHcurveend[n][0])*(pointsHcurveend[n-1][0]-pointsHcurveend[n][0])+(pointsHcurveend[n-1][1]-pointsHcurveend[n][1])*(pointsHcurveend[n-1][1]-pointsHcurveend[n][1])))])square([sqrt((pointsHcurveend[n-1][0]-pointsHcurveend[n][0])*(pointsHcurveend[n-1][0]-pointsHcurveend[n][0])+(pointsHcurveend[n-1][1]-pointsHcurveend[n][1])*(pointsHcurveend[n-1][1]-pointsHcurveend[n][1]))+clearance,trace+round(room)*clearance],center=true);//}
+//                if(n==enddivider-1) {
+//                 updowntest6=endy-pointsHcurveend[n][1];
+//                 translate([endx+(pointsHcurveend[n][0]-endx)/2,endy+(pointsHcurveend[n][1]-endy)/2,1])rotate([0,0,90+(updowntest6/(abs(updowntest6)))*asin((pointsHcurveend[n][0]-endx)/sqrt((pointsHcurveend[n][0]-endx)*(pointsHcurveend[n][0]-endx)+(pointsHcurveend[n][1]-endy)*(pointsHcurveend[n][1]-endy)))])square([sqrt((pointsHcurveend[n][0]-endx)*(pointsHcurveend[n][0]-endx)+(pointsHcurveend[n][1]-endy)*(pointsHcurveend[n][1]-endy))+clearance,trace+round(room)*clearance],center=true);
+//          
+//             }
+//            }
+//            }  
+//Vertical sine curve vectors       
+for (q=[1:1:startdivider]){
+            if (starttype==2){
+                updowntest3=pointsVcurvestart[q][1]-pointsVcurvestart[q-1][1];
+                translate([pointsVcurvestart[q][0]+(pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])/2,pointsVcurvestart[q][1]+(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1])/2,1])rotate([0,0,90+(updowntest3/(abs(updowntest3)))*asin((pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])/sqrt((pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])*(pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])+(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1])*(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1])))])square([sqrt((pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])*(pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])+(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1])*(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1]))+clearance,trace+round(room)*clearance],center=true);
+             }             
+    }
+ for (r=[1:1:enddivider-1]){
+            if (endtype==2){
+                updowntest4=pointsVcurveend[r][1]-pointsVcurveend[r-1][1];
+                translate([pointsVcurveend[r][0]+(pointsVcurveend[r-1][0]-pointsVcurveend[r][0])/2,pointsVcurveend[r][1]+(pointsVcurveend[r-1][1]-pointsVcurveend[r][1])/2,1])rotate([0,0,90+(updowntest4/(abs(updowntest4)))*asin((pointsVcurveend[r-1][0]-pointsVcurveend[r][0])/sqrt((pointsVcurveend[r-1][0]-pointsVcurveend[r][0])*(pointsVcurveend[r-1][0]-pointsVcurveend[r][0])+(pointsVcurveend[r-1][1]-pointsVcurveend[r][1])*(pointsVcurveend[r-1][1]-pointsVcurveend[r][1])))])square([sqrt((pointsVcurveend[r-1][0]-pointsVcurveend[r][0])*(pointsVcurveend[r-1][0]-pointsVcurveend[r][0])+(pointsVcurveend[r-1][1]-pointsVcurveend[r][1])*(pointsVcurveend[r-1][1]-pointsVcurveend[r][1]))+clearance,trace+round(room)*clearance],center=true);
+                
+                 if(r==enddivider-1) {
+                 updowntest7=endy-pointsVcurveend[r][1];
+                 translate([endx+(pointsVcurveend[r][0]-endx)/2,endy+(pointsVcurveend[r][1]-endy)/2,1])rotate([0,0,90+(updowntest7/(abs(updowntest7)))*asin((pointsVcurveend[r][0]-endx)/sqrt((pointsVcurveend[r][0]-endx)*(pointsVcurveend[r][0]-endx)+(pointsVcurveend[r][1]-endy)*(pointsVcurveend[r][1]-endy)))])square([sqrt((pointsVcurveend[r][0]-endx)*(pointsVcurveend[r][0]-endx)+(pointsVcurveend[r][1]-endy)*(pointsVcurveend[r][1]-endy))+clearance,trace+round(room)*clearance],center=true);          
+                        }
+              }
+    }      
 
 //(startcompx, startcompy, startcomprotation, startx, starty, starttype, startdivider, startpad, endcompx, endcompy, endcomprotation, endx, endy, endtype,enddivider,endpad,round(room))
 difference(){
