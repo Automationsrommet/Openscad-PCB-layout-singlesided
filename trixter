@@ -1,0 +1,798 @@
+  //Here is my postapocalyptical pico, made mostly with parts I have on hand.
+//Todo: 
+//Chekt if th DPAK even fits. 
+//Write 4 trace-functions into one smooth curve.    Check
+//Angle everything.                                 Check
+//ground points #3.                                 Check
+//add vertical curve at 2                           Check
+//Reduce track input to component and pin somehow   I give up, unless concat trick would work
+//Solve parametric trace midpoint                   Check! I solved it!
+//Output straight lines in all orientations         Working on it.
+//Footprinterprinter to call footprints once        On it, requires fixed arguments
+//Mediator function to call the lines only once     This goes first
+//Seperate midpoint move argument                   I'll do it
+
+
+//Input parameters
+
+pad=1.0;
+trace=0.20;
+holeradius=0.2;
+clearance=0.2;
+detail=5;
+frame=0.6;
+heigth=51;
+width=21;
+segments=3;
+//Position Lists: center x, y and rotation, then pin coordinates relative to center of component
+
+chrystalPL=[
+[-2.6,-13,-7],[-1.15,-0.95],[1.15,-0.95],[1.15,0.95],[-1.15,0.95]];
+DPAKPL=[
+[1, -21, 0],[-6.7/2,0],[1.8+1.5,2.30],[1.8+1.5,-2.30]
+];
+USBPL=[
+[0, 51/2-1.6, 0],[-2.54*1.5,0],
+[-2.54*0.5,0],[2.54*0.5,0],[2.54*1.5,0]
+];
+o6o3PL=[
+[0, 0, 0],[0.7/2+0.8/2,0],[-0.7/2-0.8/2,0]
+];
+o6o3RLEDPL=[
+[6, 2.4, -41],[0.7/2+0.8/2,0],[-0.7/2-0.8/2,0]
+];
+o6o3LEDPL=[
+[8.9, -1.8, 90],[0.7/2+0.8/2,0],[-0.7/2-0.8/2,0]
+];
+picoPL=[
+[0, 0, 0],[-17.78/2,48.26/2],[-17.78/2,48.26/2-2.54*1],[-17.78/2,48.26/2-2.54*2],[-17.78/2,48.26/2-2.54*3],
+[-17.78/2,48.26/2-2.54*4],[-17.78/2,48.26/2-2.54*5],[-17.78/2,48.26/2-2.54*6],[-17.78/2,48.26/2-2.54*7],
+[-17.78/2,48.26/2-2.54*8],[-17.78/2,48.26/2-2.54*9],[-17.78/2,48.26/2-2.54*10],[-17.78/2,48.26/2-2.54*11],
+[-17.78/2,48.26/2-2.54*12],[-17.78/2,48.26/2-2.54*13],[-17.78/2,48.26/2-2.54*14],[-17.78/2,48.26/2-2.54*15],
+[-17.78/2,48.26/2-2.54*16],[-17.78/2,48.26/2-2.54*17],[-17.78/2,48.26/2-2.54*18],[-17.78/2,48.26/2-2.54*19],
+[17.78/2,48.26/2-2.54*19],[17.78/2,48.26/2-2.54*18],[17.78/2,48.26/2-2.54*17],[17.78/2,48.26/2-2.54*16],
+[17.78/2,48.26/2-2.54*15],[17.78/2,48.26/2-2.54*14],[17.78/2,48.26/2-2.54*13],[17.78/2,48.26/2-2.54*12],
+[17.78/2,48.26/2-2.54*11],[17.78/2,48.26/2-2.54*10],[17.78/2,48.26/2-2.54*9],[17.78/2,48.26/2-2.54*8],
+[17.78/2,48.26/2-2.54*7],[17.78/2,48.26/2-2.54*6],[17.78/2,48.26/2-2.54*5],[17.78/2,48.26/2-2.54*4],
+[17.78/2,48.26/2-2.54*3],[17.78/2,48.26/2-2.54*2],[17.78/2,48.26/2-2.54*1],[17.78/2,48.26/2],
+[-2.54,-51/2+1.6],[0,-51/2+1.6],[2.54,-51/2+1.6]
+];
+rp2040PL=[
+[1.2,4,-7],
+[-8.25/2,+2.6],[-8.25/2,+2.2],[-8.25/2,1.8],[-8.25/2,1.4],[-8.25/2,1.0],[-8.25/2,0.6],[-8.25/2,0.2],
+[-8.25/2,-0.2],[-8.25/2,-0.6],[-8.25/2,-1],[-8.25/2,-1.4],[-8.25/2,-1.8],[-8.25/2,-2.2],[-8.25/2,-2.6],
+[-2.6,-8.25/2],[-2.2,-8.25/2],[-1.8,-8.25/2],[-1.4,-8.25/2],[-1,-8.25/2],[-0.6,-8.25/2],[-0.2,-8.25/2],
+[0.2,-8.25/2],[0.6,-8.25/2],[1,-8.25/2],[1.4,-8.25/2],[1.8,-8.25/2],[2.2,-8.25/2],[2.6,-8.25/2],
+[8.25/2,-2.6],[8.25/2,-2.2],[8.25/2,-1.8],[8.25/2,-1.4],[8.25/2,-1],[8.25/2,-0.6],[8.25/2,-0.2],
+[8.25/2,0.2],[8.25/2,0.6],[8.25/2,1],[8.25/2,1.4],[8.25/2,1.8],[8.25/2,2.2],[8.25/2,2.6],
+[2.6,8.25/2],[2.2,8.25/2],[1.8,8.25/2],[1.4,8.25/2],[1.0,8.25/2],[0.6,8.25/2],[0.2,8.25/2],
+[-0.2,8.25/2],[-0.6,8.25/2],[-1,8.25/2],[-1.4,8.25/2],[-1.8,8.25/2],[-2.2,8.25/2],[-2.6,8.25/2]];
+spiflashPL=[
+[-0.4,11,83],[-3/2,0.75],[-3/2,0.25],[-3/2,-0.25],[-3/2,-0.75],[3/2,-0.75],[3/2,-0.25],[3/2,0.25],[3/2,0.75]];
+sot523PL=[
+[6.5,8,48],[-0.5,-1.29/2],[0,1.29/2],[0.5,-1.29/2]];
+cornersPL=[
+[1.8,13.5,38],[-0.75,0],[0,0],[0.75,0],[1.5,0]];
+
+//  MAIN  code starts here where various modules are called
+
+difference(){
+copperclad(); 
+   
+color("white")union(){
+
+
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[1][0],picoPL[1][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[2][0],rp2040PL[2][1],2,segments,0,1.2);
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[2][0],picoPL[2][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[3][0],rp2040PL[3][1],2,segments,0,1.15);
+    
+    trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[3][0],picoPL[3][1],2,segments,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[3][0]+0.1,picoPL[3][1]+0.1,2,segments,2,1);
+
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[4][0],picoPL[4][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[4][0],rp2040PL[4][1],2,segments,0,1.1);
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[5][0],picoPL[5][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[5][0],rp2040PL[5][1],2,segments,0,1);
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[6][0],picoPL[6][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[6][0],rp2040PL[6][1],2,segments,0,1);
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[7][0],picoPL[7][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[7][0],rp2040PL[7][1],2,segments,0,1);
+    
+    track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[8][0],picoPL[8][1],2,segments,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[8][0]+0.1,picoPL[8][1]+0.1,2,segments,2,1);
+
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[9][0],picoPL[9][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[8][0],rp2040PL[8][1],2,segments,0,1);
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[10][0],picoPL[10][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[9][0],rp2040PL[9][1],2,segments,0,1);
+
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[10][0]+1.3,picoPL[10][1]-0.6,2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[10][0],rp2040PL[10][1],2,segments,0,0.7);
+
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[11][0],picoPL[11][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[11][0],rp2040PL[11][1],2,segments,0,1);
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[12][0],picoPL[12][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[12][0],rp2040PL[12][1],2,segments,0,1);
+
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0],picoPL[13][1],2,segments,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+0.1,picoPL[13][1]+0.1,2,segments,2,1);
+
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[14][0],picoPL[14][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[13][0],rp2040PL[13][1],2,segments,0,1.13);
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[15][0],picoPL[15][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[14][0],rp2040PL[14][1],2,segments,0,1.2);  
+ 
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[16][0],picoPL[16][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[15][0],rp2040PL[15][1],2,segments,0,1);
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[17][0],picoPL[17][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[16][0],rp2040PL[16][1],2,segments,0,1);
+
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[18][0],picoPL[18][1],2,segments,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[18][0]+0.1,picoPL[18][1]+0.1,2,segments,2,1);
+
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[19][0],picoPL[19][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[17][0],rp2040PL[17][1],2,segments,0,1);
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[20][0],picoPL[20][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[18][0],rp2040PL[18][1],2,segments,0,1);  
+
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+6.3,picoPL[13][1]-1,0,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[19][0],rp2040PL[19][1],0,segments,0,1); 
+//xtal 20 to 1 and 21 to 3
+track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[20][0],rp2040PL[20][1],0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]+0.70,chrystalPL[1][1]-0.3,0,segments,0,1);
+track(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0]-0.7,chrystalPL[3][1]+2.6,0,segments,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[21][0],rp2040PL[21][1],0,segments,0,1);
+track(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0]+0.1,chrystalPL[3][1]+1.0,0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0],chrystalPL[3][1],0,segments,0,1);
+track(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]+0.2,chrystalPL[1][1]-1.0,0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0]-0.5,chrystalPL[3][1],0,segments,0,1);
+track(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]-0.3,chrystalPL[1][1]-1.0,0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]-0.5,chrystalPL[1][1],0,segments,0,1);
+//3V3 and 1V1
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+8.70,picoPL[12][1]-1,0,segments,4,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[22][0],rp2040PL[22][1],0,segments,0,1);
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+8.78,picoPL[13][1]-2,0,segments,5,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[23][0],rp2040PL[23][1],0,segments,0,1);
+
+//debug circuit
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[41][0]+1.4,picoPL[41][1]+7.8,2,3,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[24][0],rp2040PL[24][1],0,2,0,1);
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[42][0]+1.4,picoPL[42][1]+7.8,2,2,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[42][0]+1.4,picoPL[42][1]+7.8,1,2,2,1);
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[43][0]+1.4,picoPL[43][1]+7.8,2,1,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[25][0],rp2040PL[25][1],2,7,0,0.7);
+//run rp2040 to Via
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+11.1,picoPL[13][1],0,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[26][0],rp2040PL[26][1],0,segments,0,1);
+
+
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[21][0],picoPL[21][1],1,2,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[27][0],rp2040PL[28][1],2,9,0,0.51);
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[22][0],picoPL[22][1],1,2,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[28][0],rp2040PL[28][1],2,9,0,0.51); 
+
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[23][0],picoPL[23][1],1,segments,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[23][0]+0.1,picoPL[23][1]+0.1,2,segments,2,1);
+
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[24][0],picoPL[24][1],1,12,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[29][0],rp2040PL[29][1],1,5,0,1.3); 
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[25][0],picoPL[25][1],1,12,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[30][0],rp2040PL[30][1],1,6,0,1.2); 
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[26][0],picoPL[26][1],1,12,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[31][0],rp2040PL[31][1],1,7,0,1.12);  
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[27][0],picoPL[27][1],1,13,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[32][0],rp2040PL[32][1],1,7,0,1);
+
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[28][0],picoPL[28][1],0,segments,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[28][0]+0.1,picoPL[28][1]+0.1,2,segments,2,1);
+
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[29][0],picoPL[29][1],1,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[34][0],rp2040PL[34][1],1,6,0,0.7);
+//3V3 lower right
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[28][0]-1,picoPL[28][1]+1,1,segments,4,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[33][0],rp2040PL[33][1],1,8,0,0.73);
+//LED circuit
+//track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[37][0],rp2040PL[37][1],2,2,2,o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[1][0],o6o3RLEDPL[1][1],2,2,1,0.3);
+//track(o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[2][0],o6o3RLEDPL[2][1],1,2,0,o6o3RLEDPL[0][0],o6o3LEDPL[0][1],o6o3LEDPL[0][2],o6o3LEDPL[1][0],o6o3LEDPL[1][1],1,2,0,0.3);
+track(o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[2][0],o6o3RLEDPL[2][1],2,2,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[37][0],rp2040PL[37][1],2,2,0,1.4);
+
+
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[31][0],picoPL[31][1],0,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[38][0],rp2040PL[38][1],0,segments,0,1);
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[32][0],picoPL[32][1],0,2,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[39][0],rp2040PL[39][1],0,2,0,1.4);
+
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[33][0],picoPL[33][1],2,segments,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[33][0]+0.1,picoPL[33][1]+0.1,2,segments,2,1);
+
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[34][0],picoPL[34][1],0,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[40][0],rp2040PL[40][1],0,segments,0,1);
+
+
+track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[38][0],picoPL[38][1],2,segments,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[38][0]+0.1,picoPL[38][1]+0.1,2,segments,2,1);
+
+//sot circut
+track(sot523PL[0][0],sot523PL[0][1],sot523PL[0][2],sot523PL[2][0],sot523PL[2][1],0,2,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[42][0],rp2040PL[42][1],0,2,0,1);
+track(sot523PL[0][0],sot523PL[0][1],sot523PL[0][2],sot523PL[3][0],sot523PL[3][1],0,2,0,sot523PL[0][0],sot523PL[0][1],sot523PL[0][2],sot523PL[3][0]+1.2,sot523PL[3][1]+3,0,2,0,1);
+
+//spiflash
+track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[56][0],rp2040PL[56][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[1][0]-0.5,spiflashPL[1][1],0,2,0,1);
+track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[55][0],rp2040PL[55][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[2][0]-0.5,spiflashPL[2][1],0,2,0,1);
+track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[54][0],rp2040PL[54][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[3][0]-0.5,spiflashPL[3][1],0,2,0,1);
+track(spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],0.1,0.3,0,2,5,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[4][0]+0.5,spiflashPL[4][1],0,2,0,1);
+track(cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[1][0],cornersPL[1][1],0,2,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[53][0],rp2040PL[53][1],0,2,0,1);
+track(cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[1][0],cornersPL[1][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[5][0],spiflashPL[5][1],0,2,2,1);
+track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[52][0],rp2040PL[52][1],0,2,0,cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[2][0],cornersPL[2][1],0,2,0,1);
+track(cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[2][0],cornersPL[2][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[6][0],spiflashPL[6][1],0,2,0,1);
+track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[51][0],rp2040PL[51][1],0,2,0,cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[3][0],cornersPL[3][1],0,2,0,1);
+track(spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[7][0]+0.5,spiflashPL[7][1],0,2,0,cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[3][0],cornersPL[3][1],0,2,0,1);
+track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[50][0],rp2040PL[50][1],0,2,0,cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[4][0],cornersPL[4][1],0,2,0,1);
+track(spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[8][0]+0.5,spiflashPL[8][1],0,2,0,cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[4][0],cornersPL[4][1],0,2,0,1);
+
+rp2040FP(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],1);    
+USBFP(USBPL[0][0],USBPL[0][1],USBPL[0][2],"Homemade","USB-B",1);
+DPAKFP(DPAKPL[0][0],DPAKPL[0][1],DPAKPL[0][2],1);
+o6o3FP(5.3,12,0,1," ",0,0);
+o6o3FP(5.3,13,0,1," ",0,0);
+o6o3FP(-7.5,-0.5,118,1,"  ",0,0);//left side 3v3
+o6o3FP(-0.5-0.1,21.1,90,1,"10u",0,0);
+spiflashFP(spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],"SPIFLASH","16Mb",1);
+chrystalFP(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],1);
+o6o3FP(chrystalPL[0][0]+chrystalPL[3][0]-0.1,chrystalPL[0][1]+chrystalPL[3][1]+2,80,1,"R1k",0,0);
+o6o3FP(chrystalPL[0][0]+chrystalPL[1][0]+0.5,chrystalPL[0][1]+chrystalPL[1][1]-2,90,1,"15p",0,0);
+o6o3FP(chrystalPL[0][0]+chrystalPL[1][0]-0.5,chrystalPL[0][1]+chrystalPL[1][1]-2,90,1,"15p",0,0);
+o6o3FP(o6o3RLEDPL[0][0]+o6o3RLEDPL[1][0],o6o3RLEDPL[0][1]+o6o3RLEDPL[1][1],o6o3RLEDPL[0][2],1,"470",0,0);
+o6o3FP(o6o3LEDPL[0][0]+o6o3LEDPL[1][0],o6o3LEDPL[0][1]+o6o3LEDPL[1][1],o6o3LEDPL[0][2],1,"LED",0,0);
+o6o3FP(rp2040PL[0][0]+rp2040PL[3][0]+2.7,rp2040PL[0][1]+rp2040PL[3][1]-0.5,101,1,"23 24",0,0);
+sot523FP(sot523PL[0][0],sot523PL[0][1],sot523PL[0][2],1);
+o6o3FP(sot523PL[0][0]+sot523PL[3][0]+0.8,sot523PL[0][1]+sot523PL[3][1]+3.1,90,1,"100k",0,0);
+o6o3FP(sot523PL[0][0]+sot523PL[3][0]-0.1,sot523PL[0][1]+sot523PL[3][1]+3.1,90,1,"1nF",0,0);
+o6o3FP(sot523PL[0][0]+sot523PL[3][0]-1,sot523PL[0][1]+sot523PL[3][1]+2.6,90,1,"200k",0,0);
+o6o3FP(picoPL[0][0]+picoPL[35][0]-1.4,picoPL[0][1]+picoPL[35][1]+1.1,90,1,"200",0,0);
+o6o3FP(picoPL[0][0]+picoPL[35][0]-1.5,picoPL[0][1]+picoPL[35][1]-1.1,90,1,"2u2",0,0);
+o6o3FP(picoPL[0][0]+picoPL[35][0]-2.5,picoPL[0][1]+picoPL[35][1]-1.1,90,1,"1ohm",0,0);
+o6o3FP(sot523PL[0][0]+sot523PL[3][0]-1.1,sot523PL[0][1]+sot523PL[3][1]+2.6,90,1,"200k",0,0);
+o6o3FP(-0.4,-6.5,80,1,"0u1",0,0); //bottom 3V3
+o6o3FP(-0.4,-10,82,1,"0u1",0,0); // bottom1V1 
+label(1.0,20.3,0,0,"Postapocalyptic", 0.75,"Courier");
+label(1.0,19,0,0,"Pico", 1.3,"Courier");
+label(1.0,18,0,0,"open hardware", 0.6,"Courier");
+label(0.0,17,0,0,"version 2 Melbu june22", 0.53,"Courier");
+
+//test av trixter
+trixter(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[43][0],rp2040PL[43][1],2,2,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[43][0],rp2040PL[43][1]+2.5,2,2,0);
+}}
+
+//color("bla ck")union(){
+//the monster function "track" and its parameters:
+// startcompx,startcompy,startrotation,startx,starty,starttype,startdivider,startpad,
+//endcompx,endcompy,endrotation,endx,endy,endtype,enddivider,endpad,room(and trace midpoint)
+
+
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[1][0],picoPL[1][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[2][0],rp2040PL[2][1],2,segments,0,-0.2);
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[2][0],picoPL[2][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[3][0],rp2040PL[3][1],2,segments,0,-0.15);
+//    
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[3][0],picoPL[3][1],2,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[3][0]+0.1,picoPL[3][1]+0.1,2,segments,3,0);
+//
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[4][0],picoPL[4][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[4][0],rp2040PL[4][1],2,segments,0,-0.1);
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[5][0],picoPL[5][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[5][0],rp2040PL[5][1],2,segments,0,0);
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[6][0],picoPL[6][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[6][0],rp2040PL[6][1],2,segments,0,0);
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[7][0],picoPL[7][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[7][0],rp2040PL[7][1],2,segments,0,0);
+//    
+//    track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[8][0],picoPL[8][1],2,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[8][0]+0.1,picoPL[8][1]+0.1,2,segments,3,0);
+//
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[9][0],picoPL[9][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[8][0],rp2040PL[8][1],2,segments,0,0);
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[10][0],picoPL[10][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[9][0],rp2040PL[9][1],2,segments,0,0);
+//    
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[10][0]+1.3,picoPL[10][1]-0.6,2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[10][0],rp2040PL[10][1],2,segments,0,0.3);
+//    
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[11][0],picoPL[11][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[11][0],rp2040PL[11][1],2,segments,0,0);
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[12][0],picoPL[12][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[12][0],rp2040PL[12][1],2,segments,0,0);
+//
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0],picoPL[13][1],2,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+0.1,picoPL[13][1]+0.1,2,segments,3,0);
+//
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[14][0],picoPL[14][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[13][0],rp2040PL[13][1],2,segments,0,-0.13);
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[15][0],picoPL[15][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[14][0],rp2040PL[14][1],2,segments,0,-0.2);  
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[16][0],picoPL[16][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[15][0],rp2040PL[15][1],2,segments,0,0);
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[17][0],picoPL[17][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[16][0],rp2040PL[16][1],2,segments,0,0);
+//
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[18][0],picoPL[18][1],2,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[18][0]+0.1,picoPL[18][1]+0.1,2,segments,3,0);
+//
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[19][0],picoPL[19][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[17][0],rp2040PL[17][1],2,segments,0,0);
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[20][0],picoPL[20][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[18][0],rp2040PL[18][1],2,segments,0,0);  
+//
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+6.3,picoPL[13][1]-1,0,segments,3,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[19][0],rp2040PL[19][1],0,segments,0,0); 
+////xtal 20 to 1 and 21 to 3
+//track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[20][0],rp2040PL[20][1],0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]+0.70,chrystalPL[1][1]-0.3,0,segments,0,0);
+//track(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0]-0.7,chrystalPL[3][1]+2.6,0,segments,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[21][0],rp2040PL[21][1],0,segments,0,0);
+//track(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0]+0.1,chrystalPL[3][1]+1.0,0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0],chrystalPL[3][1],0,segments,0,0);
+//track(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]+0.2,chrystalPL[1][1]-1.0,0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0]-0.5,chrystalPL[3][1],0,segments,0,0);
+//track(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]-0.3,chrystalPL[1][1]-1.0,0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]-0.5,chrystalPL[1][1],0,segments,0,0);
+////3V3 and 1V1
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+8.70,picoPL[12][1]-1,0,segments,4,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[22][0],rp2040PL[22][1],0,segments,0,0);
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+8.78,picoPL[13][1]-2,0,segments,5,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[23][0],rp2040PL[23][1],0,segments,0,0);
+//
+////debug circuit
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[41][0]+1.4,picoPL[41][1]+7.8,2,3,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[24][0],rp2040PL[24][1],0,2,0,0.0);
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[42][0]+1.4,picoPL[42][1]+7.8,1,8,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[42][0]+1.4,picoPL[42][1]+7.8,1,2,3,0);
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[43][0]+1.4,picoPL[43][1]+7.8,2,1,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[25][0],rp2040PL[25][1],2,7,0,0.3);
+////run rp2040 to Via
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+11.13,picoPL[13][1],0,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[26][0],rp2040PL[26][1],0,segments,0,0);
+// 
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[21][0],picoPL[21][1],2,2,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[27][0],rp2040PL[28][1],2,9,0,0.49);
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[22][0],picoPL[22][1],2,2,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[28][0],rp2040PL[28][1],2,9,0,0.49);  
+// 
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[23][0],picoPL[23][1],2,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[23][0]+0.1,picoPL[23][1]+0.1,2,segments,3,0); 
+// 
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[24][0],picoPL[24][1],1,12,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[29][0],rp2040PL[29][1],1,5,0,-0.3); 
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[25][0],picoPL[25][1],1,12,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[30][0],rp2040PL[30][1],1,6,0,-0.2); 
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[26][0],picoPL[26][1],1,12,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[31][0],rp2040PL[31][1],1,7,0,-0.12); 
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[27][0],picoPL[27][1],1,13,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[32][0],rp2040PL[32][1],1,7,0,0); 
+//
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[28][0],picoPL[28][1],2,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[28][0]+0.1,picoPL[28][1]+0.1,2,segments,3,0);
+//
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[29][0],picoPL[29][1],1,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[34][0],rp2040PL[34][1],1,6,0,0.3);
+////3v3 lower right
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[28][0]-1,picoPL[28][1]+1,1,segments,4,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[33][0],rp2040PL[33][1],1,8,0,0.27);
+////LED circuit
+////track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[37][0],rp2040PL[37][1],1,3,0,o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[1][0],o6o3RLEDPL[1][1],2,7,0,0);
+////track(o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[2][0],o6o3RLEDPL[2][1],1,7,0,o6o3RLEDPL[0][0],o6o3LEDPL[0][1],o6o3LEDPL[0][2],o6o3LEDPL[1][0],o6o3LEDPL[1][1],1,7,0,0);
+//track(o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[2][0],o6o3RLEDPL[2][1],0,2,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[37][0],rp2040PL[37][1],0,2,0,0);
+//track(o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[1][0],o6o3RLEDPL[1][1],0,2,0,o6o3LEDPL[0][0],o6o3LEDPL[0][1],o6o3LEDPL[0][2],o6o3LEDPL[2][0],o6o3LEDPL[2][1],0,2,0,0);
+//track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[35][0],rp2040PL[35][1],0,2,0,o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[2][0],o6o3RLEDPL[2][1],0,2,0,0);
+//
+//
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[31][0],picoPL[31][1],0,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[38][0],rp2040PL[38][1],0,segments,0,0);
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[32][0],picoPL[32][1],0,2,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[39][0],rp2040PL[39][1],0,2,0,-0.4);
+//
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[33][0],picoPL[33][1],2,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[33][0]+0.1,picoPL[33][1]+0.1,2,segments,3,0);
+//
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[34][0],picoPL[34][1],0,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[40][0],rp2040PL[40][1],0,segments,0,0);
+//
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[38][0],picoPL[38][1],0,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[38][0]+0.1,picoPL[38][1]+0.1,0,segments,3,0);
+////sot circut
+//track(sot523PL[0][0],sot523PL[0][1],sot523PL[0][2],sot523PL[2][0],sot523PL[2][1],0,2,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[42][0],rp2040PL[42][1],0,2,0,0);
+//track(sot523PL[0][0],sot523PL[0][1],sot523PL[0][2],sot523PL[3][0],sot523PL[3][1],0,2,0,sot523PL[0][0],sot523PL[0][1],sot523PL[0][2],sot523PL[3][0]+1.2,sot523PL[3][1]+3,0,2,0,0);
+//
+//
+////spiflash
+//track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[56][0],rp2040PL[56][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[1][0]-0.5,spiflashPL[1][1],0,2,0,0);
+//track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[55][0],rp2040PL[55][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[2][0]-0.5,spiflashPL[2][1],0,2,0,0);
+//track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[54][0],rp2040PL[54][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[3][0]-0.5,spiflashPL[3][1],0,2,0,0);
+//track(spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[4][0]+0.5,spiflashPL[4][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],0.1,0.3,0,2,0,0);
+//track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[53][0],rp2040PL[53][1],0,2,0,cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[1][0],cornersPL[1][1],0,2,0,0);
+//track(cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[1][0],cornersPL[1][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[5][0]+0.5,spiflashPL[5][1],0,2,0,0);
+//track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[52][0],rp2040PL[52][1],0,2,0,cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[2][0],cornersPL[2][1],0,2,0,0);
+//track(cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[2][0],cornersPL[2][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[6][0]+0.5,spiflashPL[6][1],2,segments,0,0);
+//track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[51][0],rp2040PL[51][1],0,2,0,cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[3][0],cornersPL[3][1],0,2,0,0);
+//track(cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[3][0],cornersPL[3][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[7][0]+0.5,spiflashPL[7][1],2,segments,0,0);
+//track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[50][0],rp2040PL[50][1],0,2,0,cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[4][0],cornersPL[4][1],0,2,0,0);
+//track(spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[8][0]+0.5,spiflashPL[8][1],0,2,0,cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[4][0],cornersPL[4][1],0,2,0,0);
+
+
+//}
+
+//color("bla ck")union(){
+//the monster function "track" and its parameters:
+// startcompx,startcompy,startrotation,startx,starty,starttype,startdivider,startpad,
+//endcompx,endcompy,endrotation,endx,endy,endtype,enddivider,endpad,room(and trace midpoint)
+
+
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[1][0],picoPL[1][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[2][0],rp2040PL[2][1],2,segments,0,-0.2);
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[2][0],picoPL[2][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[3][0],rp2040PL[3][1],2,segments,0,-0.15);
+//    
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[3][0],picoPL[3][1],2,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[3][0]+0.1,picoPL[3][1]+0.1,2,segments,3,0);
+//
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[4][0],picoPL[4][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[4][0],rp2040PL[4][1],2,segments,0,-0.1);
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[5][0],picoPL[5][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[5][0],rp2040PL[5][1],2,segments,0,0);
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[6][0],picoPL[6][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[6][0],rp2040PL[6][1],2,segments,0,0);
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[7][0],picoPL[7][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[7][0],rp2040PL[7][1],2,segments,0,0);
+//    
+//    track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[8][0],picoPL[8][1],2,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[8][0]+0.1,picoPL[8][1]+0.1,2,segments,3,0);
+//
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[9][0],picoPL[9][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[8][0],rp2040PL[8][1],2,segments,0,0);
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[10][0],picoPL[10][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[9][0],rp2040PL[9][1],2,segments,0,0);
+//    
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[10][0]+1.3,picoPL[10][1]-0.6,2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[10][0],rp2040PL[10][1],2,segments,0,0.3);
+//    
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[11][0],picoPL[11][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[11][0],rp2040PL[11][1],2,segments,0,0);
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[12][0],picoPL[12][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[12][0],rp2040PL[12][1],2,segments,0,0);
+//
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0],picoPL[13][1],2,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+0.1,picoPL[13][1]+0.1,2,segments,3,0);
+
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[14][0],picoPL[14][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[13][0],rp2040PL[13][1],2,segments,0,-0.13);
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[15][0],picoPL[15][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[14][0],rp2040PL[14][1],2,segments,0,-0.2);  
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[16][0],picoPL[16][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[15][0],rp2040PL[15][1],2,segments,0,0);
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[17][0],picoPL[17][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[16][0],rp2040PL[16][1],2,segments,0,0);
+//
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[18][0],picoPL[18][1],2,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[18][0]+0.1,picoPL[18][1]+0.1,2,segments,3,0);
+//
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[19][0],picoPL[19][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[17][0],rp2040PL[17][1],2,segments,0,0);
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[20][0],picoPL[20][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[18][0],rp2040PL[18][1],2,segments,0,0);  
+//
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+6.3,picoPL[13][1]-1,0,segments,3,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[19][0],rp2040PL[19][1],0,segments,0,0); 
+////xtal 20 to 1 and 21 to 3
+//track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[20][0],rp2040PL[20][1],0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]+0.70,chrystalPL[1][1]-0.3,0,segments,0,0);
+//track(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0]-0.7,chrystalPL[3][1]+2.6,0,segments,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[21][0],rp2040PL[21][1],0,segments,0,0);
+//track(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0]+0.1,chrystalPL[3][1]+1.0,0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0],chrystalPL[3][1],0,segments,0,0);
+//track(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]+0.2,chrystalPL[1][1]-1.0,0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0]-0.5,chrystalPL[3][1],0,segments,0,0);
+//track(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]-0.3,chrystalPL[1][1]-1.0,0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]-0.5,chrystalPL[1][1],0,segments,0,0);
+////3V3 and 1V1
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+8.70,picoPL[12][1]-1,0,segments,4,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[22][0],rp2040PL[22][1],0,segments,0,0);
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+8.78,picoPL[13][1]-2,0,segments,5,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[23][0],rp2040PL[23][1],0,segments,0,0);
+//
+////debug circuit
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[41][0]+1.4,picoPL[41][1]+7.8,2,3,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[24][0],rp2040PL[24][1],0,2,0,0.0);
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[42][0]+1.4,picoPL[42][1]+7.8,1,8,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[42][0]+1.4,picoPL[42][1]+7.8,1,2,3,0);
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[43][0]+1.4,picoPL[43][1]+7.8,2,1,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[25][0],rp2040PL[25][1],2,7,0,0.3);
+////run rp2040 to Via
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+11.13,picoPL[13][1],0,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[26][0],rp2040PL[26][1],0,segments,0,0);
+// 
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[21][0],picoPL[21][1],2,2,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[27][0],rp2040PL[28][1],2,9,0,0.49);
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[22][0],picoPL[22][1],2,2,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[28][0],rp2040PL[28][1],2,9,0,0.49);  
+// 
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[23][0],picoPL[23][1],2,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[23][0]+0.1,picoPL[23][1]+0.1,2,segments,3,0); 
+// 
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[24][0],picoPL[24][1],1,12,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[29][0],rp2040PL[29][1],1,5,0,-0.3); 
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[25][0],picoPL[25][1],1,12,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[30][0],rp2040PL[30][1],1,6,0,-0.2); 
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[26][0],picoPL[26][1],1,12,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[31][0],rp2040PL[31][1],1,7,0,-0.12); 
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[27][0],picoPL[27][1],1,13,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[32][0],rp2040PL[32][1],1,7,0,0); 
+//
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[28][0],picoPL[28][1],2,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[28][0]+0.1,picoPL[28][1]+0.1,2,segments,3,0);
+//
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[29][0],picoPL[29][1],1,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[34][0],rp2040PL[34][1],1,6,0,0.3);
+////3v3 lower right
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[28][0]-1,picoPL[28][1]+1,1,segments,4,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[33][0],rp2040PL[33][1],1,8,0,0.27);
+////LED circuit
+////track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[37][0],rp2040PL[37][1],1,3,0,o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[1][0],o6o3RLEDPL[1][1],2,7,0,0);
+////track(o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[2][0],o6o3RLEDPL[2][1],1,7,0,o6o3RLEDPL[0][0],o6o3LEDPL[0][1],o6o3LEDPL[0][2],o6o3LEDPL[1][0],o6o3LEDPL[1][1],1,7,0,0);
+//track(o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[2][0],o6o3RLEDPL[2][1],0,2,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[37][0],rp2040PL[37][1],0,2,0,0);
+//track(o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[1][0],o6o3RLEDPL[1][1],0,2,0,o6o3LEDPL[0][0],o6o3LEDPL[0][1],o6o3LEDPL[0][2],o6o3LEDPL[2][0],o6o3LEDPL[2][1],0,2,0,0);
+//track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[35][0],rp2040PL[35][1],0,2,0,o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[2][0],o6o3RLEDPL[2][1],0,2,0,0);
+//
+//
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[31][0],picoPL[31][1],0,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[38][0],rp2040PL[38][1],0,segments,0,0);
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[32][0],picoPL[32][1],0,2,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[39][0],rp2040PL[39][1],0,2,0,-0.4);
+//
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[33][0],picoPL[33][1],2,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[33][0]+0.1,picoPL[33][1]+0.1,2,segments,3,0);
+//
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[34][0],picoPL[34][1],0,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[40][0],rp2040PL[40][1],0,segments,0,0);
+//
+//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[38][0],picoPL[38][1],0,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[38][0]+0.1,picoPL[38][1]+0.1,0,segments,3,0);
+////sot circut
+//track(sot523PL[0][0],sot523PL[0][1],sot523PL[0][2],sot523PL[2][0],sot523PL[2][1],0,2,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[42][0],rp2040PL[42][1],0,2,0,0);
+//track(sot523PL[0][0],sot523PL[0][1],sot523PL[0][2],sot523PL[3][0],sot523PL[3][1],0,2,0,sot523PL[0][0],sot523PL[0][1],sot523PL[0][2],sot523PL[3][0]+1.2,sot523PL[3][1]+3,0,2,0,0);
+
+
+
+border();
+rp2040FP(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],0);
+USBFP(USBPL[0][0],USBPL[0][1],USBPL[0][2],"Homemade","USB-B",0);
+DPAKFP(DPAKPL[0][0],DPAKPL[0][1],DPAKPL[0][2],0);
+o6o3FP(5.3,12,0,0," ",0,0);
+o6o3FP(5.3,13,0,0," ",0,0);
+o6o3FP(-7.5,-0.6,118,0,"  ",0,1);//left side 3v3
+o6o3FP(-0.5-0.1,21.1,90,0,"10u",0,0);
+spiflashFP(spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],"SPIFLASH","16Mb",0);
+chrystalFP(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],0,0,0);
+o6o3FP(chrystalPL[0][0]+chrystalPL[3][0]-0.1,chrystalPL[0][1]+chrystalPL[3][1]+2,80,0,"R1k",0,0);
+o6o3FP(chrystalPL[0][0]+chrystalPL[1][0]+0.5,chrystalPL[0][1]+chrystalPL[1][1]-2,90,0,"15p",0,1);
+o6o3FP(chrystalPL[0][0]+chrystalPL[1][0]-0.5,chrystalPL[0][1]+chrystalPL[1][1]-2,90,0,"15p",0,1);
+o6o3FP(o6o3RLEDPL[0][0]+o6o3RLEDPL[1][0],o6o3RLEDPL[0][1]+o6o3RLEDPL[1][1],o6o3RLEDPL[0][2],0,"470",0,0);
+o6o3FP(o6o3LEDPL[0][0]+o6o3LEDPL[1][0],o6o3LEDPL[0][1]+o6o3LEDPL[1][1],o6o3LEDPL[0][2],0,"LED",0,1);
+o6o3FP(rp2040PL[0][0]+rp2040PL[3][0]+2.7,rp2040PL[0][1]+rp2040PL[3][1]-0.5,101,0,"23 24",0,0);
+sot523FP(sot523PL[0][0],sot523PL[0][1],sot523PL[0][2],0);
+o6o3FP(sot523PL[0][0]+sot523PL[3][0]+0.8,sot523PL[0][1]+sot523PL[3][1]+3.1,90,0,"100k",1,0);
+o6o3FP(sot523PL[0][0]+sot523PL[3][0]-0.1,sot523PL[0][1]+sot523PL[3][1]+3.1,90,0,"1nF",1,0);
+o6o3FP(sot523PL[0][0]+sot523PL[3][0]-6,sot523PL[0][1]+sot523PL[3][1]+4.6,90,0,"200k",0,0);
+o6o3FP(picoPL[0][0]+picoPL[35][0]-5.4,picoPL[0][1]+picoPL[35][1]+1.1,90,0,"200",0,0);
+o6o3FP(picoPL[0][0]+picoPL[35][0]-5.5,picoPL[0][1]+picoPL[35][1]-1.1,90,0,"2u2",0,0);
+o6o3FP(picoPL[0][0]+picoPL[35][0]-7.5,picoPL[0][1]+picoPL[35][1]-1.1,90,0,"1ohm",0,0);
+o6o3FP(sot523PL[0][0]+sot523PL[3][0]-1.1,sot523PL[0][1]+sot523PL[3][1]+2.6,90,0,"200k",0,0);
+o6o3FP(-0.4,-6.5,80,0,"0u1",0,1); //bottom 3V3
+o6o3FP(-0.4,-10,82,0,"0u1",0,1); // bottom1V1 
+footprinter("o6o3FP",0,0,0,0,0,1);//testing the footprinter
+//}    
+
+
+//   ****            MODULES       ****
+module footprinter (fpName, xaddition, yaddition, rotateaddition, labelone, labeltwo, groundpin){
+           difference(){
+  //    echo (fpName,"[0][0],");
+               
+   }
+    }
+    
+    module trixter (startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider,startpad,endcompx,endcompy,erotation,epinx,epiny,endtype,enddivider,endpad,room){
+           difference(){
+track(startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider,startpad,endcompx,endcompy,erotation,epinx,epiny,endtype,enddivider,endpad,1);
+     track(startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider,startpad,endcompx,endcompy,erotation,epinx,epiny,endtype,enddivider,endpad,0);          
+  //    echo (fpName,"[0][0],");
+               
+   }
+    }
+
+
+module track (startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider,startpad,endcompx,endcompy,erotation,epinx,epiny,endtype,enddivider,endpad,room) {
+    //debug points Startpoints are red, Endpoints are green
+    color("red")translate([startcompx,startcompy,0])rotate([0,0,srotation])translate([spinx,spiny,0])cylinder(5,0.2,0.2,center=true);    
+    color("green")translate([endcompx,endcompy,0])rotate([0,0,erotation])translate([epinx,epiny,0])cylinder(5,0.2,0.2,center=true);   
+    
+    startradius=sqrt(spinx*spinx+spiny*spiny);
+    startisahead=(spinx/(abs(spinx)));
+    endradius=sqrt(epinx*epinx+epiny*epiny);
+    endisup=(epiny/(abs(epiny)));
+    endisahead=(epinx/(abs(epinx)));
+    
+    oldangle=[90-startisahead*-asin(spinx/startradius),
+    90+(epinx/abs(epinx))*asin(epinx/endradius)];
+    newangle=[oldangle[0]+srotation*endisup,
+    oldangle[1]+erotation*endisahead*-endisup];
+    
+    coords=[ [startradius*cos(newangle[0])*-startisahead, startradius*sin(newangle[0])*(spiny/(abs(spiny)))],[endradius*sin(-90-newangle[1])*endisahead,endradius*sin(newangle[1])*endisup] ];
+    
+    startx=startcompx+coords[0][0];
+    starty=startcompy+coords[0][1];
+    endx=endcompx+coords[1][0];
+    endy=endcompy+coords[1][1];
+   
+    startendx=startx+(endx-startx)*abs(room-0.5);
+    startendy=starty+(endy-starty)*abs(room-0.5);
+    incrementxs=(startendx-startx)/(startdivider);
+    incrementys=(startendy-starty)/(startdivider);
+    incrementxe=(endx-startendx)/(enddivider);
+    incrementye=(endy-startendy)/(enddivider);
+    
+    midpoint=[startendx,startendy];
+    curve=(startdivider);
+    pointsstart = [
+[startx,starty],
+[startx+1*incrementxs,starty+1*incrementys],[startx+2*incrementxs,starty+2*incrementys],
+[startx+3*incrementxs,starty+3*incrementys],[startx+4*incrementxs,starty+4*incrementys],
+[startx+5*incrementxs,starty+5*incrementys],[startx+6*incrementxs,starty+6*incrementys],
+[startx+7*incrementxs,starty+7*incrementys],[startx+8*incrementxs,starty+8*incrementys],
+[startx+9*incrementxs,starty+9*incrementys],[startx+10*incrementxs,starty+10*incrementys],
+[startx+11*incrementxs,starty+11*incrementys],[startx+12*incrementxs,starty+12*incrementys],
+[startx+13*incrementxs,starty+13*incrementys],[startendx,startendy]];
+    pointsend = [
+//[startendx,startendy],
+midpoint,
+[startendx+1*incrementxe,startendy+1*incrementye], [startendx+2*incrementxe,startendy+2*incrementye], 
+[startendx+3*incrementxe,startendy+3*incrementye],[startendx+4*incrementxe,startendy+4*incrementye],
+[startendx+5*incrementxe,startendy+5*incrementye],[startendx+6*incrementxe,startendy+6*incrementye],
+[startendx+7*incrementxe,startendy+7*incrementye],[startendx+8*incrementxe,startendy+8*incrementye],
+[startendx+9*incrementxe,startendy+9*incrementye],[startendx+10*incrementxe,startendy+10*incrementye],
+[startendx+11*incrementxe,startendy+11*incrementye],[startendx+12*incrementxe,startendy+12*incrementye],
+[startendx+13*incrementxe,startendy+13*incrementye],[endx,endy]];
+    
+    pointsHcurvestart = [
+[startx,starty],
+[startx+1*incrementxs,starty+1*incrementys+startdivider*0.2*sin(1*90/(startdivider/2))],
+[startx+2*incrementxs,starty+2*incrementys-startdivider*0.2*sin(2*90/(startdivider/2))],
+[startx+3*incrementxs,starty+3*incrementys-startdivider*0.2*sin(3*90/(startdivider/2))],
+[startx+4*incrementxs,starty+4*incrementys-startdivider*0.2*sin(4*90/(startdivider/2))],
+[startx+5*incrementxs,starty+5*incrementys-startdivider*0.2*sin(5*90/(startdivider/2))],
+[startx+6*incrementxs,starty+6*incrementys-startdivider*0.2*sin(6*90/(startdivider/2))],
+[startx+7*incrementxs,starty+7*incrementys-startdivider*0.2*sin(7*90/(startdivider/2))],
+[startx+8*incrementxs,starty+8*incrementys-startdivider*0.2*sin(8*90/(startdivider/2))],
+[startx+9*incrementxs,starty+9*incrementys-startdivider*0.2*sin(9*90/(startdivider/2))],
+[startx+10*incrementxs,starty+10*incrementys-startdivider*0.2*sin(10*90/(startdivider/2))],
+[startx+11*incrementxs,starty+11*incrementys-startdivider*0.2*sin(11*90/(startdivider/2))],
+[startx+12*incrementxs,starty+12*incrementys-startdivider*0.2*sin(12*90/(startdivider/2))],
+[startx+13*incrementxs,starty+13*incrementys-startdivider*0.2*sin(13*90/(startdivider/2))],
+[startendx,startendy]];
+    
+    pointsHcurveend = [
+[startendx,startendy],
+[startendx+1*incrementxe+enddivider*0.2*sin(1*90/(enddivider/2)),startendy+1*incrementye], 
+[startendx+2*incrementxe+enddivider*0.2*sin(2*90/(enddivider/2)),startendy+2*incrementye], 
+[startendx+3*incrementxe+enddivider*0.2*sin(3*90/(enddivider/2)),startendy+3*incrementye],
+[startendx+4*incrementxe+enddivider*0.2*sin(4*90/(enddivider/2)),startendy+4*incrementye],
+[startendx+5*incrementxe+enddivider*0.2*sin(5*90/(enddivider/2)),startendy+5*incrementye],
+[startendx+6*incrementxe+enddivider*0.2*sin(6*90/(enddivider/2)),startendy+6*incrementye],
+[startendx+7*incrementxe+enddivider*0.2*sin(7*90/(enddivider/2)),startendy+7*incrementye],
+[startendx+8*incrementxe+enddivider*0.2*sin(8*90/(enddivider/2)),startendy+8*incrementye],
+[startendx+9*incrementxe+enddivider*0.2*sin(9*90/(enddivider/2)),startendy+9*incrementye],
+[startendx+10*incrementxe+enddivider*0.2*sin(10*90/(enddivider/2)),startendy+10*incrementye],
+[startendx+11*incrementxe+enddivider*0.2*sin(11*90/(enddivider/2)),startendy+11*incrementye],
+[startendx+12*incrementxe+enddivider*0.2*sin(12*90/(enddivider/2)),startendy+12*incrementye],
+[startendx+13*incrementxe+enddivider*0.2*sin(13*90/(enddivider/2)),startendy+13*incrementye],
+[endx,endy]];
+    
+    pointsVcurvestart = [
+[startx,starty],
+[startx+1*incrementxs+startdivider*0.2*sin(1*90/(startdivider/2)),starty+1*incrementys],
+[startx+2*incrementxs+startdivider*0.2*sin(2*90/(startdivider/2)),starty+2*incrementys],
+[startx+3*incrementxs+startdivider*0.2*sin(3*90/(startdivider/2)),starty+3*incrementys],
+[startx+4*incrementxs+startdivider*0.2*sin(4*90/(startdivider/2)),starty+4*incrementys],
+[startx+5*incrementxs-startdivider*0.2*sin(5*90/(startdivider/2)),starty+5*incrementys],
+[startx+6*incrementxs-startdivider*0.2*sin(6*90/(startdivider/2)),starty+6*incrementys],
+[startx+7*incrementxs-startdivider*0.2*sin(7*90/(startdivider/2)),starty+7*incrementys],
+[startx+8*incrementxs-startdivider*0.2*sin(8*90/(startdivider/2)),starty+8*incrementys],
+[startx+9*incrementxs-startdivider*0.2*sin(9*90/(startdivider/2)),starty+9*incrementys],
+[startx+10*incrementxs-startdivider*0.2*sin(10*90/(startdivider/2)),starty+10*incrementys],
+[startx+11*incrementxs-startdivider*0.2*sin(11*90/(startdivider/2)),starty+11*incrementys],
+[startx+12*incrementxs-startdivider*0.2*sin(12*90/(startdivider/2)),starty+12*incrementys],
+[startx+13*incrementxs-startdivider*0.2*sin(13*90/(startdivider/2)),starty+13*incrementys],
+[startendx,startendy]];
+    
+    pointsVcurveend = [[startendx,startendy],
+[startendx+1*incrementxe-enddivider*0.2*sin(1*90/(enddivider/2)),startendy+1*incrementye], 
+[startendx+2*incrementxe-enddivider*0.2*sin(2*90/(enddivider/2)),startendy+2*incrementye], 
+[startendx+3*incrementxe-enddivider*0.2*sin(3*90/(enddivider/2)),startendy+3*incrementye],
+[startendx+4*incrementxe-enddivider*0.2*sin(4*90/(enddivider/2)),startendy+4*incrementye],
+[startendx+5*incrementxe-enddivider*0.2*sin(5*90/(enddivider/2)),startendy+5*incrementye],
+[startendx+6*incrementxe-enddivider*0.2*sin(6*90/(enddivider/2)),startendy+6*incrementye],
+[startendx+7*incrementxe-enddivider*0.2*sin(7*90/(enddivider/2)),startendy+7*incrementye],
+[startendx+8*incrementxe-enddivider*0.2*sin(8*90/(enddivider/2)),startendy+8*incrementye],
+[startendx+9*incrementxe-enddivider*0.2*sin(9*90/(enddivider/2)),startendy+9*incrementye],
+[startendx+10*incrementxe-enddivider*0.2*sin(10*90/(enddivider/2)),startendy+10*incrementye],
+[startendx+11*incrementxe-enddivider*0.2*sin(11*90/(enddivider/2)),startendy+11*incrementye],
+[startendx+12*incrementxe-enddivider*0.2*sin(12*90/(enddivider/2)),startendy+12*incrementye],
+[startendx+13*incrementxe-enddivider*0.2*sin(13*90/(enddivider/2)),startendy+13*incrementye],
+[endx,endy]];
+
+//Straight line vectors
+    for (k=[1:1:startdivider]){
+            if (starttype==0){
+                updowntest1=pointsstart[k][1]-pointsstart[k-1][1];
+                updownvector1=(updowntest1/(abs(updowntest1)));
+                rightlefttest1=pointsstart[k][0]-pointsstart[k-1][0];
+                rightleftvector1=(rightlefttest1/(abs(rightlefttest1)));
+            translate([pointsstart[k][0]+(pointsstart[k-1][0]-pointsstart[k][0])/2,pointsstart[k][1]+(pointsstart[k-1][1]-pointsstart[k][1])/2,1])rotate([0,0,
+                90+updownvector1*asin((pointsstart[k-1][0]-pointsstart[k][0])/sqrt((pointsstart[k-1][0]-pointsstart[k][0])*(pointsstart[k-1][0]-pointsstart[k][0])+(pointsstart[k-1][1]-pointsstart[k][1])*(pointsstart[k-1][1]-pointsstart[k][1])))                //-90-rightleftvector1*acos((pointsstart[k-1][0]-pointsstart[k][0])/sqrt((pointsstart[k-1][0]-pointsstart[k][0])*(pointsstart[k-1][0]-pointsstart[k][0])+(pointsstart[k-1][1]-pointsstart[k][1])*(pointsstart[k-1][1]-pointsstart[k][1])))
+                ])square([sqrt((pointsstart[k-1][0]-pointsstart[k][0])*(pointsstart[k-1][0]-pointsstart[k][0])+(pointsstart[k-1][1]-pointsstart[k][1])*(pointsstart[k-1][1]-pointsstart[k][1])),trace+round(room)*clearance],center=true);
+            
+        }           
+            }
+    for (l=[1:1:enddivider-1]){
+            if (endtype==0){
+                updowntest2=pointsend[l][1]-pointsend[l-1][1];
+                updownvector2=(updowntest2/(abs(updowntest2)));
+                rightlefttest2=pointsstart[l][0]-pointsstart[l-1][0];
+                rightleftvector2=(rightlefttest2/(abs(rightlefttest2)));
+               translate([pointsend[l][0]+(pointsend[l-1][0]-pointsend[l][0])/2,pointsend[l][1]+(pointsend[l-1][1]-pointsend[l][1])/2,1])rotate([0,0,
+                90+updownvector2*asin((pointsend[l-1][0]-pointsend[l][0])/sqrt((pointsend[l-1][0]-pointsend[l][0])*(pointsend[l-1][0]-pointsend[l][0])+(pointsend[l-1][1]-pointsend[l][1])*(pointsend[l-1][1]-pointsend[l][1])))
+                ])square([sqrt((pointsend[l-1][0]-pointsend[l][0])*(pointsend[l-1][0]-pointsend[l][0])+(pointsend[l-1][1]-pointsend[l][1])*(pointsend[l-1][1]-pointsend[l][1])),trace+round(room)*clearance],center=true);
+          
+         if(l==enddivider-1) {
+             //updowntest5=endy-pointsHcurveend[l][1];
+             //rightlefttest3=pointsstart[l][0]-pointsstart[l-1][0];
+             //rightleftvector3=(rightlefttest3/(abs(rightlefttest3)));
+             translate([endx+(pointsend[l-1][0]-endx)/2,endy+(pointsend[l-1][1]-endy)/2,1])rotate([0,0,90+updownvector2*asin((pointsend[l-1][0]-endx)/sqrt((pointsend[l-1][0]-endx)*(pointsend[l-1][0]-endx)+(pointsend[l-1][1]-endy)*(pointsend[l-1][1]-endy)))])square([sqrt((pointsend[l-1][0]-endx)*(pointsend[l-1][0]-endx)+(pointsend[l-1][1]-endy)*(pointsend[l-1][1]-endy)),trace+round(room)*clearance],center=true);
+       
+        }  }       
+            }  
+       
+//Horisontal sine curve vectors
+       for (q=[1:1:startdivider]){
+            if (starttype==1){
+                updowntest3=pointsHcurvestart[q][1]-pointsHcurvestart[q-1][1];
+                translate([pointsHcurvestart[q][0]+(pointsHcurvestart[q-1][0]-pointsHcurvestart[q][0])/2,pointsHcurvestart[q][1]+(pointsHcurvestart[q-1][1]-pointsHcurvestart[q][1])/2,1])rotate([0,0,90+(updowntest3/(abs(updowntest3)))*asin((pointsHcurvestart[q-1][0]-pointsHcurvestart[q][0])/sqrt((pointsHcurvestart[q-1][0]-pointsHcurvestart[q][0])*(pointsHcurvestart[q-1][0]-pointsHcurvestart[q][0])+(pointsHcurvestart[q-1][1]-pointsHcurvestart[q][1])*(pointsHcurvestart[q-1][1]-pointsHcurvestart[q][1])))])square([sqrt((pointsHcurvestart[q-1][0]-pointsHcurvestart[q][0])*(pointsHcurvestart[q-1][0]-pointsHcurvestart[q][0])+(pointsHcurvestart[q-1][1]-pointsHcurvestart[q][1])*(pointsHcurvestart[q-1][1]-pointsHcurvestart[q][1]))+clearance,trace+round(room)*clearance],center=true);
+             }             
+    }
+ for (r=[1:1:enddivider-1]){
+            if (endtype==1){
+                updowntest3=pointsHcurveend[r][1]-pointsHcurveend[r-1][1];
+                translate([pointsHcurveend[r][0]+(pointsHcurveend[r-1][0]-pointsHcurveend[r][0])/2,pointsHcurveend[r][1]+(pointsHcurveend[r-1][1]-pointsHcurveend[r][1])/2,1])rotate([0,0,90+(updowntest3/(abs(updowntest3)))*asin((pointsHcurveend[r-1][0]-pointsHcurveend[r][0])/sqrt((pointsHcurveend[r-1][0]-pointsHcurveend[r][0])*(pointsHcurveend[r-1][0]-pointsHcurveend[r][0])+(pointsHcurveend[r-1][1]-pointsHcurveend[r][1])*(pointsHcurveend[r-1][1]-pointsHcurveend[r][1])))])square([sqrt((pointsHcurveend[r-1][0]-pointsHcurveend[r][0])*(pointsHcurveend[r-1][0]-pointsHcurveend[r][0])+(pointsHcurveend[r-1][1]-pointsHcurveend[r][1])*(pointsHcurveend[r-1][1]-pointsHcurveend[r][1]))+clearance,trace+round(room)*clearance],center=true);
+                
+                 if(r==enddivider-1) {
+                     updowntest6=endy-pointsHcurveend[r][1];
+                 
+                 translate([endx+(pointsHcurveend[r][0]-endx)/2,endy+(pointsHcurveend[r][1]-endy)/2,1])rotate([0,0,90+(updowntest6/(abs(updowntest6)))*asin((pointsHcurveend[r][0]-endx)/sqrt((pointsHcurveend[r][0]-endx)*(pointsHcurveend[r][0]-endx)+(pointsHcurveend[r][1]-endy)*(pointsHcurveend[r][1]-endy)))])square([sqrt((pointsHcurveend[r][0]-endx)*(pointsHcurveend[r][0]-endx)+(pointsHcurveend[r][1]-endy)*(pointsHcurveend[r][1]-endy))+clearance,trace+round(room)*clearance],center=true);          
+                        }
+              }
+    }     
+ 
+//Vertical sine curve vectors       
+for (q=[1:1:startdivider]){
+            if (starttype==2){
+                updowntest3=pointsVcurvestart[q][1]-pointsVcurvestart[q-1][1];
+                translate([pointsVcurvestart[q][0]+(pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])/2,pointsVcurvestart[q][1]+(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1])/2,1])rotate([0,0,90+(updowntest3/(abs(updowntest3)))*asin((pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])/sqrt((pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])*(pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])+(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1])*(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1])))])square([sqrt((pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])*(pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])+(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1])*(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1]))+clearance,trace+round(room)*clearance],center=true);
+             }             
+    }
+ for (r=[1:1:enddivider-1]){
+            if (endtype==2){
+                updowntest4=pointsVcurveend[r][1]-pointsVcurveend[r-1][1];
+                translate([pointsVcurveend[r][0]+(pointsVcurveend[r-1][0]-pointsVcurveend[r][0])/2,pointsVcurveend[r][1]+(pointsVcurveend[r-1][1]-pointsVcurveend[r][1])/2,1])rotate([0,0,90+(updowntest4/(abs(updowntest4)))*asin((pointsVcurveend[r-1][0]-pointsVcurveend[r][0])/sqrt((pointsVcurveend[r-1][0]-pointsVcurveend[r][0])*(pointsVcurveend[r-1][0]-pointsVcurveend[r][0])+(pointsVcurveend[r-1][1]-pointsVcurveend[r][1])*(pointsVcurveend[r-1][1]-pointsVcurveend[r][1])))])square([sqrt((pointsVcurveend[r-1][0]-pointsVcurveend[r][0])*(pointsVcurveend[r-1][0]-pointsVcurveend[r][0])+(pointsVcurveend[r-1][1]-pointsVcurveend[r][1])*(pointsVcurveend[r-1][1]-pointsVcurveend[r][1]))+clearance,trace+round(room)*clearance],center=true);
+                
+                 if(r==enddivider-1) {
+                 updowntest7=endy-pointsVcurveend[r][1];
+                 translate([endx+(pointsVcurveend[r][0]-endx)/2,endy+(pointsVcurveend[r][1]-endy)/2,1])rotate([0,0,90+(updowntest7/(abs(updowntest7)))*asin((pointsVcurveend[r][0]-endx)/sqrt((pointsVcurveend[r][0]-endx)*(pointsVcurveend[r][0]-endx)+(pointsVcurveend[r][1]-endy)*(pointsVcurveend[r][1]-endy)))])square([sqrt((pointsVcurveend[r][0]-endx)*(pointsVcurveend[r][0]-endx)+(pointsVcurveend[r][1]-endy)*(pointsVcurveend[r][1]-endy))+clearance,trace+round(room)*clearance],center=true);          
+                        }
+              }
+    }      
+
+//(startcompx, startcompy, startcomprotation, startx, starty, starttype, startdivider, startpad, endcompx, endcompy, endcomprotation, endx, endy, endtype,enddivider,endpad,round(room))
+difference(){
+     union(){
+         translate([0,0,0]) linear_extrude(2){
+if (startpad==1)translate([startx,starty,0])rotate([0,0,360/(4*detail)])circle(pad+clearance*round(room), $fn=detail);
+if (startpad==2)translate([startx,starty,0])rotate([0,0,360/(4*detail)])circle(pad*0.75+clearance*round(room), $fn=detail);
+if (startpad==4)translate([startx,starty,0])rotate([0,0,-9])intersection(){
+    translate([pad/3,0,0])square([pad,2*pad],center=true);
+    translate([-pad/3,0,0])rotate([0,0,360/(4*detail)])circle(pad*0.75+clearance*round(room), $fn=detail);
+}
+if (startpad==5)translate([startx,starty,0])rotate([0,0,-9])intersection(){
+    translate([-pad/3,0,0])square([pad,2*pad],center=true);
+    translate([pad/3,0,0])rotate([0,0,360/(4*detail)])circle(pad*0.75+clearance*round(room), $fn=detail);
+}
+    if (startpad==3)translate([startx,starty,0])rotate([0,0,360/(4*detail)]){
+        for (s=[360/(2*detail):360/detail:360+360/detail])rotate([0,0,s])square([pad*0.60+clearance,trace],center=false);
+            circle(pad*0.75+clearance*round(room), $fn=detail);
+            }
+if (endpad==1)translate([endx,endy,0])rotate([0,0,360/(4*detail)])circle(pad+clearance*round(room), $fn=detail);
+if (endpad==2)translate([endx,endy,0])rotate([0,0,360/(4*detail)])circle(pad*0.75+clearance*round(room), $fn=detail);
+if (endpad==4)translate([endx,endy,0])rotate([0,0,-9])intersection(){
+    translate([pad/2,0,0])square([pad,2*pad],center=true);
+    rotate([0,0,360/(4*detail)])circle(pad*0.75+clearance*round(room), $fn=detail);
+}
+if (endpad==5)translate([endx,endy,0])rotate([0,0,-9])intersection(){
+    translate([-pad/2,0,0])square([pad,2*pad],center=true);
+    rotate([0,0,360/(4*detail)])circle(pad*0.75+clearance*round(room), $fn=detail);
+}    
+if (endpad==3)translate([endx,endy,0])rotate([0,0,360/(4*detail)]){
+        for (t=[360/(2*detail):360/detail:360+360/detail])rotate([0,0,t])square([pad*0.60+clearance,trace],center=false);
+            circle(pad*0.75+clearance*round(room), $fn=detail);
+            }
+       }
+if (startpad==0)translate([startx,starty,1])circle(trace/2+clearance*round(room));
+if (endpad==0)translate([endx,endy,1])circle(trace/2+clearance*round(room));
+    }
+if (startpad==1)  translate([startx,starty,0])rotate([0,0,360/(4*detail)])cylinder(15,holeradius,holeradius,center=true);
+if (endpad==1) translate([endx,endy,0])rotate([0,0,360/(4*detail)])cylinder(15,holeradius,holeradius,center=true);
+if (startpad==2)  translate([startx,starty,0])rotate([0,0,360/(4*detail)])cylinder(15,holeradius,holeradius,center=true);
+if (endpad==2) translate([endx,endy,0])rotate([0,0,360/(4*detail)])cylinder(15,holeradius,holeradius,center=true);
+if (endpad==4) translate([endx,endy,0])rotate([0,0,360/(4*detail)])cylinder(15,holeradius,holeradius,center=true); 
+if (endpad==5) translate([endx,endy,0])rotate([0,0,360/(4*detail)])cylinder(15,holeradius,holeradius,center=true);   
+   }        
+    }
+   
+module label(posx,posy,rotation,mirr,labeltext,size,labelfont) {
+      translate([0,0,-1])linear_extrude(6){
+translate([posx,posy])rotate([0,0,rotation])mirror([mirr,0,0])text(labeltext,size,font=labelfont);
+}
+}
+module chrystalFP(x,y,rotation,room){
+     translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
+        for(i=[1:1:4])
+            difference(){
+   translate([chrystalPL[i][0],chrystalPL[i][1],0])union(){             
+   square([1.3+round(room)*clearance,1.1+round(room)*clearance],center=true);
+       if (i%2-round(room)==0) {square([1.5+round(room)*clearance,trace+round(room)*clearance],center=true);
+                    square([trace+round(room)*clearance,1.3+round(room)*clearance],center=true);}
+   }
+   if (round(room)==0){translate([chrystalPL[i][0]-0.3,chrystalPL[i][1]-0.3,0])text(str(i),0.5);}}
+        }
+}
+module USBFP(x,y,rotation,name,value,room){
+    translate([x,y,0.5])rotate([0,0,rotation])linear_extrude(1){
+   translate([USBPL[1][0],USBPL[1][1],0])difference(){circle(pad+round(room)*clearance); circle(holeradius);}
+   translate([USBPL[2][0],USBPL[2][1],0])difference(){circle(pad+round(room)*clearance); circle(holeradius);}
+   translate([USBPL[3][0],USBPL[3][1],0])difference(){circle(pad+round(room)*clearance); circle(holeradius);}
+   translate([USBPL[4][0],USBPL[4][1],0])difference(){circle(pad+round(room)*clearance); circle(holeradius);}
+   if (round(room)!=0){translate([-3.5,0.92,0])text(name,0.3);
+   translate([-0.5,0.92,0])text(value,0.3);}
+}}
+module spiflashFP(x,y,rotation,name,value,room){
+    translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
+   translate([0,0,0])square([0.4+round(room)*clearance,1.9+round(room)*clearance],center=true);
+   translate([spiflashPL[1][0],spiflashPL[1][1],0])square([1+round(room)*clearance,0.25+round(room)*clearance],center=true);
+       translate([spiflashPL[2][0],spiflashPL[2][1],0])square([1+round(room)*clearance,0.25+round(room)*clearance],center=true);
+       translate([spiflashPL[3][0],spiflashPL[3][1],0])square([1+round(room)*clearance,0.25+round(room)*clearance],center=true);
+       translate([spiflashPL[4][0],spiflashPL[4][1],0])square([1+round(room)*clearance,0.25+round(room)*clearance],center=true);
+       translate([spiflashPL[5][0],spiflashPL[5][1],0])square([1+round(room)*clearance,0.25+round(room)*clearance],center=true);
+       translate([spiflashPL[6][0],spiflashPL[6][1],0])square([1+round(room)*clearance,0.25+round(room)*clearance],center=true);
+       translate([spiflashPL[7][0],spiflashPL[7][1],0])square([1+round(room)*clearance,0.25+round(room)*clearance],center=true);
+       translate([spiflashPL[8][0],spiflashPL[8][1],0])square([1+round(room)*clearance,0.25+round(room)*clearance],center=true);
+   if (round(room)!=0){translate([-0.4,-0.9,0])rotate([0,0,90])text(name,0.28);
+   translate([0.7,-0.4,0])rotate([0,0,90])text(value,0.3);}
+}}
+module o6o3FP(x,y,rotation,room,value,GNDpin1,GNDpin2){
+    translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
+        translate([o6o3PL[1][0],o6o3PL[1][1],0])square(0.8+round(room)*clearance,center=true);
+       if (GNDpin1==1){union(){
+           translate([o6o3PL[1][0],o6o3PL[1][1],0])square([1+round(room)*clearance,trace],center=true);
+           translate([o6o3PL[1][0],o6o3PL[1][1],0])square([trace,1+round(room)*clearance],center=true);
+           }}
+       translate([o6o3PL[2][0],o6o3PL[2][1],0])square(0.8+round(room)*clearance,center=true);
+       if (GNDpin2==1){union(){
+           translate([o6o3PL[2][0],o6o3PL[2][1],0])square([1+round(room)*clearance,trace],center=true);
+           translate([o6o3PL[2][0],o6o3PL[2][1],0])square([trace,1+round(room)*clearance],center=true);
+           }}
+    if(round(room)!=0){translate([-0.2,0.4,0])rotate([0,0,-90])text(value,0.3);}
+}}
+module DPAKFP(x,y,rotation,room){
+    translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
+        translate([DPAKPL[1][0],DPAKPL[1][1],0])square(6.7+round(room)*clearance*2,center=true);
+        translate([DPAKPL[2][0],DPAKPL[2][1],0])square([3+round(room)*clearance*2,1.6+round(room)*clearance*2],center=true);
+        translate([DPAKPL[3][0],DPAKPL[3][1],0])square([3+round(room)*clearance*2,1.6+round(room)*clearance*2],center=true);
+}}
+
+module sot523FP(x,y,rotation,room){
+   translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
+        translate([sot523PL[1][0],sot523PL[1][1],0])square([0.4+round(room)*clearance,0.51+round(room)*clearance],center=true);
+        translate([sot523PL[2][0],sot523PL[2][1],0])square([0.4+round(room)*clearance,0.51+round(room)*clearance],center=true);
+        translate([sot523PL[3][0],sot523PL[3][1],0])square([0.4+round(room)*clearance,0.51+round(room)*clearance],center=true);  
+}}
+module rp2040FP(x,y,rotation,room){
+    translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
+        square([3.2+round(room)*clearance,trace],center=true);
+        square([trace,3.2+round(room)*clearance],center=true);
+        square(3.2+round(room)*clearance,center=true);
+        square(3.2+round(room)*clearance,center=true);
+        square(3.2+round(room)*clearance,center=true);
+        for(a=[0:90:359]){
+        for (b=[2.6:-0.4:-2.6]){
+            rotate([0,0,a])translate([7.26/2,b,0])square([1+round(room)*clearance,0.2+round(room)*clearance],center=true);
+            if(round(room)!=0){rotate([0,0,a+180])translate([7.26/2-0.7,b,0])rotate([0,0,-a+180])translate([-0.1,-0.1,0])text(str((a/90)*14+((b+2.6)/0.4)+1),0.15);}
+        }
+    }
+    translate([-7.26/2,7.26/2,0])circle(0.3+round(room)*clearance);
+    }
+}
+
+module border(){
+ translate([0,0,1])difference(){
+cube([width+3*frame,heigth+3*frame,0.2],center=true);
+cube([width-frame,heigth-frame,4],center=true);
+}  
+}
+
+module copperclad (){
+translate([0,0,1])color("black")linear_extrude(0.1)polygon([[width/2,heigth/2],[width/2,-heigth/2],[-width/2,-heigth/2],[-width/2,heigth/2]]);  
+}
