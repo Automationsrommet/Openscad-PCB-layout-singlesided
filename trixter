@@ -1,4 +1,4 @@
-  //Here is my postapocalyptical pico, made mostly with parts I have on hand.
+ //Here is my postapocalyptical pico, made mostly with parts I have on hand.
 //Todo: 
 //Chekt if th DPAK even fits. 
 //Write 4 trace-functions into one smooth curve.    Check
@@ -81,108 +81,6 @@ copperclad();
    
 color("white")union(){
 
-
-trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[1][0],picoPL[1][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[2][0],rp2040PL[2][1],2,segments,0,1.2);
-trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[2][0],picoPL[2][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[3][0],rp2040PL[3][1],2,segments,0,1.15);
-    
-    trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[3][0],picoPL[3][1],2,segments,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[3][0]+0.1,picoPL[3][1]+0.1,2,segments,2,1);
-
-trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[4][0],picoPL[4][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[4][0],rp2040PL[4][1],2,segments,0,1.1);
-trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[5][0],picoPL[5][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[5][0],rp2040PL[5][1],2,segments,0,1);
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[6][0],picoPL[6][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[6][0],rp2040PL[6][1],2,segments,0,1);
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[7][0],picoPL[7][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[7][0],rp2040PL[7][1],2,segments,0,1);
-    
-    track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[8][0],picoPL[8][1],2,segments,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[8][0]+0.1,picoPL[8][1]+0.1,2,segments,2,1);
-
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[9][0],picoPL[9][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[8][0],rp2040PL[8][1],2,segments,0,1);
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[10][0],picoPL[10][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[9][0],rp2040PL[9][1],2,segments,0,1);
-
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[10][0]+1.3,picoPL[10][1]-0.6,2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[10][0],rp2040PL[10][1],2,segments,0,0.7);
-
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[11][0],picoPL[11][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[11][0],rp2040PL[11][1],2,segments,0,1);
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[12][0],picoPL[12][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[12][0],rp2040PL[12][1],2,segments,0,1);
-
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0],picoPL[13][1],2,segments,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+0.1,picoPL[13][1]+0.1,2,segments,2,1);
-
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[14][0],picoPL[14][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[13][0],rp2040PL[13][1],2,segments,0,1.13);
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[15][0],picoPL[15][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[14][0],rp2040PL[14][1],2,segments,0,1.2);  
- 
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[16][0],picoPL[16][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[15][0],rp2040PL[15][1],2,segments,0,1);
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[17][0],picoPL[17][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[16][0],rp2040PL[16][1],2,segments,0,1);
-
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[18][0],picoPL[18][1],2,segments,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[18][0]+0.1,picoPL[18][1]+0.1,2,segments,2,1);
-
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[19][0],picoPL[19][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[17][0],rp2040PL[17][1],2,segments,0,1);
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[20][0],picoPL[20][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[18][0],rp2040PL[18][1],2,segments,0,1);  
-
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+6.3,picoPL[13][1]-1,0,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[19][0],rp2040PL[19][1],0,segments,0,1); 
-//xtal 20 to 1 and 21 to 3
-track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[20][0],rp2040PL[20][1],0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]+0.70,chrystalPL[1][1]-0.3,0,segments,0,1);
-track(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0]-0.7,chrystalPL[3][1]+2.6,0,segments,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[21][0],rp2040PL[21][1],0,segments,0,1);
-track(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0]+0.1,chrystalPL[3][1]+1.0,0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0],chrystalPL[3][1],0,segments,0,1);
-track(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]+0.2,chrystalPL[1][1]-1.0,0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0]-0.5,chrystalPL[3][1],0,segments,0,1);
-track(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]-0.3,chrystalPL[1][1]-1.0,0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]-0.5,chrystalPL[1][1],0,segments,0,1);
-//3V3 and 1V1
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+8.70,picoPL[12][1]-1,0,segments,4,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[22][0],rp2040PL[22][1],0,segments,0,1);
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+8.78,picoPL[13][1]-2,0,segments,5,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[23][0],rp2040PL[23][1],0,segments,0,1);
-
-//debug circuit
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[41][0]+1.4,picoPL[41][1]+7.8,2,3,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[24][0],rp2040PL[24][1],0,2,0,1);
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[42][0]+1.4,picoPL[42][1]+7.8,2,2,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[42][0]+1.4,picoPL[42][1]+7.8,1,2,2,1);
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[43][0]+1.4,picoPL[43][1]+7.8,2,1,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[25][0],rp2040PL[25][1],2,7,0,0.7);
-//run rp2040 to Via
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+11.1,picoPL[13][1],0,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[26][0],rp2040PL[26][1],0,segments,0,1);
-
-
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[21][0],picoPL[21][1],1,2,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[27][0],rp2040PL[28][1],2,9,0,0.51);
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[22][0],picoPL[22][1],1,2,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[28][0],rp2040PL[28][1],2,9,0,0.51); 
-
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[23][0],picoPL[23][1],1,segments,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[23][0]+0.1,picoPL[23][1]+0.1,2,segments,2,1);
-
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[24][0],picoPL[24][1],1,12,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[29][0],rp2040PL[29][1],1,5,0,1.3); 
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[25][0],picoPL[25][1],1,12,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[30][0],rp2040PL[30][1],1,6,0,1.2); 
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[26][0],picoPL[26][1],1,12,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[31][0],rp2040PL[31][1],1,7,0,1.12);  
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[27][0],picoPL[27][1],1,13,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[32][0],rp2040PL[32][1],1,7,0,1);
-
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[28][0],picoPL[28][1],0,segments,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[28][0]+0.1,picoPL[28][1]+0.1,2,segments,2,1);
-
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[29][0],picoPL[29][1],1,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[34][0],rp2040PL[34][1],1,6,0,0.7);
-//3V3 lower right
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[28][0]-1,picoPL[28][1]+1,1,segments,4,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[33][0],rp2040PL[33][1],1,8,0,0.73);
-//LED circuit
-//track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[37][0],rp2040PL[37][1],2,2,2,o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[1][0],o6o3RLEDPL[1][1],2,2,1,0.3);
-//track(o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[2][0],o6o3RLEDPL[2][1],1,2,0,o6o3RLEDPL[0][0],o6o3LEDPL[0][1],o6o3LEDPL[0][2],o6o3LEDPL[1][0],o6o3LEDPL[1][1],1,2,0,0.3);
-track(o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[2][0],o6o3RLEDPL[2][1],2,2,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[37][0],rp2040PL[37][1],2,2,0,1.4);
-
-
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[31][0],picoPL[31][1],0,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[38][0],rp2040PL[38][1],0,segments,0,1);
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[32][0],picoPL[32][1],0,2,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[39][0],rp2040PL[39][1],0,2,0,1.4);
-
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[33][0],picoPL[33][1],2,segments,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[33][0]+0.1,picoPL[33][1]+0.1,2,segments,2,1);
-
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[34][0],picoPL[34][1],0,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[40][0],rp2040PL[40][1],0,segments,0,1);
-
-
-track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[38][0],picoPL[38][1],2,segments,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[38][0]+0.1,picoPL[38][1]+0.1,2,segments,2,1);
-
-//sot circut
-track(sot523PL[0][0],sot523PL[0][1],sot523PL[0][2],sot523PL[2][0],sot523PL[2][1],0,2,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[42][0],rp2040PL[42][1],0,2,0,1);
-track(sot523PL[0][0],sot523PL[0][1],sot523PL[0][2],sot523PL[3][0],sot523PL[3][1],0,2,0,sot523PL[0][0],sot523PL[0][1],sot523PL[0][2],sot523PL[3][0]+1.2,sot523PL[3][1]+3,0,2,0,1);
-
-//spiflash
-track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[56][0],rp2040PL[56][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[1][0]-0.5,spiflashPL[1][1],0,2,0,1);
-track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[55][0],rp2040PL[55][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[2][0]-0.5,spiflashPL[2][1],0,2,0,1);
-track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[54][0],rp2040PL[54][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[3][0]-0.5,spiflashPL[3][1],0,2,0,1);
-track(spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],0.1,0.3,0,2,5,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[4][0]+0.5,spiflashPL[4][1],0,2,0,1);
-track(cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[1][0],cornersPL[1][1],0,2,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[53][0],rp2040PL[53][1],0,2,0,1);
-track(cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[1][0],cornersPL[1][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[5][0],spiflashPL[5][1],0,2,2,1);
-track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[52][0],rp2040PL[52][1],0,2,0,cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[2][0],cornersPL[2][1],0,2,0,1);
-track(cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[2][0],cornersPL[2][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[6][0],spiflashPL[6][1],0,2,0,1);
-track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[51][0],rp2040PL[51][1],0,2,0,cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[3][0],cornersPL[3][1],0,2,0,1);
-track(spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[7][0]+0.5,spiflashPL[7][1],0,2,0,cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[3][0],cornersPL[3][1],0,2,0,1);
-track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[50][0],rp2040PL[50][1],0,2,0,cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[4][0],cornersPL[4][1],0,2,0,1);
-track(spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[8][0]+0.5,spiflashPL[8][1],0,2,0,cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[4][0],cornersPL[4][1],0,2,0,1);
-
 rp2040FP(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],1);    
 USBFP(USBPL[0][0],USBPL[0][1],USBPL[0][2],"Homemade","USB-B",1);
 DPAKFP(DPAKPL[0][0],DPAKPL[0][1],DPAKPL[0][2],1);
@@ -213,210 +111,109 @@ label(1.0,19,0,0,"Pico", 1.3,"Courier");
 label(1.0,18,0,0,"open hardware", 0.6,"Courier");
 label(0.0,17,0,0,"version 2 Melbu june22", 0.53,"Courier");
 
-//test av trixter
-trixter(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[43][0],rp2040PL[43][1],2,2,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[43][0],rp2040PL[43][1]+2.5,2,2,0);
+
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[1][0],picoPL[1][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[2][0],rp2040PL[2][1],2,segments,0,1.2);
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[2][0],picoPL[2][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[3][0],rp2040PL[3][1],2,segments,0,1.15);
+    
+    trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[3][0],picoPL[3][1],2,segments,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[3][0]+0.1,picoPL[3][1]+0.1,2,segments,2,1);
+
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[4][0],picoPL[4][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[4][0],rp2040PL[4][1],2,segments,0,1.1);
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[5][0],picoPL[5][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[5][0],rp2040PL[5][1],2,segments,0,1);
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[6][0],picoPL[6][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[6][0],rp2040PL[6][1],2,segments,0,1);
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[7][0],picoPL[7][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[7][0],rp2040PL[7][1],2,segments,0,1);
+    
+    trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[8][0],picoPL[8][1],2,segments,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[8][0]+0.1,picoPL[8][1]+0.1,2,segments,2,1);
+
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[9][0],picoPL[9][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[8][0],rp2040PL[8][1],2,segments,0,1);
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[10][0],picoPL[10][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[9][0],rp2040PL[9][1],2,segments,0,1);
+
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[10][0]+1.3,picoPL[10][1]-0.6,2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[10][0],rp2040PL[10][1],2,segments,0,0.7);
+
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[11][0],picoPL[11][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[11][0],rp2040PL[11][1],2,segments,0,1);
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[12][0],picoPL[12][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[12][0],rp2040PL[12][1],2,segments,0,1);
+
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0],picoPL[13][1],2,segments,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+0.1,picoPL[13][1]+0.1,2,segments,2,1);
+
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[14][0],picoPL[14][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[13][0],rp2040PL[13][1],2,segments,0,1.13);
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[15][0],picoPL[15][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[14][0],rp2040PL[14][1],2,segments,0,1.2);  
+ 
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[16][0],picoPL[16][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[15][0],rp2040PL[15][1],2,segments,0,1);
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[17][0],picoPL[17][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[16][0],rp2040PL[16][1],2,segments,0,1);
+
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[18][0],picoPL[18][1],2,segments,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[18][0]+0.1,picoPL[18][1]+0.1,2,segments,2,1);
+
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[19][0],picoPL[19][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[17][0],rp2040PL[17][1],2,segments,0,1);
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[20][0],picoPL[20][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[18][0],rp2040PL[18][1],2,segments,0,1);  
+
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+6.3,picoPL[13][1]-1,0,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[19][0],rp2040PL[19][1],0,segments,0,1); 
+//xtal 20 to 1 and 21 to 3
+trixter(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[20][0],rp2040PL[20][1],0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]+0.70,chrystalPL[1][1]-0.3,0,segments,0,1);
+trixter(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0]-0.7,chrystalPL[3][1]+2.6,0,segments,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[21][0],rp2040PL[21][1],0,segments,0,1);
+trixter(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0]+0.1,chrystalPL[3][1]+1.0,0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0],chrystalPL[3][1],0,segments,0,1);
+trixter(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]+0.2,chrystalPL[1][1]-1.0,0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0]-0.5,chrystalPL[3][1],0,segments,0,1);
+trixter(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]-0.3,chrystalPL[1][1]-1.0,0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]-0.5,chrystalPL[1][1],0,segments,0,1);
+//3V3 and 1V1
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+8.70,picoPL[12][1]-1,0,segments,4,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[22][0],rp2040PL[22][1],0,segments,0,1);
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+8.78,picoPL[13][1]-2,0,segments,5,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[23][0],rp2040PL[23][1],0,segments,0,1);
+
+//debug circuit
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[41][0]+1.4,picoPL[41][1]+7.8,2,3,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[24][0],rp2040PL[24][1],0,2,0,1);
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[42][0]+1.4,picoPL[42][1]+7.8,2,2,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[42][0]+1.4,picoPL[42][1]+7.8,1,2,2,1);
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[43][0]+1.4,picoPL[43][1]+7.8,2,1,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[25][0],rp2040PL[25][1],2,7,0,0.7);
+//run rp2040 to Via
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+11.1,picoPL[13][1],0,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[26][0],rp2040PL[26][1],0,segments,0,1);
+
+
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[21][0],picoPL[21][1],1,2,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[27][0],rp2040PL[28][1],2,9,0,0.51);
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[22][0],picoPL[22][1],1,2,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[28][0],rp2040PL[28][1],2,9,0,0.51); 
+
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[23][0],picoPL[23][1],1,segments,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[23][0]+0.1,picoPL[23][1]+0.1,2,segments,2,1);
+
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[24][0],picoPL[24][1],1,12,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[29][0],rp2040PL[29][1],1,5,0,1.3); 
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[25][0],picoPL[25][1],1,12,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[30][0],rp2040PL[30][1],1,6,0,1.2); 
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[26][0],picoPL[26][1],1,12,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[31][0],rp2040PL[31][1],1,7,0,1.12);  
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[27][0],picoPL[27][1],1,13,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[32][0],rp2040PL[32][1],1,7,0,1);
+
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[28][0],picoPL[28][1],0,segments,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[28][0]+0.1,picoPL[28][1]+0.1,2,segments,2,1);
+
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[29][0],picoPL[29][1],1,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[34][0],rp2040PL[34][1],1,6,0,0.7);
+//3V3 lower right
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[28][0]-1,picoPL[28][1]+1,1,segments,4,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[33][0],rp2040PL[33][1],1,8,0,0.73);
+//LED circuit
+//trixter(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[37][0],rp2040PL[37][1],2,2,2,o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[1][0],o6o3RLEDPL[1][1],2,2,1,0.3);
+//trixter(o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[2][0],o6o3RLEDPL[2][1],1,2,0,o6o3RLEDPL[0][0],o6o3LEDPL[0][1],o6o3LEDPL[0][2],o6o3LEDPL[1][0],o6o3LEDPL[1][1],1,2,0,0.3);
+trixter(o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[2][0],o6o3RLEDPL[2][1],2,2,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[37][0],rp2040PL[37][1],2,2,0,1.4);
+
+
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[31][0],picoPL[31][1],0,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[38][0],rp2040PL[38][1],0,segments,0,1);
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[32][0],picoPL[32][1],0,2,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[39][0],rp2040PL[39][1],0,2,0,1.4);
+
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[33][0],picoPL[33][1],2,segments,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[33][0]+0.1,picoPL[33][1]+0.1,2,segments,2,1);
+
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[34][0],picoPL[34][1],0,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[40][0],rp2040PL[40][1],0,segments,0,1);
+
+
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[38][0],picoPL[38][1],2,segments,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[38][0]+0.1,picoPL[38][1]+0.1,2,segments,2,1);
+
+//sot circut
+trixter(sot523PL[0][0],sot523PL[0][1],sot523PL[0][2],sot523PL[2][0],sot523PL[2][1],0,2,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[42][0],rp2040PL[42][1],0,2,0,1);
+trixter(sot523PL[0][0],sot523PL[0][1],sot523PL[0][2],sot523PL[3][0],sot523PL[3][1],0,2,0,sot523PL[0][0],sot523PL[0][1],sot523PL[0][2],sot523PL[3][0]+1.2,sot523PL[3][1]+3,0,2,0,1);
+
+//spiflash
+trixter(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[56][0],rp2040PL[56][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[1][0]-0.5,spiflashPL[1][1],0,2,0,1);
+trixter(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[55][0],rp2040PL[55][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[2][0]-0.5,spiflashPL[2][1],0,2,0,1);
+trixter(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[54][0],rp2040PL[54][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[3][0]-0.5,spiflashPL[3][1],0,2,0,1);
+trixter(spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],0.1,0.3,0,2,5,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[4][0]+0.5,spiflashPL[4][1],0,2,0,1);
+trixter(cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[1][0],cornersPL[1][1],0,2,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[53][0],rp2040PL[53][1],0,2,0,1);
+trixter(cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[1][0],cornersPL[1][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[5][0],spiflashPL[5][1],0,2,2,1);
+trixter(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[52][0],rp2040PL[52][1],0,2,0,cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[2][0],cornersPL[2][1],0,2,0,1);
+trixter(cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[2][0],cornersPL[2][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[6][0],spiflashPL[6][1],0,2,0,1);
+trixter(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[51][0],rp2040PL[51][1],0,2,0,cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[3][0],cornersPL[3][1],0,2,0,1);
+trixter(spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[7][0]+0.5,spiflashPL[7][1],0,2,0,cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[3][0],cornersPL[3][1],0,2,0,1);
+trixter(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[50][0],rp2040PL[50][1],0,2,0,cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[4][0],cornersPL[4][1],0,2,0,1);
+trixter(spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[8][0]+0.5,spiflashPL[8][1],0,2,0,cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[4][0],cornersPL[4][1],0,2,0,1);
+
 }}
-
-//color("bla ck")union(){
-//the monster function "track" and its parameters:
-// startcompx,startcompy,startrotation,startx,starty,starttype,startdivider,startpad,
-//endcompx,endcompy,endrotation,endx,endy,endtype,enddivider,endpad,room(and trace midpoint)
-
-
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[1][0],picoPL[1][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[2][0],rp2040PL[2][1],2,segments,0,-0.2);
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[2][0],picoPL[2][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[3][0],rp2040PL[3][1],2,segments,0,-0.15);
-//    
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[3][0],picoPL[3][1],2,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[3][0]+0.1,picoPL[3][1]+0.1,2,segments,3,0);
-//
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[4][0],picoPL[4][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[4][0],rp2040PL[4][1],2,segments,0,-0.1);
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[5][0],picoPL[5][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[5][0],rp2040PL[5][1],2,segments,0,0);
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[6][0],picoPL[6][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[6][0],rp2040PL[6][1],2,segments,0,0);
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[7][0],picoPL[7][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[7][0],rp2040PL[7][1],2,segments,0,0);
-//    
-//    track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[8][0],picoPL[8][1],2,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[8][0]+0.1,picoPL[8][1]+0.1,2,segments,3,0);
-//
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[9][0],picoPL[9][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[8][0],rp2040PL[8][1],2,segments,0,0);
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[10][0],picoPL[10][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[9][0],rp2040PL[9][1],2,segments,0,0);
-//    
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[10][0]+1.3,picoPL[10][1]-0.6,2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[10][0],rp2040PL[10][1],2,segments,0,0.3);
-//    
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[11][0],picoPL[11][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[11][0],rp2040PL[11][1],2,segments,0,0);
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[12][0],picoPL[12][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[12][0],rp2040PL[12][1],2,segments,0,0);
-//
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0],picoPL[13][1],2,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+0.1,picoPL[13][1]+0.1,2,segments,3,0);
-//
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[14][0],picoPL[14][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[13][0],rp2040PL[13][1],2,segments,0,-0.13);
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[15][0],picoPL[15][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[14][0],rp2040PL[14][1],2,segments,0,-0.2);  
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[16][0],picoPL[16][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[15][0],rp2040PL[15][1],2,segments,0,0);
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[17][0],picoPL[17][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[16][0],rp2040PL[16][1],2,segments,0,0);
-//
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[18][0],picoPL[18][1],2,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[18][0]+0.1,picoPL[18][1]+0.1,2,segments,3,0);
-//
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[19][0],picoPL[19][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[17][0],rp2040PL[17][1],2,segments,0,0);
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[20][0],picoPL[20][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[18][0],rp2040PL[18][1],2,segments,0,0);  
-//
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+6.3,picoPL[13][1]-1,0,segments,3,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[19][0],rp2040PL[19][1],0,segments,0,0); 
-////xtal 20 to 1 and 21 to 3
-//track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[20][0],rp2040PL[20][1],0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]+0.70,chrystalPL[1][1]-0.3,0,segments,0,0);
-//track(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0]-0.7,chrystalPL[3][1]+2.6,0,segments,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[21][0],rp2040PL[21][1],0,segments,0,0);
-//track(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0]+0.1,chrystalPL[3][1]+1.0,0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0],chrystalPL[3][1],0,segments,0,0);
-//track(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]+0.2,chrystalPL[1][1]-1.0,0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0]-0.5,chrystalPL[3][1],0,segments,0,0);
-//track(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]-0.3,chrystalPL[1][1]-1.0,0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]-0.5,chrystalPL[1][1],0,segments,0,0);
-////3V3 and 1V1
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+8.70,picoPL[12][1]-1,0,segments,4,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[22][0],rp2040PL[22][1],0,segments,0,0);
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+8.78,picoPL[13][1]-2,0,segments,5,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[23][0],rp2040PL[23][1],0,segments,0,0);
-//
-////debug circuit
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[41][0]+1.4,picoPL[41][1]+7.8,2,3,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[24][0],rp2040PL[24][1],0,2,0,0.0);
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[42][0]+1.4,picoPL[42][1]+7.8,1,8,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[42][0]+1.4,picoPL[42][1]+7.8,1,2,3,0);
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[43][0]+1.4,picoPL[43][1]+7.8,2,1,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[25][0],rp2040PL[25][1],2,7,0,0.3);
-////run rp2040 to Via
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+11.13,picoPL[13][1],0,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[26][0],rp2040PL[26][1],0,segments,0,0);
-// 
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[21][0],picoPL[21][1],2,2,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[27][0],rp2040PL[28][1],2,9,0,0.49);
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[22][0],picoPL[22][1],2,2,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[28][0],rp2040PL[28][1],2,9,0,0.49);  
-// 
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[23][0],picoPL[23][1],2,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[23][0]+0.1,picoPL[23][1]+0.1,2,segments,3,0); 
-// 
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[24][0],picoPL[24][1],1,12,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[29][0],rp2040PL[29][1],1,5,0,-0.3); 
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[25][0],picoPL[25][1],1,12,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[30][0],rp2040PL[30][1],1,6,0,-0.2); 
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[26][0],picoPL[26][1],1,12,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[31][0],rp2040PL[31][1],1,7,0,-0.12); 
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[27][0],picoPL[27][1],1,13,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[32][0],rp2040PL[32][1],1,7,0,0); 
-//
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[28][0],picoPL[28][1],2,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[28][0]+0.1,picoPL[28][1]+0.1,2,segments,3,0);
-//
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[29][0],picoPL[29][1],1,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[34][0],rp2040PL[34][1],1,6,0,0.3);
-////3v3 lower right
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[28][0]-1,picoPL[28][1]+1,1,segments,4,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[33][0],rp2040PL[33][1],1,8,0,0.27);
-////LED circuit
-////track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[37][0],rp2040PL[37][1],1,3,0,o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[1][0],o6o3RLEDPL[1][1],2,7,0,0);
-////track(o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[2][0],o6o3RLEDPL[2][1],1,7,0,o6o3RLEDPL[0][0],o6o3LEDPL[0][1],o6o3LEDPL[0][2],o6o3LEDPL[1][0],o6o3LEDPL[1][1],1,7,0,0);
-//track(o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[2][0],o6o3RLEDPL[2][1],0,2,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[37][0],rp2040PL[37][1],0,2,0,0);
-//track(o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[1][0],o6o3RLEDPL[1][1],0,2,0,o6o3LEDPL[0][0],o6o3LEDPL[0][1],o6o3LEDPL[0][2],o6o3LEDPL[2][0],o6o3LEDPL[2][1],0,2,0,0);
-//track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[35][0],rp2040PL[35][1],0,2,0,o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[2][0],o6o3RLEDPL[2][1],0,2,0,0);
-//
-//
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[31][0],picoPL[31][1],0,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[38][0],rp2040PL[38][1],0,segments,0,0);
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[32][0],picoPL[32][1],0,2,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[39][0],rp2040PL[39][1],0,2,0,-0.4);
-//
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[33][0],picoPL[33][1],2,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[33][0]+0.1,picoPL[33][1]+0.1,2,segments,3,0);
-//
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[34][0],picoPL[34][1],0,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[40][0],rp2040PL[40][1],0,segments,0,0);
-//
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[38][0],picoPL[38][1],0,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[38][0]+0.1,picoPL[38][1]+0.1,0,segments,3,0);
-////sot circut
-//track(sot523PL[0][0],sot523PL[0][1],sot523PL[0][2],sot523PL[2][0],sot523PL[2][1],0,2,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[42][0],rp2040PL[42][1],0,2,0,0);
-//track(sot523PL[0][0],sot523PL[0][1],sot523PL[0][2],sot523PL[3][0],sot523PL[3][1],0,2,0,sot523PL[0][0],sot523PL[0][1],sot523PL[0][2],sot523PL[3][0]+1.2,sot523PL[3][1]+3,0,2,0,0);
-//
-//
-////spiflash
-//track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[56][0],rp2040PL[56][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[1][0]-0.5,spiflashPL[1][1],0,2,0,0);
-//track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[55][0],rp2040PL[55][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[2][0]-0.5,spiflashPL[2][1],0,2,0,0);
-//track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[54][0],rp2040PL[54][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[3][0]-0.5,spiflashPL[3][1],0,2,0,0);
-//track(spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[4][0]+0.5,spiflashPL[4][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],0.1,0.3,0,2,0,0);
-//track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[53][0],rp2040PL[53][1],0,2,0,cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[1][0],cornersPL[1][1],0,2,0,0);
-//track(cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[1][0],cornersPL[1][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[5][0]+0.5,spiflashPL[5][1],0,2,0,0);
-//track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[52][0],rp2040PL[52][1],0,2,0,cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[2][0],cornersPL[2][1],0,2,0,0);
-//track(cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[2][0],cornersPL[2][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[6][0]+0.5,spiflashPL[6][1],2,segments,0,0);
-//track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[51][0],rp2040PL[51][1],0,2,0,cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[3][0],cornersPL[3][1],0,2,0,0);
-//track(cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[3][0],cornersPL[3][1],0,2,0,spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[7][0]+0.5,spiflashPL[7][1],2,segments,0,0);
-//track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[50][0],rp2040PL[50][1],0,2,0,cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[4][0],cornersPL[4][1],0,2,0,0);
-//track(spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],spiflashPL[8][0]+0.5,spiflashPL[8][1],0,2,0,cornersPL[0][0],cornersPL[0][1],cornersPL[0][2],cornersPL[4][0],cornersPL[4][1],0,2,0,0);
-
-
-//}
-
-//color("bla ck")union(){
-//the monster function "track" and its parameters:
-// startcompx,startcompy,startrotation,startx,starty,starttype,startdivider,startpad,
-//endcompx,endcompy,endrotation,endx,endy,endtype,enddivider,endpad,room(and trace midpoint)
-
-
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[1][0],picoPL[1][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[2][0],rp2040PL[2][1],2,segments,0,-0.2);
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[2][0],picoPL[2][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[3][0],rp2040PL[3][1],2,segments,0,-0.15);
-//    
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[3][0],picoPL[3][1],2,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[3][0]+0.1,picoPL[3][1]+0.1,2,segments,3,0);
-//
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[4][0],picoPL[4][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[4][0],rp2040PL[4][1],2,segments,0,-0.1);
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[5][0],picoPL[5][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[5][0],rp2040PL[5][1],2,segments,0,0);
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[6][0],picoPL[6][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[6][0],rp2040PL[6][1],2,segments,0,0);
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[7][0],picoPL[7][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[7][0],rp2040PL[7][1],2,segments,0,0);
-//    
-//    track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[8][0],picoPL[8][1],2,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[8][0]+0.1,picoPL[8][1]+0.1,2,segments,3,0);
-//
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[9][0],picoPL[9][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[8][0],rp2040PL[8][1],2,segments,0,0);
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[10][0],picoPL[10][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[9][0],rp2040PL[9][1],2,segments,0,0);
-//    
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[10][0]+1.3,picoPL[10][1]-0.6,2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[10][0],rp2040PL[10][1],2,segments,0,0.3);
-//    
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[11][0],picoPL[11][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[11][0],rp2040PL[11][1],2,segments,0,0);
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[12][0],picoPL[12][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[12][0],rp2040PL[12][1],2,segments,0,0);
-//
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0],picoPL[13][1],2,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+0.1,picoPL[13][1]+0.1,2,segments,3,0);
-
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[14][0],picoPL[14][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[13][0],rp2040PL[13][1],2,segments,0,-0.13);
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[15][0],picoPL[15][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[14][0],rp2040PL[14][1],2,segments,0,-0.2);  
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[16][0],picoPL[16][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[15][0],rp2040PL[15][1],2,segments,0,0);
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[17][0],picoPL[17][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[16][0],rp2040PL[16][1],2,segments,0,0);
-//
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[18][0],picoPL[18][1],2,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[18][0]+0.1,picoPL[18][1]+0.1,2,segments,3,0);
-//
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[19][0],picoPL[19][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[17][0],rp2040PL[17][1],2,segments,0,0);
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[20][0],picoPL[20][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[18][0],rp2040PL[18][1],2,segments,0,0);  
-//
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+6.3,picoPL[13][1]-1,0,segments,3,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[19][0],rp2040PL[19][1],0,segments,0,0); 
-////xtal 20 to 1 and 21 to 3
-//track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[20][0],rp2040PL[20][1],0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]+0.70,chrystalPL[1][1]-0.3,0,segments,0,0);
-//track(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0]-0.7,chrystalPL[3][1]+2.6,0,segments,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[21][0],rp2040PL[21][1],0,segments,0,0);
-//track(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0]+0.1,chrystalPL[3][1]+1.0,0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0],chrystalPL[3][1],0,segments,0,0);
-//track(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]+0.2,chrystalPL[1][1]-1.0,0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0]-0.5,chrystalPL[3][1],0,segments,0,0);
-//track(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]-0.3,chrystalPL[1][1]-1.0,0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]-0.5,chrystalPL[1][1],0,segments,0,0);
-////3V3 and 1V1
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+8.70,picoPL[12][1]-1,0,segments,4,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[22][0],rp2040PL[22][1],0,segments,0,0);
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+8.78,picoPL[13][1]-2,0,segments,5,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[23][0],rp2040PL[23][1],0,segments,0,0);
-//
-////debug circuit
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[41][0]+1.4,picoPL[41][1]+7.8,2,3,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[24][0],rp2040PL[24][1],0,2,0,0.0);
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[42][0]+1.4,picoPL[42][1]+7.8,1,8,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[42][0]+1.4,picoPL[42][1]+7.8,1,2,3,0);
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[43][0]+1.4,picoPL[43][1]+7.8,2,1,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[25][0],rp2040PL[25][1],2,7,0,0.3);
-////run rp2040 to Via
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+11.13,picoPL[13][1],0,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[26][0],rp2040PL[26][1],0,segments,0,0);
-// 
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[21][0],picoPL[21][1],2,2,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[27][0],rp2040PL[28][1],2,9,0,0.49);
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[22][0],picoPL[22][1],2,2,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[28][0],rp2040PL[28][1],2,9,0,0.49);  
-// 
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[23][0],picoPL[23][1],2,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[23][0]+0.1,picoPL[23][1]+0.1,2,segments,3,0); 
-// 
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[24][0],picoPL[24][1],1,12,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[29][0],rp2040PL[29][1],1,5,0,-0.3); 
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[25][0],picoPL[25][1],1,12,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[30][0],rp2040PL[30][1],1,6,0,-0.2); 
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[26][0],picoPL[26][1],1,12,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[31][0],rp2040PL[31][1],1,7,0,-0.12); 
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[27][0],picoPL[27][1],1,13,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[32][0],rp2040PL[32][1],1,7,0,0); 
-//
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[28][0],picoPL[28][1],2,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[28][0]+0.1,picoPL[28][1]+0.1,2,segments,3,0);
-//
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[29][0],picoPL[29][1],1,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[34][0],rp2040PL[34][1],1,6,0,0.3);
-////3v3 lower right
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[28][0]-1,picoPL[28][1]+1,1,segments,4,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[33][0],rp2040PL[33][1],1,8,0,0.27);
-////LED circuit
-////track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[37][0],rp2040PL[37][1],1,3,0,o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[1][0],o6o3RLEDPL[1][1],2,7,0,0);
-////track(o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[2][0],o6o3RLEDPL[2][1],1,7,0,o6o3RLEDPL[0][0],o6o3LEDPL[0][1],o6o3LEDPL[0][2],o6o3LEDPL[1][0],o6o3LEDPL[1][1],1,7,0,0);
-//track(o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[2][0],o6o3RLEDPL[2][1],0,2,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[37][0],rp2040PL[37][1],0,2,0,0);
-//track(o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[1][0],o6o3RLEDPL[1][1],0,2,0,o6o3LEDPL[0][0],o6o3LEDPL[0][1],o6o3LEDPL[0][2],o6o3LEDPL[2][0],o6o3LEDPL[2][1],0,2,0,0);
-//track(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[35][0],rp2040PL[35][1],0,2,0,o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[2][0],o6o3RLEDPL[2][1],0,2,0,0);
-//
-//
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[31][0],picoPL[31][1],0,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[38][0],rp2040PL[38][1],0,segments,0,0);
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[32][0],picoPL[32][1],0,2,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[39][0],rp2040PL[39][1],0,2,0,-0.4);
-//
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[33][0],picoPL[33][1],2,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[33][0]+0.1,picoPL[33][1]+0.1,2,segments,3,0);
-//
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[34][0],picoPL[34][1],0,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[40][0],rp2040PL[40][1],0,segments,0,0);
-//
-//track(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[38][0],picoPL[38][1],0,segments,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[38][0]+0.1,picoPL[38][1]+0.1,0,segments,3,0);
-////sot circut
-//track(sot523PL[0][0],sot523PL[0][1],sot523PL[0][2],sot523PL[2][0],sot523PL[2][1],0,2,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[42][0],rp2040PL[42][1],0,2,0,0);
-//track(sot523PL[0][0],sot523PL[0][1],sot523PL[0][2],sot523PL[3][0],sot523PL[3][1],0,2,0,sot523PL[0][0],sot523PL[0][1],sot523PL[0][2],sot523PL[3][0]+1.2,sot523PL[3][1]+3,0,2,0,0);
-
 
 
 border();
@@ -457,17 +254,17 @@ module footprinter (fpName, xaddition, yaddition, rotateaddition, labelone, labe
    }
     }
     
-    module trixter (startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider,startpad,endcompx,endcompy,erotation,epinx,epiny,endtype,enddivider,endpad,room){
+    module trixter (startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider,startpad,endcompx,endcompy,erotation,epinx,epiny,endtype,enddivider,endpad,middle){
            difference(){
-track(startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider,startpad,endcompx,endcompy,erotation,epinx,epiny,endtype,enddivider,endpad,1);
-     track(startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider,startpad,endcompx,endcompy,erotation,epinx,epiny,endtype,enddivider,endpad,0);          
+track(startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider,startpad,endcompx,endcompy,erotation,epinx,epiny,endtype,enddivider,endpad,1,middle);
+     track(startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider,startpad,endcompx,endcompy,erotation,epinx,epiny,endtype,enddivider,endpad,0,middle);          
   //    echo (fpName,"[0][0],");
                
    }
     }
 
 
-module track (startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider,startpad,endcompx,endcompy,erotation,epinx,epiny,endtype,enddivider,endpad,room) {
+module track (startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider,startpad,endcompx,endcompy,erotation,epinx,epiny,endtype,enddivider,endpad,room,middle) {
     //debug points Startpoints are red, Endpoints are green
     color("red")translate([startcompx,startcompy,0])rotate([0,0,srotation])translate([spinx,spiny,0])cylinder(5,0.2,0.2,center=true);    
     color("green")translate([endcompx,endcompy,0])rotate([0,0,erotation])translate([epinx,epiny,0])cylinder(5,0.2,0.2,center=true);   
@@ -490,8 +287,8 @@ module track (startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider
     endx=endcompx+coords[1][0];
     endy=endcompy+coords[1][1];
    
-    startendx=startx+(endx-startx)*abs(room-0.5);
-    startendy=starty+(endy-starty)*abs(room-0.5);
+    startendx=startx+(endx-startx)*abs(middle-0.5);
+    startendy=starty+(endy-starty)*abs(middle-0.5);
     incrementxs=(startendx-startx)/(startdivider);
     incrementys=(startendy-starty)/(startdivider);
     incrementxe=(endx-startendx)/(enddivider);
@@ -690,8 +487,8 @@ if (endpad==3)translate([endx,endy,0])rotate([0,0,360/(4*detail)]){
             circle(pad*0.75+clearance*round(room), $fn=detail);
             }
        }
-if (startpad==0)translate([startx,starty,1])circle(trace/2+clearance*round(room));
-if (endpad==0)translate([endx,endy,1])circle(trace/2+clearance*round(room));
+if (startpad==0){if (round(room) == 1)translate([startx,starty,1])circle(trace/2+clearance*round(room));}
+if (endpad==0){if (round(room) == 1)translate([endx,endy,1])circle(trace/2+clearance*round(room));}
     }
 if (startpad==1)  translate([startx,starty,0])rotate([0,0,360/(4*detail)])cylinder(15,holeradius,holeradius,center=true);
 if (endpad==1) translate([endx,endy,0])rotate([0,0,360/(4*detail)])cylinder(15,holeradius,holeradius,center=true);
@@ -731,14 +528,14 @@ module USBFP(x,y,rotation,name,value,room){
 module spiflashFP(x,y,rotation,name,value,room){
     translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
    translate([0,0,0])square([0.4+round(room)*clearance,1.9+round(room)*clearance],center=true);
-   translate([spiflashPL[1][0],spiflashPL[1][1],0])square([1+round(room)*clearance,0.25+round(room)*clearance],center=true);
-       translate([spiflashPL[2][0],spiflashPL[2][1],0])square([1+round(room)*clearance,0.25+round(room)*clearance],center=true);
-       translate([spiflashPL[3][0],spiflashPL[3][1],0])square([1+round(room)*clearance,0.25+round(room)*clearance],center=true);
-       translate([spiflashPL[4][0],spiflashPL[4][1],0])square([1+round(room)*clearance,0.25+round(room)*clearance],center=true);
-       translate([spiflashPL[5][0],spiflashPL[5][1],0])square([1+round(room)*clearance,0.25+round(room)*clearance],center=true);
-       translate([spiflashPL[6][0],spiflashPL[6][1],0])square([1+round(room)*clearance,0.25+round(room)*clearance],center=true);
-       translate([spiflashPL[7][0],spiflashPL[7][1],0])square([1+round(room)*clearance,0.25+round(room)*clearance],center=true);
-       translate([spiflashPL[8][0],spiflashPL[8][1],0])square([1+round(room)*clearance,0.25+round(room)*clearance],center=true);
+   translate([spiflashPL[1][0]+round(room)*clearance/4,spiflashPL[1][1],0])square([1+round(room)*clearance/4,0.25+round(room)*clearance],center=true);
+       translate([spiflashPL[2][0]+round(room)*clearance/4,spiflashPL[2][1],0])square([1+round(room)*clearance/4,0.25+round(room)*clearance],center=true);
+       translate([spiflashPL[3][0]+round(room)*clearance/4,spiflashPL[3][1],0])square([1+round(room)*clearance/4,0.25+round(room)*clearance],center=true);
+       translate([spiflashPL[4][0]+round(room)*clearance/4,spiflashPL[4][1],0])square([1+round(room)*clearance/4,0.25+round(room)*clearance],center=true);
+       translate([spiflashPL[5][0]-round(room)*clearance/4,spiflashPL[5][1],0])square([1+round(room)*clearance/4,0.25+round(room)*clearance],center=true);
+       translate([spiflashPL[6][0]-round(room)*clearance/4,spiflashPL[6][1],0])square([1+round(room)*clearance/4,0.25+round(room)*clearance],center=true);
+       translate([spiflashPL[7][0]-round(room)*clearance/4,spiflashPL[7][1],0])square([1+round(room)*clearance/4,0.25+round(room)*clearance],center=true);
+       translate([spiflashPL[8][0]-round(room)*clearance/4,spiflashPL[8][1],0])square([1+round(room)*clearance/4,0.25+round(room)*clearance],center=true);
    if (round(room)!=0){translate([-0.4,-0.9,0])rotate([0,0,90])text(name,0.28);
    translate([0.7,-0.4,0])rotate([0,0,90])text(value,0.3);}
 }}
@@ -778,7 +575,7 @@ module rp2040FP(x,y,rotation,room){
         square(3.2+round(room)*clearance,center=true);
         for(a=[0:90:359]){
         for (b=[2.6:-0.4:-2.6]){
-            rotate([0,0,a])translate([7.26/2,b,0])square([1+round(room)*clearance,0.2+round(room)*clearance],center=true);
+            rotate([0,0,a])translate([7.26/2-round(room)*clearance/4,b,0])square([1+round(room)*clearance/2,0.2+round(room)*clearance],center=true);
             if(round(room)!=0){rotate([0,0,a+180])translate([7.26/2-0.7,b,0])rotate([0,0,-a+180])translate([-0.1,-0.1,0])text(str((a/90)*14+((b+2.6)/0.4)+1),0.15);}
         }
     }
