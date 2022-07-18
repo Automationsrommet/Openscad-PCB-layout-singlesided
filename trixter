@@ -8,10 +8,12 @@
 //Reduce track input to component and pin somehow   I give up, unless concat trick would work
 //Solve parametric trace midpoint                   Check! I solved it!
 //Output straight lines in all orientations         Working on it.
-//Footprinterprinter to call footprints once        On it, requires fixed arguments
-//Mediator function to call the lines only once     This goes first
-//Seperate midpoint move argument                   I'll do it
-
+//Footprinterprinter to call footprints once        Requires concat function, requires fixed arguments
+//Mediator function to call the lines only once     Check
+//Seperate midpoint move argument                   Check, although still messy and only linear
+// change to 0402
+//Tidy up the angle test situation
+//hickups on lower right ends of curved traces          
 
 //Input parameters
 
@@ -35,6 +37,12 @@ USBPL=[
 [0, 51/2-1.6, 0],[-2.54*1.5,0],
 [-2.54*0.5,0],[2.54*0.5,0],[2.54*1.5,0]
 ];
+o2o1PL=[
+[0, 0, 0],[0.55/2,0],[-0.55/2,0]
+];
+o4o2PL=[
+[0, 0, 0],[0.5,0],[-0.5,0]
+];
 o6o3PL=[
 [0, 0, 0],[0.7/2+0.8/2,0],[-0.7/2-0.8/2,0]
 ];
@@ -42,7 +50,7 @@ o6o3RLEDPL=[
 [6, 2.4, -41],[0.7/2+0.8/2,0],[-0.7/2-0.8/2,0]
 ];
 o6o3LEDPL=[
-[8.9, -1.8, 90],[0.7/2+0.8/2,0],[-0.7/2-0.8/2,0]
+[8.5, +0.2, 180],[0.7/2+0.8/2,0],[-0.7/2-0.8/2,0]
 ];
 picoPL=[
 [0, 0, 0],[-17.78/2,48.26/2],[-17.78/2,48.26/2-2.54*1],[-17.78/2,48.26/2-2.54*2],[-17.78/2,48.26/2-2.54*3],
@@ -86,26 +94,26 @@ USBFP(USBPL[0][0],USBPL[0][1],USBPL[0][2],"Homemade","USB-B",1);
 DPAKFP(DPAKPL[0][0],DPAKPL[0][1],DPAKPL[0][2],1);
 o6o3FP(5.3,12,0,1," ",0,0);
 o6o3FP(5.3,13,0,1," ",0,0);
-o6o3FP(-7.5,-0.5,118,1,"  ",0,0);//left side 3v3
+o4o2FP(-7.5,-0.63,118,1,"  ",0,0);//left side 3v3
 o6o3FP(-0.5-0.1,21.1,90,1,"10u",0,0);
 spiflashFP(spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],"SPIFLASH","16Mb",1);
 chrystalFP(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],1);
-o6o3FP(chrystalPL[0][0]+chrystalPL[3][0]-0.1,chrystalPL[0][1]+chrystalPL[3][1]+2,80,1,"R1k",0,0);
-o6o3FP(chrystalPL[0][0]+chrystalPL[1][0]+0.5,chrystalPL[0][1]+chrystalPL[1][1]-2,90,1,"15p",0,0);
-o6o3FP(chrystalPL[0][0]+chrystalPL[1][0]-0.5,chrystalPL[0][1]+chrystalPL[1][1]-2,90,1,"15p",0,0);
-o6o3FP(o6o3RLEDPL[0][0]+o6o3RLEDPL[1][0],o6o3RLEDPL[0][1]+o6o3RLEDPL[1][1],o6o3RLEDPL[0][2],1,"470",0,0);
-o6o3FP(o6o3LEDPL[0][0]+o6o3LEDPL[1][0],o6o3LEDPL[0][1]+o6o3LEDPL[1][1],o6o3LEDPL[0][2],1,"LED",0,0);
-o6o3FP(rp2040PL[0][0]+rp2040PL[3][0]+2.7,rp2040PL[0][1]+rp2040PL[3][1]-0.5,101,1,"23 24",0,0);
+o4o2FP(chrystalPL[0][0]+chrystalPL[3][0]-0.1,chrystalPL[0][1]+chrystalPL[3][1]+2,80,1,"R1k",0,0);
+o4o2FP(chrystalPL[0][0]+chrystalPL[1][0]+0.5,chrystalPL[0][1]+chrystalPL[1][1]-2,90,1,"15p",0,0);
+o4o2FP(chrystalPL[0][0]+chrystalPL[1][0]-0.5,chrystalPL[0][1]+chrystalPL[1][1]-2,90,1,"15p",0,0);
+o4o2FP(o6o3RLEDPL[0][0]+o6o3RLEDPL[1][0],o6o3RLEDPL[0][1]+o6o3RLEDPL[1][1],o6o3RLEDPL[0][2],1,"470",0,0);
+o4o2FP(o6o3LEDPL[0][0]+o6o3LEDPL[1][0],o6o3LEDPL[0][1]+o6o3LEDPL[1][1],o6o3LEDPL[0][2],1,"LED",0,0);
+o6o3FP(-3,15,101,1,"23 24",0,0);//23 24
 sot523FP(sot523PL[0][0],sot523PL[0][1],sot523PL[0][2],1);
 o6o3FP(sot523PL[0][0]+sot523PL[3][0]+0.8,sot523PL[0][1]+sot523PL[3][1]+3.1,90,1,"100k",0,0);
 o6o3FP(sot523PL[0][0]+sot523PL[3][0]-0.1,sot523PL[0][1]+sot523PL[3][1]+3.1,90,1,"1nF",0,0);
 o6o3FP(sot523PL[0][0]+sot523PL[3][0]-1,sot523PL[0][1]+sot523PL[3][1]+2.6,90,1,"200k",0,0);
-o6o3FP(picoPL[0][0]+picoPL[35][0]-1.4,picoPL[0][1]+picoPL[35][1]+1.1,90,1,"200",0,0);
-o6o3FP(picoPL[0][0]+picoPL[35][0]-1.5,picoPL[0][1]+picoPL[35][1]-1.1,90,1,"2u2",0,0);
-o6o3FP(picoPL[0][0]+picoPL[35][0]-2.5,picoPL[0][1]+picoPL[35][1]-1.1,90,1,"1ohm",0,0);
-o6o3FP(sot523PL[0][0]+sot523PL[3][0]-1.1,sot523PL[0][1]+sot523PL[3][1]+2.6,90,1,"200k",0,0);
-o6o3FP(-0.4,-6.5,80,1,"0u1",0,0); //bottom 3V3
-o6o3FP(-0.4,-10,82,1,"0u1",0,0); // bottom1V1 
+o4o2FP(-1,15,90,1,"200",0,0);
+o6o3FP(1,15,90,1,"2u2",0,0);
+o6o3FP(3,15,90,1,"1ohm",0,0);
+o6o3FP(5,15,90,1,"200k",0,0);
+o4o2FP(-0.4,-6.5,80,1,"0u1",0,0); //bottom 3V3
+o4o2FP(-0.4,-10,82,1,"0u1",0,0); // bottom1V1 
 label(1.0,20.3,0,0,"Postapocalyptic", 0.75,"Courier");
 label(1.0,19,0,0,"Pico", 1.3,"Courier");
 label(1.0,18,0,0,"open hardware", 0.6,"Courier");
@@ -181,8 +189,8 @@ trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[29][0],picoPL[29][1],1,seg
 trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[28][0]-1,picoPL[28][1]+1,1,segments,4,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[33][0],rp2040PL[33][1],1,8,0,0.73);
 //LED circuit
 //trixter(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[37][0],rp2040PL[37][1],2,2,2,o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[1][0],o6o3RLEDPL[1][1],2,2,1,0.3);
-//trixter(o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[2][0],o6o3RLEDPL[2][1],1,2,0,o6o3RLEDPL[0][0],o6o3LEDPL[0][1],o6o3LEDPL[0][2],o6o3LEDPL[1][0],o6o3LEDPL[1][1],1,2,0,0.3);
-trixter(o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[2][0],o6o3RLEDPL[2][1],2,2,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[37][0],rp2040PL[37][1],2,2,0,1.4);
+trixter(o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[2][0],o6o3RLEDPL[2][1],1,2,0,o6o3RLEDPL[0][0],o6o3LEDPL[0][1],o6o3LEDPL[0][2],o6o3LEDPL[1][0],o6o3LEDPL[1][1],1,2,0,0.3);
+trixter(o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[2][0],o6o3RLEDPL[2][1],0,2,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[37][0],rp2040PL[37][1],0,2,0,1.4);
 
 
 trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[31][0],picoPL[31][1],0,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[38][0],rp2040PL[38][1],0,segments,0,1);
@@ -222,26 +230,26 @@ USBFP(USBPL[0][0],USBPL[0][1],USBPL[0][2],"Homemade","USB-B",0);
 DPAKFP(DPAKPL[0][0],DPAKPL[0][1],DPAKPL[0][2],0);
 o6o3FP(5.3,12,0,0," ",0,0);
 o6o3FP(5.3,13,0,0," ",0,0);
-o6o3FP(-7.5,-0.6,118,0,"  ",0,1);//left side 3v3
+o4o2FP(-7.5,-0.63,118,0,"  ",0,1);//left side 3v3
 o6o3FP(-0.5-0.1,21.1,90,0,"10u",0,0);
 spiflashFP(spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],"SPIFLASH","16Mb",0);
 chrystalFP(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],0,0,0);
-o6o3FP(chrystalPL[0][0]+chrystalPL[3][0]-0.1,chrystalPL[0][1]+chrystalPL[3][1]+2,80,0,"R1k",0,0);
-o6o3FP(chrystalPL[0][0]+chrystalPL[1][0]+0.5,chrystalPL[0][1]+chrystalPL[1][1]-2,90,0,"15p",0,1);
-o6o3FP(chrystalPL[0][0]+chrystalPL[1][0]-0.5,chrystalPL[0][1]+chrystalPL[1][1]-2,90,0,"15p",0,1);
-o6o3FP(o6o3RLEDPL[0][0]+o6o3RLEDPL[1][0],o6o3RLEDPL[0][1]+o6o3RLEDPL[1][1],o6o3RLEDPL[0][2],0,"470",0,0);
-o6o3FP(o6o3LEDPL[0][0]+o6o3LEDPL[1][0],o6o3LEDPL[0][1]+o6o3LEDPL[1][1],o6o3LEDPL[0][2],0,"LED",0,1);
-o6o3FP(rp2040PL[0][0]+rp2040PL[3][0]+2.7,rp2040PL[0][1]+rp2040PL[3][1]-0.5,101,0,"23 24",0,0);
+o4o2FP(chrystalPL[0][0]+chrystalPL[3][0]-0.1,chrystalPL[0][1]+chrystalPL[3][1]+2,80,0,"R1k",0,0);
+o4o2FP(chrystalPL[0][0]+chrystalPL[1][0]+0.5,chrystalPL[0][1]+chrystalPL[1][1]-2,90,0,"15p",0,1);
+o4o2FP(chrystalPL[0][0]+chrystalPL[1][0]-0.5,chrystalPL[0][1]+chrystalPL[1][1]-2,90,0,"15p",0,1);
+o4o2FP(o6o3RLEDPL[0][0]+o6o3RLEDPL[1][0],o6o3RLEDPL[0][1]+o6o3RLEDPL[1][1],o6o3RLEDPL[0][2],0,"470",0,0);
+o4o2FP(o6o3LEDPL[0][0]+o6o3LEDPL[1][0],o6o3LEDPL[0][1]+o6o3LEDPL[1][1],o6o3LEDPL[0][2],0,"LED",0,1);
+o6o3FP(-3,15,101,0,"23 24",0,0);
 sot523FP(sot523PL[0][0],sot523PL[0][1],sot523PL[0][2],0);
 o6o3FP(sot523PL[0][0]+sot523PL[3][0]+0.8,sot523PL[0][1]+sot523PL[3][1]+3.1,90,0,"100k",1,0);
 o6o3FP(sot523PL[0][0]+sot523PL[3][0]-0.1,sot523PL[0][1]+sot523PL[3][1]+3.1,90,0,"1nF",1,0);
-o6o3FP(sot523PL[0][0]+sot523PL[3][0]-6,sot523PL[0][1]+sot523PL[3][1]+4.6,90,0,"200k",0,0);
-o6o3FP(picoPL[0][0]+picoPL[35][0]-5.4,picoPL[0][1]+picoPL[35][1]+1.1,90,0,"200",0,0);
-o6o3FP(picoPL[0][0]+picoPL[35][0]-5.5,picoPL[0][1]+picoPL[35][1]-1.1,90,0,"2u2",0,0);
-o6o3FP(picoPL[0][0]+picoPL[35][0]-7.5,picoPL[0][1]+picoPL[35][1]-1.1,90,0,"1ohm",0,0);
-o6o3FP(sot523PL[0][0]+sot523PL[3][0]-1.1,sot523PL[0][1]+sot523PL[3][1]+2.6,90,0,"200k",0,0);
-o6o3FP(-0.4,-6.5,80,0,"0u1",0,1); //bottom 3V3
-o6o3FP(-0.4,-10,82,0,"0u1",0,1); // bottom1V1 
+o6o3FP(sot523PL[0][0]+sot523PL[3][0]-1,sot523PL[0][1]+sot523PL[3][1]+2.6,90,0,"200k",0,0);
+o4o2FP(-1,15,90,0,"200",0,0);
+o6o3FP(1,15,90,0,"2u2",0,0);
+o6o3FP(3,15,90,0,"1ohm",0,0);
+o6o3FP(5,15,90,0,"200k",0,0);
+o4o2FP(-0.4,-6.5,80,0,"0u1",0,1); //bottom 3V3
+o4o2FP(-0.4,-10,82,0,"0u1",0,1); // bottom1V1 
 footprinter("o6o3FP",0,0,0,0,0,1);//testing the footprinter
 //}    
 
@@ -539,6 +547,34 @@ module spiflashFP(x,y,rotation,name,value,room){
    if (round(room)!=0){translate([-0.4,-0.9,0])rotate([0,0,90])text(name,0.28);
    translate([0.7,-0.4,0])rotate([0,0,90])text(value,0.3);}
 }}
+module o2o1FP(x,y,rotation,room,value,GNDpin1,GNDpin2){
+    translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
+        translate([o2o1PL[1][0],o2o1PL[1][1],0])square([0.25+round(room)*clearance,0.35+round(room)*clearance],center=true);
+       if (GNDpin1==1){union(){
+           translate([o2o1PL[1][0],o2o1PL[1][1],0])square([0.35+round(room)*clearance,trace],center=true);
+           translate([o2o1PL[1][0],o2o1PL[1][1],0])square([trace,0.45+round(room)*clearance],center=true);
+           }}
+       translate([o2o1PL[2][0],o2o1PL[2][1],0])square([0.25+round(room)*clearance,0.35+round(room)*clearance],center=true);
+       if (GNDpin2==1){union(){
+           translate([o2o1PL[2][0],o2o1PL[2][1],0])square([0.35+round(room)*clearance,trace],center=true);
+           translate([o2o1PL[2][0],o2o1PL[2][1],0])square([trace,0.45+round(room)*clearance],center=true);
+           }}
+    if(round(room)!=0){translate([-0.1,0.3,0])rotate([0,0,-90])text(value,0.18);}
+}}
+module o4o2FP(x,y,rotation,room,value,GNDpin1,GNDpin2){
+    translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
+        translate([o4o2PL[1][0],o4o2PL[1][1],0])square([0.6+round(room)*clearance,0.7+round(room)*clearance],center=true);
+       if (GNDpin1==1){union(){
+           translate([o4o2PL[1][0],o4o2PL[1][1],0])square([0.79++round(room)*clearance,trace],center=true);
+           translate([o4o2PL[1][0],o4o2PL[1][1],0])square([trace,0.9+round(room)*clearance],center=true);
+           }}
+       translate([o4o2PL[2][0],o4o2PL[2][1],0])square([0.6+round(room)*clearance,0.7+round(room)*clearance],center=true);
+       if (GNDpin2==1){union(){
+           translate([o4o2PL[2][0],o4o2PL[2][1],0])square([0.79+round(room)*clearance,trace],center=true);
+           translate([o4o2PL[2][0],o4o2PL[2][1],0])square([trace,0.9+round(room)*clearance],center=true);
+           }}
+    if(round(room)!=0){translate([-0.1,0.3,0])rotate([0,0,-90])text(value,0.18);}
+}}
 module o6o3FP(x,y,rotation,room,value,GNDpin1,GNDpin2){
     translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
         translate([o6o3PL[1][0],o6o3PL[1][1],0])square(0.8+round(room)*clearance,center=true);
@@ -584,7 +620,7 @@ module rp2040FP(x,y,rotation,room){
 }
 
 module border(){
- translate([0,0,1])difference(){
+ translate([0,0,0.9])difference(){
 cube([width+3*frame,heigth+3*frame,0.2],center=true);
 cube([width-frame,heigth-frame,4],center=true);
 }  
