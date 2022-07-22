@@ -3,17 +3,18 @@
 //Chekt if th DPAK even fits. 
 //Write 4 trace-functions into one smooth curve.    Check
 //Angle everything.                                 Check
-//ground points #3.                                 Check
-//add vertical curve at 2                           Check
+//ground points #3.                                 Check, although it seems to not work anymore 
+//add vertical curve at 2                           Check, its still only semi verticle
 //Reduce track input to component and pin somehow   I give up, unless concat trick would work
-//Solve parametric trace midpoint                   Check! I solved it!
+//Solve parametric trace midpoint                   Check! I solved it! but its messy.
 //Output straight lines in all orientations         Working on it.
-//Footprinterprinter to call footprints once        Requires concat function, requires fixed arguments
+//Functions to call resistors and caps once         Completed for 0603, 0402 and 0201 
 //Mediator function to call the lines only once     Check
 //Seperate midpoint move argument                   Check, although still messy and only linear
-// change to 0402
-//Tidy up the angle test situation
-//hickups on lower right ends of curved traces          
+//Add 0402 and 0201 support                         check, but not in one-line-mode
+//Tidy up the angle test situation                  I will get to the bottom of it.
+//hickups on lower right ends of curved traces      No idea what causes that yet.   
+//
 
 //Input parameters
 
@@ -92,8 +93,8 @@ color("white")union(){
 rp2040FP(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],1);    
 USBFP(USBPL[0][0],USBPL[0][1],USBPL[0][2],"Homemade","USB-B",1);
 DPAKFP(DPAKPL[0][0],DPAKPL[0][1],DPAKPL[0][2],1);
-o6o3FP(5.3,12,0,1," ",0,0);
-o6o3FP(5.3,13,0,1," ",0,0);
+footprinto6o3(5.3,12,0," ",0,0);
+footprinto6o3(5.3,13,0," ",0,0);
 o4o2FP(-7.5,-0.63,118,1,"  ",0,0);//left side 3v3
 o6o3FP(-0.5-0.1,21.1,90,1,"10u",0,0);
 spiflashFP(spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],"SPIFLASH","16Mb",1);
@@ -110,7 +111,7 @@ o6o3FP(sot523PL[0][0]+sot523PL[3][0]-0.1,sot523PL[0][1]+sot523PL[3][1]+3.1,90,1,
 o6o3FP(sot523PL[0][0]+sot523PL[3][0]-1,sot523PL[0][1]+sot523PL[3][1]+2.6,90,1,"200k",0,0);
 o4o2FP(-1,15,90,1,"200",0,0);
 o6o3FP(1,15,90,1,"2u2",0,0);
-o6o3FP(3,15,90,1,"1ohm",0,0);
+footprinto6o3(3,15,90,"1ohm",0,0);
 o6o3FP(5,15,90,1,"200k",0,0);
 o4o2FP(-0.4,-6.5,80,1,"0u1",0,0); //bottom 3V3
 o4o2FP(-0.4,-10,82,1,"0u1",0,0); // bottom1V1 
@@ -118,7 +119,7 @@ label(1.0,20.3,0,0,"Postapocalyptic", 0.75,"Courier");
 label(1.0,19,0,0,"Pico", 1.3,"Courier");
 label(1.0,18,0,0,"open hardware", 0.6,"Courier");
 label(0.0,17,0,0,"version 2 Melbu june22", 0.53,"Courier");
-
+//footprinto6o3(7,15,45,"test",2,358,180,270);//testing the footprinto6o3
 
 trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[1][0],picoPL[1][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[2][0],rp2040PL[2][1],2,segments,0,1.2);
 trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[2][0],picoPL[2][1],2,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[3][0],rp2040PL[3][1],2,segments,0,1.15);
@@ -228,8 +229,8 @@ border();
 rp2040FP(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],0);
 USBFP(USBPL[0][0],USBPL[0][1],USBPL[0][2],"Homemade","USB-B",0);
 DPAKFP(DPAKPL[0][0],DPAKPL[0][1],DPAKPL[0][2],0);
-o6o3FP(5.3,12,0,0," ",0,0);
-o6o3FP(5.3,13,0,0," ",0,0);
+//o6o3FP(5.3,12,0,0," ",0,0);
+//o6o3FP(5.3,13,0,0," ",0,0);
 o4o2FP(-7.5,-0.63,118,0,"  ",0,1);//left side 3v3
 o6o3FP(-0.5-0.1,21.1,90,0,"10u",0,0);
 spiflashFP(spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],"SPIFLASH","16Mb",0);
@@ -250,27 +251,23 @@ o6o3FP(3,15,90,0,"1ohm",0,0);
 o6o3FP(5,15,90,0,"200k",0,0);
 o4o2FP(-0.4,-6.5,80,0,"0u1",0,1); //bottom 3V3
 o4o2FP(-0.4,-10,82,0,"0u1",0,1); // bottom1V1 
-footprinter("o6o3FP",0,0,0,0,0,1);//testing the footprinter
+
 //}    
 
 
 //   ****            MODULES       ****
-module footprinter (fpName, xaddition, yaddition, rotateaddition, labelone, labeltwo, groundpin){
+module footprinto6o3 (wherex, wherey, rotation, label, pin1, pin2, pin1s, pin2s){
            difference(){
-  //    echo (fpName,"[0][0],");
+  o6o3FP(wherex,wherey,rotation,1,label,pin1,pin2,pin1s,pin2s);union(){
+  o6o3FP(wherex,wherey,rotation,0,label,pin1,pin2,pin1s,pin2s);
                
-   }
-    }
+}}}
     
     module trixter (startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider,startpad,endcompx,endcompy,erotation,epinx,epiny,endtype,enddivider,endpad,middle){
            difference(){
 track(startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider,startpad,endcompx,endcompy,erotation,epinx,epiny,endtype,enddivider,endpad,1,middle);
      track(startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider,startpad,endcompx,endcompy,erotation,epinx,epiny,endtype,enddivider,endpad,0,middle);          
-  //    echo (fpName,"[0][0],");
-               
-   }
-    }
-
+}}
 
 module track (startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider,startpad,endcompx,endcompy,erotation,epinx,epiny,endtype,enddivider,endpad,room,middle) {
     //debug points Startpoints are red, Endpoints are green
@@ -448,8 +445,7 @@ for (q=[1:1:startdivider]){
             if (starttype==2){
                 updowntest3=pointsVcurvestart[q][1]-pointsVcurvestart[q-1][1];
                 translate([pointsVcurvestart[q][0]+(pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])/2,pointsVcurvestart[q][1]+(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1])/2,1])rotate([0,0,90+(updowntest3/(abs(updowntest3)))*asin((pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])/sqrt((pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])*(pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])+(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1])*(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1])))])square([sqrt((pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])*(pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])+(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1])*(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1]))+clearance,trace+round(room)*clearance],center=true);
-             }             
-    }
+}}
  for (r=[1:1:enddivider-1]){
             if (endtype==2){
                 updowntest4=pointsVcurveend[r][1]-pointsVcurveend[r-1][1];
@@ -458,9 +454,7 @@ for (q=[1:1:startdivider]){
                  if(r==enddivider-1) {
                  updowntest7=endy-pointsVcurveend[r][1];
                  translate([endx+(pointsVcurveend[r][0]-endx)/2,endy+(pointsVcurveend[r][1]-endy)/2,1])rotate([0,0,90+(updowntest7/(abs(updowntest7)))*asin((pointsVcurveend[r][0]-endx)/sqrt((pointsVcurveend[r][0]-endx)*(pointsVcurveend[r][0]-endx)+(pointsVcurveend[r][1]-endy)*(pointsVcurveend[r][1]-endy)))])square([sqrt((pointsVcurveend[r][0]-endx)*(pointsVcurveend[r][0]-endx)+(pointsVcurveend[r][1]-endy)*(pointsVcurveend[r][1]-endy))+clearance,trace+round(room)*clearance],center=true);          
-                        }
-              }
-    }      
+}}}      
 
 //(startcompx, startcompy, startcomprotation, startx, starty, starttype, startdivider, startpad, endcompx, endcompy, endcomprotation, endx, endy, endtype,enddivider,endpad,round(room))
 difference(){
@@ -575,18 +569,27 @@ module o4o2FP(x,y,rotation,room,value,GNDpin1,GNDpin2){
            }}
     if(round(room)!=0){translate([-0.1,0.3,0])rotate([0,0,-90])text(value,0.18);}
 }}
-module o6o3FP(x,y,rotation,room,value,GNDpin1,GNDpin2){
+module o6o3FP(x,y,rotation,room,value,pin1,pin2,pin1s,pin2s){
     translate([x,y,0])rotate([0,0,rotation])linear_extrude(2){
         translate([o6o3PL[1][0],o6o3PL[1][1],0])square(0.8+round(room)*clearance,center=true);
-       if (GNDpin1==1){union(){
+       if (pin1==1){union(){
            translate([o6o3PL[1][0],o6o3PL[1][1],0])square([1+round(room)*clearance,trace],center=true);
            translate([o6o3PL[1][0],o6o3PL[1][1],0])square([trace,1+round(room)*clearance],center=true);
            }}
-       translate([o6o3PL[2][0],o6o3PL[2][1],0])square(0.8+round(room)*clearance,center=true);
-       if (GNDpin2==1){union(){
+       if (pin1>1){
+           translate([o6o3PL[1][0],o6o3PL[1][1],0])rotate([0,0,pin1])square([1,trace],center=false);}   if (pin1s>1){
+           translate([o6o3PL[1][0],o6o3PL[1][1],0])rotate([0,0,pin1s])square([1,trace],center=false);} 
+           translate([o6o3PL[2][0],o6o3PL[2][1],0])square(0.8+round(room)*clearance,center=true);
+       if (pin2==1){union(){
            translate([o6o3PL[2][0],o6o3PL[2][1],0])square([1+round(room)*clearance,trace],center=true);
            translate([o6o3PL[2][0],o6o3PL[2][1],0])square([trace,1+round(room)*clearance],center=true);
            }}
+       if (pin2>1){
+           translate([o6o3PL[2][0],o6o3PL[2][1],0])rotate([0,0,pin2])square([1,trace],center=false);
+           }
+       if (pin2s>1){
+           translate([o6o3PL[2][0],o6o3PL[2][1],0])rotate([0,0,pin2s])square([1,trace],center=false);
+           }
     if(round(room)!=0){translate([-0.2,0.4,0])rotate([0,0,-90])text(value,0.3);}
 }}
 module DPAKFP(x,y,rotation,room){
