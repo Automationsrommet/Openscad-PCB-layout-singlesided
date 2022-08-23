@@ -3,15 +3,14 @@
 //Chekt if th DPAK even fits. 
 //Write 4 trace-functions into one smooth curve.    Check
 //Angle everything.                                 Check
-//ground points #3.                                 Check, although it seems to not work anymore 
-//add vertical curve at 2                           Check, its still only semi verticle
-//Reduce track input to component and pin somehow   I give up, unless concat trick would work
+//ground points #3.                                 Check
+//add vertical curve at 2                           Check, its still only semi vertical
 //Solve parametric trace midpoint                   Check! I solved it! but its messy.
 //Output straight lines in all orientations         Working on it.
 //Functions to call resistors and caps once         Completed for 0603, 0402 and 0201 
 //Mediator function to call the lines only once     Check
 //Seperate midpoint move argument                   Check, although still messy and only linear
-//Add 0402 and 0201 support                         check, but not in one-line-mode
+//Add 0402 and 0201 support                         Check
 //Tidy up the angle test situation                  I will get to the bottom of it.
 //hickups on lower right ends of curved traces      No idea what causes that yet.   
 //
@@ -27,6 +26,7 @@ frame=0.6;
 heigth=51;
 width=21;
 segments=3;
+curveangle=90;
 //Position Lists: center x, y and rotation, then pin coordinates relative to center of component
 
 chrystalPL=[
@@ -99,22 +99,22 @@ footprinto4o2(-9,-0.0,0,"  ",0,1,0,0);//left side 3v3
 footprinto6o3(-0.5-0.1,21.1,90,1,"10u",0,0);
 spiflashFP(spiflashPL[0][0],spiflashPL[0][1],spiflashPL[0][2],"SPIFLASH","16Mb",1);
 chrystalFP(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],1);
-footprinto4o2(chrystalPL[0][0]+chrystalPL[3][0]-0.1,chrystalPL[0][1]+chrystalPL[3][1]+2,80,1,"R1k",0,0);
-footprinto4o2(chrystalPL[0][0]+chrystalPL[1][0]+0.5,chrystalPL[0][1]+chrystalPL[1][1]-2,90,1,"15p",0,0);
-footprinto4o2(chrystalPL[0][0]+chrystalPL[1][0]-0.5,chrystalPL[0][1]+chrystalPL[1][1]-2,90,1,"15p",0,0);
-footprinto2o1(o6o3RLEDPL[0][0]+o6o3RLEDPL[1][0],o6o3RLEDPL[0][1]+o6o3RLEDPL[1][1],o6o3RLEDPL[0][2],1,"470",0,0);
-footprinto2o1(o6o3LEDPL[0][0]+o6o3LEDPL[1][0],o6o3LEDPL[0][1]+o6o3LEDPL[1][1],o6o3LEDPL[0][2]," ",1,0,0,0);
+footprinto4o2(chrystalPL[0][0]+chrystalPL[3][0]-0.1,chrystalPL[0][1]+chrystalPL[3][1]+2,80,"R1k",20,190,0,0);
+footprinto4o2(chrystalPL[0][0]+chrystalPL[1][0]+0.5,chrystalPL[0][1]+chrystalPL[1][1]-2,90,"15p",2,1,0,0);
+footprinto4o2(chrystalPL[0][0]+chrystalPL[1][0]-0.5,chrystalPL[0][1]+chrystalPL[1][1]-2,90,"15p",2,1,0,0);
+footprinto2o1(o6o3RLEDPL[0][0]+o6o3RLEDPL[1][0],o6o3RLEDPL[0][1]+o6o3RLEDPL[1][1],o6o3RLEDPL[0][2],"470",359,180,0,0);
+footprinto2o1(o6o3LEDPL[0][0]+o6o3LEDPL[1][0],o6o3LEDPL[0][1]+o6o3LEDPL[1][1],o6o3LEDPL[0][2]," ",1,180,0,0);
 footprinto6o3(-3,15,101,1,"23 24",0,0);//23 24
 sot523FP(sot523PL[0][0],sot523PL[0][1],sot523PL[0][2],1);
-footprinto6o3(sot523PL[0][0]+sot523PL[3][0]+0.8,sot523PL[0][1]+sot523PL[3][1]+3.1,90,1,"100k",0,0);
-footprinto6o3(sot523PL[0][0]+sot523PL[3][0]-0.1,sot523PL[0][1]+sot523PL[3][1]+3.1,90,1,"1nF",0,0);
-footprinto6o3(sot523PL[0][0]+sot523PL[3][0]-1,sot523PL[0][1]+sot523PL[3][1]+2.6,90,1,"200k",0,0);
-footprinto4o2(-1,15,90,1,"200",0,0);
-footprinto6o3(1,15,90,1,"2u2",0,0);
-footprinto6o3(3,15,90,"1ohm",0,0);
-footprinto6o3(5,15,90,1,"200k",0,0);
-footprinto2o1(-0.4,-6.5,80,"0u1",0,1,0,0); //bottom 3V3
-footprinto2o1(-0.4,-10,82,"0u1",0,1,0,0); // bottom1V1 
+footprinto6o3(sot523PL[0][0]+sot523PL[3][0]+0.8,sot523PL[0][1]+sot523PL[3][1]+3.1,90,"100k",0,0,0,0);
+footprinto6o3(sot523PL[0][0]+sot523PL[3][0]-0.1,sot523PL[0][1]+sot523PL[3][1]+3.1,90,"1nF",0,0,0,0);
+footprinto6o3(sot523PL[0][0]+sot523PL[3][0]-1,sot523PL[0][1]+sot523PL[3][1]+2.6,90,"200k",0,0,0,0);
+footprinto4o2(-1,15,90,"200",0,0,0,0);
+footprinto6o3(1,15,90,"2u2",0,0,0,0);
+footprinto6o3(3,15,90,"1ohm",0,0,0,0);
+footprinto6o3(5,15,90,"200k",0,0,0,0);
+footprinto2o1(-0.4,-6.5,80,"0u1",350,1,0,0); //bottom 3V3
+footprinto2o1(-0.4,-10,82,"0u1",350,1,0,0); // bottom1V1 
 label(1.0,20.3,0,0,"Postapocalyptic", 0.75,"Courier");
 label(1.0,19,0,0,"Pico", 1.3,"Courier");
 label(1.0,18,0,0,"open hardware", 0.6,"Courier");
@@ -158,16 +158,18 @@ trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+6.3,picoPL[13][1]-1
 //xtal 20 to 1 and 21 to 3
 trixter(rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[20][0],rp2040PL[20][1],0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]+0.70,chrystalPL[1][1]-0.3,0,segments,0,1);
 trixter(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0]-0.7,chrystalPL[3][1]+2.6,0,segments,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[21][0],rp2040PL[21][1],0,segments,0,1);
-trixter(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0]+0.1,chrystalPL[3][1]+1.0,0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0],chrystalPL[3][1],0,segments,0,1);
-trixter(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]+0.2,chrystalPL[1][1]-1.0,0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0]-0.5,chrystalPL[3][1],0,segments,0,1);
-trixter(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]-0.3,chrystalPL[1][1]-1.0,0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]-0.5,chrystalPL[1][1],0,segments,0,1);
+trixter(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0]+0.1,chrystalPL[3][1]+1.3,0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0],chrystalPL[3][1],0,segments,0,1);
+trixter(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]+0.2,chrystalPL[1][1]-1.2,0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[3][0]-0.5,chrystalPL[3][1],0,segments,0,1);
+trixter(chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]-0.3,chrystalPL[1][1]-1.7,0,segments,0,chrystalPL[0][0],chrystalPL[0][1],chrystalPL[0][2],chrystalPL[1][0]-0.5,chrystalPL[1][1],0,segments,0,1);
 //3V3 and 1V1
-trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+8.70,picoPL[12][1]-1,0,segments,4,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[22][0],rp2040PL[22][1],0,segments,0,1);
-trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+8.78,picoPL[13][1]-2,0,segments,5,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[23][0],rp2040PL[23][1],0,segments,0,1);
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+8.70,picoPL[12][1]-1.61,0,segments,4,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[22][0],rp2040PL[22][1],0,segments,0,1);
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+8.70,picoPL[12][1]-1.61,0,segments,0,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+8.50,picoPL[12][1]-2.3,0,segments,0,1);
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+8.58,picoPL[13][1]-2.55,0,segments,5,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[23][0],rp2040PL[23][1],0,segments,0,1);
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+8.58,picoPL[13][1]-2.55,0,segments,0,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+8.58,picoPL[13][1]-3.35,0,segments,0,1);
 
 //debug circuit
 trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[41][0]+1.4,picoPL[41][1]+7.8,2,3,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[24][0],rp2040PL[24][1],0,2,0,1);
-trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[42][0]+1.4,picoPL[42][1]+7.8,2,2,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[42][0]+1.4,picoPL[42][1]+7.8,1,2,2,1);
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[42][0]+1.4,picoPL[42][1]+7.8,2,2,3,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[42][0]+1.4,picoPL[42][1]+7.8,1,2,2,1);
 trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[43][0]+1.4,picoPL[43][1]+7.8,2,1,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[25][0],rp2040PL[25][1],2,7,0,0.7);
 //run rp2040 to Via
 trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[13][0]+11.1,picoPL[13][1],0,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[26][0],rp2040PL[26][1],0,segments,0,1);
@@ -197,12 +199,12 @@ trixter(o6o3RLEDPL[0][0],o6o3RLEDPL[0][1],o6o3RLEDPL[0][2],o6o3RLEDPL[2][0],o6o3
 trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[31][0],picoPL[31][1],0,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[38][0],rp2040PL[38][1],0,segments,0,1);
 trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[32][0],picoPL[32][1],0,2,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[39][0],rp2040PL[39][1],0,2,0,1.4);
 
-trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[33][0],picoPL[33][1],2,segments,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[33][0]+0.1,picoPL[33][1]+0.1,2,segments,2,1);
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[33][0],picoPL[33][1],3,segments,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[33][0]+0.1,picoPL[33][1]+0.1,2,segments,3,1);
 
 trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[34][0],picoPL[34][1],0,segments,2,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[40][0],rp2040PL[40][1],0,segments,0,1);
 
 
-trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[38][0],picoPL[38][1],2,segments,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[38][0]+0.1,picoPL[38][1]+0.1,2,segments,2,1);
+trixter(picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[38][0],picoPL[38][1],3,segments,2,picoPL[0][0],picoPL[0][1],picoPL[0][2],picoPL[38][0]+0.1,picoPL[38][1]+0.1,2,segments,3,1);
 
 //sot circut
 trixter(sot523PL[0][0],sot523PL[0][1],sot523PL[0][2],sot523PL[2][0],sot523PL[2][1],0,2,0,rp2040PL[0][0],rp2040PL[0][1],rp2040PL[0][2],rp2040PL[42][0],rp2040PL[42][1],0,2,0,1);
@@ -269,21 +271,23 @@ track(startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider,startpa
 
 module track (startcompx,startcompy,srotation,spinx,spiny,starttype,startdivider,startpad,endcompx,endcompy,erotation,epinx,epiny,endtype,enddivider,endpad,room,middle) {
     //debug points Startpoints are red, Endpoints are green
-    color("red")translate([startcompx,startcompy,0])rotate([0,0,srotation])translate([spinx,spiny,0])cylinder(5,0.2,0.2,center=true);    
-    color("green")translate([endcompx,endcompy,0])rotate([0,0,erotation])translate([epinx,epiny,0])cylinder(5,0.2,0.2,center=true);   
+    //color("red")translate([startcompx,startcompy,0])rotate([0,0,srotation])translate([spinx,spiny,0])cylinder(5,0.2,0.2,center=true);    
+    //color("green")translate([endcompx,endcompy,0])rotate([0,0,erotation])translate([epinx,epiny,0])cylinder(5,0.2,0.2,center=true);   
     
     startradius=sqrt(spinx*spinx+spiny*spiny);
-    startisahead=(spinx/(abs(spinx)));
+    startisahead=(spinx/(abs(spinx))+0.01);
     endradius=sqrt(epinx*epinx+epiny*epiny);
-    endisup=(epiny/(abs(epiny)));
-    endisahead=(epinx/(abs(epinx)));
+    endisup=(epiny/(abs(epiny))+0.01);
+    endisahead=(epinx/(abs(epinx))+0.01);
     
     oldangle=[90-startisahead*-asin(spinx/startradius),
     90+(epinx/abs(epinx))*asin(epinx/endradius)];
     newangle=[oldangle[0]+srotation*endisup,
     oldangle[1]+erotation*endisahead*-endisup];
     
-    coords=[ [startradius*cos(newangle[0])*-startisahead, startradius*sin(newangle[0])*(spiny/(abs(spiny)))],[endradius*sin(-90-newangle[1])*endisahead,endradius*sin(newangle[1])*endisup] ];
+    coords=[ 
+    [startradius*cos(newangle[0])*-startisahead, startradius*sin(newangle[0])*(spiny/(abs(spiny)))],
+    [endradius*sin(-90-newangle[1])*endisahead,endradius*sin(newangle[1])*endisup] ];
     
     startx=startcompx+coords[0][0];
     starty=startcompy+coords[0][1];
@@ -321,69 +325,69 @@ midpoint,
     
     pointsHcurvestart = [
 [startx,starty],
-[startx+1*incrementxs,starty+1*incrementys+startdivider*0.2*sin(1*90/(startdivider/2))],
-[startx+2*incrementxs,starty+2*incrementys-startdivider*0.2*sin(2*90/(startdivider/2))],
-[startx+3*incrementxs,starty+3*incrementys-startdivider*0.2*sin(3*90/(startdivider/2))],
-[startx+4*incrementxs,starty+4*incrementys-startdivider*0.2*sin(4*90/(startdivider/2))],
-[startx+5*incrementxs,starty+5*incrementys-startdivider*0.2*sin(5*90/(startdivider/2))],
-[startx+6*incrementxs,starty+6*incrementys-startdivider*0.2*sin(6*90/(startdivider/2))],
-[startx+7*incrementxs,starty+7*incrementys-startdivider*0.2*sin(7*90/(startdivider/2))],
-[startx+8*incrementxs,starty+8*incrementys-startdivider*0.2*sin(8*90/(startdivider/2))],
-[startx+9*incrementxs,starty+9*incrementys-startdivider*0.2*sin(9*90/(startdivider/2))],
-[startx+10*incrementxs,starty+10*incrementys-startdivider*0.2*sin(10*90/(startdivider/2))],
-[startx+11*incrementxs,starty+11*incrementys-startdivider*0.2*sin(11*90/(startdivider/2))],
-[startx+12*incrementxs,starty+12*incrementys-startdivider*0.2*sin(12*90/(startdivider/2))],
-[startx+13*incrementxs,starty+13*incrementys-startdivider*0.2*sin(13*90/(startdivider/2))],
+[startx+1*incrementxs,starty+1*incrementys+startdivider*0.2*sin(1*curveangle/(startdivider/2))],
+[startx+2*incrementxs,starty+2*incrementys-startdivider*0.2*sin(2*curveangle/(startdivider/2))],
+[startx+3*incrementxs,starty+3*incrementys-startdivider*0.2*sin(3*curveangle/(startdivider/2))],
+[startx+4*incrementxs,starty+4*incrementys-startdivider*0.2*sin(4*curveangle/(startdivider/2))],
+[startx+5*incrementxs,starty+5*incrementys-startdivider*0.2*sin(5*curveangle/(startdivider/2))],
+[startx+6*incrementxs,starty+6*incrementys-startdivider*0.2*sin(6*curveangle/(startdivider/2))],
+[startx+7*incrementxs,starty+7*incrementys-startdivider*0.2*sin(7*curveangle/(startdivider/2))],
+[startx+8*incrementxs,starty+8*incrementys-startdivider*0.2*sin(8*curveangle/(startdivider/2))],
+[startx+9*incrementxs,starty+9*incrementys-startdivider*0.2*sin(9*curveangle/(startdivider/2))],
+[startx+10*incrementxs,starty+10*incrementys-startdivider*0.2*sin(10*curveangle/(startdivider/2))],
+[startx+11*incrementxs,starty+11*incrementys-startdivider*0.2*sin(11*curveangle/(startdivider/2))],
+[startx+12*incrementxs,starty+12*incrementys-startdivider*0.2*sin(12*curveangle/(startdivider/2))],
+[startx+13*incrementxs,starty+13*incrementys-startdivider*0.2*sin(13*curveangle/(startdivider/2))],
 [startendx,startendy]];
     
     pointsHcurveend = [
 [startendx,startendy],
-[startendx+1*incrementxe+enddivider*0.2*sin(1*90/(enddivider/2)),startendy+1*incrementye], 
-[startendx+2*incrementxe+enddivider*0.2*sin(2*90/(enddivider/2)),startendy+2*incrementye], 
-[startendx+3*incrementxe+enddivider*0.2*sin(3*90/(enddivider/2)),startendy+3*incrementye],
-[startendx+4*incrementxe+enddivider*0.2*sin(4*90/(enddivider/2)),startendy+4*incrementye],
-[startendx+5*incrementxe+enddivider*0.2*sin(5*90/(enddivider/2)),startendy+5*incrementye],
-[startendx+6*incrementxe+enddivider*0.2*sin(6*90/(enddivider/2)),startendy+6*incrementye],
-[startendx+7*incrementxe+enddivider*0.2*sin(7*90/(enddivider/2)),startendy+7*incrementye],
-[startendx+8*incrementxe+enddivider*0.2*sin(8*90/(enddivider/2)),startendy+8*incrementye],
-[startendx+9*incrementxe+enddivider*0.2*sin(9*90/(enddivider/2)),startendy+9*incrementye],
-[startendx+10*incrementxe+enddivider*0.2*sin(10*90/(enddivider/2)),startendy+10*incrementye],
-[startendx+11*incrementxe+enddivider*0.2*sin(11*90/(enddivider/2)),startendy+11*incrementye],
-[startendx+12*incrementxe+enddivider*0.2*sin(12*90/(enddivider/2)),startendy+12*incrementye],
-[startendx+13*incrementxe+enddivider*0.2*sin(13*90/(enddivider/2)),startendy+13*incrementye],
+[startendx+1*incrementxe+enddivider*0.2*sin(1*curveangle/(enddivider/2)),startendy+1*incrementye], 
+[startendx+2*incrementxe+enddivider*0.2*sin(2*curveangle/(enddivider/2)),startendy+2*incrementye], 
+[startendx+3*incrementxe+enddivider*0.2*sin(3*curveangle/(enddivider/2)),startendy+3*incrementye],
+[startendx+4*incrementxe+enddivider*0.2*sin(4*curveangle/(enddivider/2)),startendy+4*incrementye],
+[startendx+5*incrementxe+enddivider*0.2*sin(5*curveangle/(enddivider/2)),startendy+5*incrementye],
+[startendx+6*incrementxe+enddivider*0.2*sin(6*curveangle/(enddivider/2)),startendy+6*incrementye],
+[startendx+7*incrementxe+enddivider*0.2*sin(7*curveangle/(enddivider/2)),startendy+7*incrementye],
+[startendx+8*incrementxe+enddivider*0.2*sin(8*curveangle/(enddivider/2)),startendy+8*incrementye],
+[startendx+9*incrementxe+enddivider*0.2*sin(9*curveangle/(enddivider/2)),startendy+9*incrementye],
+[startendx+10*incrementxe+enddivider*0.2*sin(10*curveangle/(enddivider/2)),startendy+10*incrementye],
+[startendx+11*incrementxe+enddivider*0.2*sin(11*curveangle/(enddivider/2)),startendy+11*incrementye],
+[startendx+12*incrementxe+enddivider*0.2*sin(12*curveangle/(enddivider/2)),startendy+12*incrementye],
+[startendx+13*incrementxe+enddivider*0.2*sin(13*curveangle/(enddivider/2)),startendy+13*incrementye],
 [endx,endy]];
     
     pointsVcurvestart = [
 [startx,starty],
-[startx+1*incrementxs+startdivider*0.2*sin(1*90/(startdivider/2)),starty+1*incrementys],
-[startx+2*incrementxs+startdivider*0.2*sin(2*90/(startdivider/2)),starty+2*incrementys],
-[startx+3*incrementxs+startdivider*0.2*sin(3*90/(startdivider/2)),starty+3*incrementys],
-[startx+4*incrementxs+startdivider*0.2*sin(4*90/(startdivider/2)),starty+4*incrementys],
-[startx+5*incrementxs-startdivider*0.2*sin(5*90/(startdivider/2)),starty+5*incrementys],
-[startx+6*incrementxs-startdivider*0.2*sin(6*90/(startdivider/2)),starty+6*incrementys],
-[startx+7*incrementxs-startdivider*0.2*sin(7*90/(startdivider/2)),starty+7*incrementys],
-[startx+8*incrementxs-startdivider*0.2*sin(8*90/(startdivider/2)),starty+8*incrementys],
-[startx+9*incrementxs-startdivider*0.2*sin(9*90/(startdivider/2)),starty+9*incrementys],
-[startx+10*incrementxs-startdivider*0.2*sin(10*90/(startdivider/2)),starty+10*incrementys],
-[startx+11*incrementxs-startdivider*0.2*sin(11*90/(startdivider/2)),starty+11*incrementys],
-[startx+12*incrementxs-startdivider*0.2*sin(12*90/(startdivider/2)),starty+12*incrementys],
-[startx+13*incrementxs-startdivider*0.2*sin(13*90/(startdivider/2)),starty+13*incrementys],
+[startx+1*incrementxs+startdivider*0.2*sin(1*curveangle/(startdivider/2)),starty+1*incrementys],
+[startx+2*incrementxs+startdivider*0.2*sin(2*curveangle/(startdivider/2)),starty+2*incrementys],
+[startx+3*incrementxs+startdivider*0.2*sin(3*curveangle/(startdivider/2)),starty+3*incrementys],
+[startx+4*incrementxs+startdivider*0.2*sin(4*curveangle/(startdivider/2)),starty+4*incrementys],
+[startx+5*incrementxs-startdivider*0.2*sin(5*curveangle/(startdivider/2)),starty+5*incrementys],
+[startx+6*incrementxs-startdivider*0.2*sin(6*curveangle/(startdivider/2)),starty+6*incrementys],
+[startx+7*incrementxs-startdivider*0.2*sin(7*curveangle/(startdivider/2)),starty+7*incrementys],
+[startx+8*incrementxs-startdivider*0.2*sin(8*curveangle/(startdivider/2)),starty+8*incrementys],
+[startx+9*incrementxs-startdivider*0.2*sin(9*curveangle/(startdivider/2)),starty+9*incrementys],
+[startx+10*incrementxs-startdivider*0.2*sin(10*curveangle/(startdivider/2)),starty+10*incrementys],
+[startx+11*incrementxs-startdivider*0.2*sin(11*curveangle/(startdivider/2)),starty+11*incrementys],
+[startx+12*incrementxs-startdivider*0.2*sin(12*curveangle/(startdivider/2)),starty+12*incrementys],
+[startx+13*incrementxs-startdivider*0.2*sin(13*curveangle/(startdivider/2)),starty+13*incrementys],
 [startendx,startendy]];
     
     pointsVcurveend = [[startendx,startendy],
-[startendx+1*incrementxe-enddivider*0.2*sin(1*90/(enddivider/2)),startendy+1*incrementye], 
-[startendx+2*incrementxe-enddivider*0.2*sin(2*90/(enddivider/2)),startendy+2*incrementye], 
-[startendx+3*incrementxe-enddivider*0.2*sin(3*90/(enddivider/2)),startendy+3*incrementye],
-[startendx+4*incrementxe-enddivider*0.2*sin(4*90/(enddivider/2)),startendy+4*incrementye],
-[startendx+5*incrementxe-enddivider*0.2*sin(5*90/(enddivider/2)),startendy+5*incrementye],
-[startendx+6*incrementxe-enddivider*0.2*sin(6*90/(enddivider/2)),startendy+6*incrementye],
-[startendx+7*incrementxe-enddivider*0.2*sin(7*90/(enddivider/2)),startendy+7*incrementye],
-[startendx+8*incrementxe-enddivider*0.2*sin(8*90/(enddivider/2)),startendy+8*incrementye],
-[startendx+9*incrementxe-enddivider*0.2*sin(9*90/(enddivider/2)),startendy+9*incrementye],
-[startendx+10*incrementxe-enddivider*0.2*sin(10*90/(enddivider/2)),startendy+10*incrementye],
-[startendx+11*incrementxe-enddivider*0.2*sin(11*90/(enddivider/2)),startendy+11*incrementye],
-[startendx+12*incrementxe-enddivider*0.2*sin(12*90/(enddivider/2)),startendy+12*incrementye],
-[startendx+13*incrementxe-enddivider*0.2*sin(13*90/(enddivider/2)),startendy+13*incrementye],
+[startendx+1*incrementxe-enddivider*0.2*sin(1*curveangle/(enddivider/2)),startendy+1*incrementye], 
+[startendx+2*incrementxe-enddivider*0.2*sin(2*curveangle/(enddivider/2)),startendy+2*incrementye], 
+[startendx+3*incrementxe-enddivider*0.2*sin(3*curveangle/(enddivider/2)),startendy+3*incrementye],
+[startendx+4*incrementxe-enddivider*0.2*sin(4*curveangle/(enddivider/2)),startendy+4*incrementye],
+[startendx+5*incrementxe-enddivider*0.2*sin(5*curveangle/(enddivider/2)),startendy+5*incrementye],
+[startendx+6*incrementxe-enddivider*0.2*sin(6*curveangle/(enddivider/2)),startendy+6*incrementye],
+[startendx+7*incrementxe-enddivider*0.2*sin(7*curveangle/(enddivider/2)),startendy+7*incrementye],
+[startendx+8*incrementxe-enddivider*0.2*sin(8*curveangle/(enddivider/2)),startendy+8*incrementye],
+[startendx+9*incrementxe-enddivider*0.2*sin(9*curveangle/(enddivider/2)),startendy+9*incrementye],
+[startendx+10*incrementxe-enddivider*0.2*sin(10*curveangle/(enddivider/2)),startendy+10*incrementye],
+[startendx+11*incrementxe-enddivider*0.2*sin(11*curveangle/(enddivider/2)),startendy+11*incrementye],
+[startendx+12*incrementxe-enddivider*0.2*sin(12*curveangle/(enddivider/2)),startendy+12*incrementye],
+[startendx+13*incrementxe-enddivider*0.2*sin(13*curveangle/(enddivider/2)),startendy+13*incrementye],
 [endx,endy]];
 
 //Straight line vectors
@@ -422,18 +426,20 @@ midpoint,
        for (q=[1:1:startdivider]){
             if (starttype==1){
                 updowntest3=pointsHcurvestart[q][1]-pointsHcurvestart[q-1][1];
-                translate([pointsHcurvestart[q][0]+(pointsHcurvestart[q-1][0]-pointsHcurvestart[q][0])/2,pointsHcurvestart[q][1]+(pointsHcurvestart[q-1][1]-pointsHcurvestart[q][1])/2,1])rotate([0,0,90+(updowntest3/(abs(updowntest3)))*asin((pointsHcurvestart[q-1][0]-pointsHcurvestart[q][0])/sqrt((pointsHcurvestart[q-1][0]-pointsHcurvestart[q][0])*(pointsHcurvestart[q-1][0]-pointsHcurvestart[q][0])+(pointsHcurvestart[q-1][1]-pointsHcurvestart[q][1])*(pointsHcurvestart[q-1][1]-pointsHcurvestart[q][1])))])square([sqrt((pointsHcurvestart[q-1][0]-pointsHcurvestart[q][0])*(pointsHcurvestart[q-1][0]-pointsHcurvestart[q][0])+(pointsHcurvestart[q-1][1]-pointsHcurvestart[q][1])*(pointsHcurvestart[q-1][1]-pointsHcurvestart[q][1]))+clearance,trace+round(room)*clearance],center=true);
+                translate([pointsHcurvestart[q][0]+(pointsHcurvestart[q-1][0]-pointsHcurvestart[q][0])/2,pointsHcurvestart[q][1]+(pointsHcurvestart[q-1][1]-pointsHcurvestart[q][1])/2,1])rotate([0,0,90+(updowntest3/(abs(updowntest3))+0.01)*asin((pointsHcurvestart[q-1][0]-pointsHcurvestart[q][0])/sqrt((pointsHcurvestart[q-1][0]-pointsHcurvestart[q][0])*(pointsHcurvestart[q-1][0]-pointsHcurvestart[q][0])+(pointsHcurvestart[q-1][1]-pointsHcurvestart[q][1])*(pointsHcurvestart[q-1][1]-pointsHcurvestart[q][1])))])square([sqrt((pointsHcurvestart[q-1][0]-pointsHcurvestart[q][0])*(pointsHcurvestart[q-1][0]-pointsHcurvestart[q][0])+(pointsHcurvestart[q-1][1]-pointsHcurvestart[q][1])*(pointsHcurvestart[q-1][1]-pointsHcurvestart[q][1]))+clearance,trace+round(room)*clearance],center=true);
              }             
     }
  for (r=[1:1:enddivider-1]){
             if (endtype==1){
-                updowntest3=pointsHcurveend[r][1]-pointsHcurveend[r-1][1];
-                translate([pointsHcurveend[r][0]+(pointsHcurveend[r-1][0]-pointsHcurveend[r][0])/2,pointsHcurveend[r][1]+(pointsHcurveend[r-1][1]-pointsHcurveend[r][1])/2,1])rotate([0,0,90+(updowntest3/(abs(updowntest3)))*asin((pointsHcurveend[r-1][0]-pointsHcurveend[r][0])/sqrt((pointsHcurveend[r-1][0]-pointsHcurveend[r][0])*(pointsHcurveend[r-1][0]-pointsHcurveend[r][0])+(pointsHcurveend[r-1][1]-pointsHcurveend[r][1])*(pointsHcurveend[r-1][1]-pointsHcurveend[r][1])))])square([sqrt((pointsHcurveend[r-1][0]-pointsHcurveend[r][0])*(pointsHcurveend[r-1][0]-pointsHcurveend[r][0])+(pointsHcurveend[r-1][1]-pointsHcurveend[r][1])*(pointsHcurveend[r-1][1]-pointsHcurveend[r][1]))+clearance,trace+round(room)*clearance],center=true);
+                updowntest8=pointsHcurveend[r][1]-pointsHcurveend[r-1][1];
+                translate([pointsHcurveend[r][0]+(pointsHcurveend[r-1][0]-pointsHcurveend[r][0])/2,pointsHcurveend[r][1]+(pointsHcurveend[r-1][1]-pointsHcurveend[r][1])/2,1])
+                rotate([0,0,90+(updowntest8/(abs(updowntest8))+0.01)*asin((pointsHcurveend[r-1][0]-pointsHcurveend[r][0])/sqrt((pointsHcurveend[r-1][0]-pointsHcurveend[r][0])*(pointsHcurveend[r-1][0]-pointsHcurveend[r][0])+(pointsHcurveend[r-1][1]-pointsHcurveend[r][1])*(pointsHcurveend[r-1][1]-pointsHcurveend[r][1])))])
+                square([sqrt((pointsHcurveend[r-1][0]-pointsHcurveend[r][0])*(pointsHcurveend[r-1][0]-pointsHcurveend[r][0])+(pointsHcurveend[r-1][1]-pointsHcurveend[r][1])*(pointsHcurveend[r-1][1]-pointsHcurveend[r][1]))+clearance,trace+round(room)*clearance],center=true);
                 
                  if(r==enddivider-1) {
                      updowntest6=endy-pointsHcurveend[r][1];
                  
-                 translate([endx+(pointsHcurveend[r][0]-endx)/2,endy+(pointsHcurveend[r][1]-endy)/2,1])rotate([0,0,90+(updowntest6/(abs(updowntest6)))*asin((pointsHcurveend[r][0]-endx)/sqrt((pointsHcurveend[r][0]-endx)*(pointsHcurveend[r][0]-endx)+(pointsHcurveend[r][1]-endy)*(pointsHcurveend[r][1]-endy)))])square([sqrt((pointsHcurveend[r][0]-endx)*(pointsHcurveend[r][0]-endx)+(pointsHcurveend[r][1]-endy)*(pointsHcurveend[r][1]-endy))+clearance,trace+round(room)*clearance],center=true);          
+                 translate([endx+(pointsHcurveend[r][0]-endx)/2,endy+(pointsHcurveend[r][1]-endy)/2,1])rotate([0,0,90+(updowntest6/(abs(updowntest6))+0.01)*asin((pointsHcurveend[r][0]-endx)/sqrt((pointsHcurveend[r][0]-endx)*(pointsHcurveend[r][0]-endx)+(pointsHcurveend[r][1]-endy)*(pointsHcurveend[r][1]-endy)))])square([sqrt((pointsHcurveend[r][0]-endx)*(pointsHcurveend[r][0]-endx)+(pointsHcurveend[r][1]-endy)*(pointsHcurveend[r][1]-endy))+clearance,trace+round(room)*clearance],center=true);          
                         }
               }
     }     
@@ -441,8 +447,8 @@ midpoint,
 //Vertical sine curve vectors       
 for (q=[1:1:startdivider]){
             if (starttype==2){
-                updowntest3=pointsVcurvestart[q][1]-pointsVcurvestart[q-1][1];
-                translate([pointsVcurvestart[q][0]+(pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])/2,pointsVcurvestart[q][1]+(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1])/2,1])rotate([0,0,90+(updowntest3/(abs(updowntest3)))*asin((pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])/sqrt((pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])*(pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])+(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1])*(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1])))])square([sqrt((pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])*(pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])+(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1])*(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1]))+clearance,trace+round(room)*clearance],center=true);
+                updowntest9=pointsVcurvestart[q][1]-pointsVcurvestart[q-1][1];
+                translate([pointsVcurvestart[q][0]+(pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])/2,pointsVcurvestart[q][1]+(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1])/2,1])rotate([0,0,90+(updowntest9/(abs(updowntest9))+0.01)*asin((pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])/sqrt((pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])*(pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])+(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1])*(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1])))])square([sqrt((pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])*(pointsVcurvestart[q-1][0]-pointsVcurvestart[q][0])+(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1])*(pointsVcurvestart[q-1][1]-pointsVcurvestart[q][1]))+clearance,trace+round(room)*clearance],center=true);
 }}
  for (r=[1:1:enddivider-1]){
             if (endtype==2){
@@ -460,13 +466,13 @@ difference(){
          translate([0,0,0]) linear_extrude(2){
 if (startpad==1)translate([startx,starty,0])rotate([0,0,360/(4*detail)])circle(pad+clearance*round(room), $fn=detail);
 if (startpad==2)translate([startx,starty,0])rotate([0,0,360/(4*detail)])circle(pad*0.75+clearance*round(room), $fn=detail);
-if (startpad==4)translate([startx,starty,0])rotate([0,0,-9])intersection(){
-    translate([pad/3,0,0])square([pad,2*pad],center=true);
-    translate([-pad/3,0,0])rotate([0,0,360/(4*detail)])circle(pad*0.75+clearance*round(room), $fn=detail);
+if (startpad==4)translate([startx,starty,0])rotate([0,0,-9]){
+    translate([0,0,0])square([pad/2+clearance*round(room),pad+clearance*round(room)],center=true);
+    color("white")translate([0,0.5,1])rotate([0,0,360/(4*detail)])circle(0.1+clearance*round(room)*0.2, $fn=detail);
 }
-if (startpad==5)translate([startx,starty,0])rotate([0,0,-9])intersection(){
-    translate([-pad/3,0,0])square([pad,2*pad],center=true);
-    translate([pad/3,0,0])rotate([0,0,360/(4*detail)])circle(pad*0.75+clearance*round(room), $fn=detail);
+if (startpad==5)translate([startx,starty,0])rotate([0,0,-9]){
+    translate([0,0,0])square([pad/2+clearance*round(room),pad+clearance*round(room)],center=true);
+    color("white")translate([0,0.5,1])rotate([0,0,360/(4*detail)])circle(0.1+clearance*round(room)*0.2, $fn=detail);
 }
     if (startpad==3)translate([startx,starty,0])rotate([0,0,360/(4*detail)]){
         for (s=[360/(2*detail):360/detail:360+360/detail])rotate([0,0,s])square([pad*0.60+clearance,trace],center=false);
@@ -487,8 +493,12 @@ if (endpad==3)translate([endx,endy,0])rotate([0,0,360/(4*detail)]){
             circle(pad*0.75+clearance*round(room), $fn=detail);
             }
        }
-if (startpad==0){if (round(room) == 1)translate([startx,starty,1])circle(trace/2+clearance*round(room));}
-if (endpad==0){if (round(room) == 1)translate([endx,endy,1])circle(trace/2+clearance*round(room));}
+if (startpad==0){if (round(room) == 1)translate([startx,starty,1])circle(trace/3+clearance*round(room));
+    if (round(room) == 0)translate([startx,starty,1])circle(trace/4);
+    }
+if (endpad==0){if (round(room) == 1)translate([endx,endy,1])circle(trace/3+clearance*round(room));
+    if (round(room) == 1)translate([endx,endy,1])circle(trace/4);
+    }
     }
 if (startpad==1)  translate([startx,starty,0])rotate([0,0,360/(4*detail)])cylinder(15,holeradius,holeradius,center=true);
 if (endpad==1) translate([endx,endy,0])rotate([0,0,360/(4*detail)])cylinder(15,holeradius,holeradius,center=true);
